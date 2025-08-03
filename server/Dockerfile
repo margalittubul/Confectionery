@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-WORKDIR /opt/render/project/src
+WORKDIR /opt/render/project/src/server
 
 COPY package*.json ./
 RUN npm install
