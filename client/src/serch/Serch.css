@@ -1,0 +1,70 @@
+.search-bar-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  gap: 10px; 
+  padding: 10px; 
+  direction: rtl;
+  width: 100%; 
+  background-color: transparent;
+  box-shadow: none; 
+  position: relative; 
+}
+
+.search-bar-container input {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: 'Varela Round', sans-serif;
+  font-size: 16px;
+  width: auto;
+  text-align: right;
+  padding: 8px 15px; 
+}
+
+.search-bar-container button {
+  padding: 8px 15px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-family: 'Varela Round', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px; 
+  width: auto; 
+}
+
+.search-bar-container button:hover {
+  background-color: #f0d0d0;
+}
+
+.cakes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* רשת עם עמודות מותאמות */
+  gap: 20px; /* רווח גדול יותר בין האלמנטים */
+  padding: 10px; /* ריווח פנימי */
+  margin-top: 70px; /* ריווח מתחת לחלונית החיפוש */
+}
+
+.cake-item {
+  text-align: center;
+  margin: 0; /* הסרת רווחים חיצוניים */
+  padding: 10px; /* ריווח פנימי */
+  border: 1px solid #ccc; /* גבול מסביב לכל פריט */
+  border-radius: 10px; /* פינות מעוגלות */
+  background-color: #fff; /* רקע לבן */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל קל */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
+  overflow: hidden; /* מניעת גלישה של תוכן */
+}
+
+.cake-item img {
+  width: 100%; /* התאמת רוחב התמונה לקונטיינר */
+  height: auto; /* שמירה על פרופורציות התמונה */
+  border-radius: 10px; /* פינות מעוגלות לתמונה */
+  object-fit: cover; /* התאמת התמונה לקונטיינר */
+}
+
+.cake-item:hover {
+  transform: translateY(-5px); /* הזזת הפריט למעלה בעת ריחוף */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* צל מוגבר בעת ריחוף */
+}

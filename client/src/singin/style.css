@@ -1,0 +1,17 @@
+
+.login-container {
+    display: flex;
+    gap: 40px;
+    max-width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+    margin-left: 300px;
+}
+.img-style
+{
+    height: 400px;
+    width: 400px;
+    border-radius: 10%;
+}
+
+

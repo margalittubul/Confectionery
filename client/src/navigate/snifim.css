@@ -1,0 +1,41 @@
+.text
+{
+     text-align: center;
+     margin-top: 10px;
+}
+.snifim-container {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 40px;
+    max-width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+    margin-left: 300px;
+}
+.snifim-style
+{
+    height: 400px;
+    width:400px;
+    border-radius: 10%;
+}
+.styleImg
+{
+    height: 30px;
+    width: 30px;
+    border-radius: 10%;
+}
+.branches-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .branch-item h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+  }
+  

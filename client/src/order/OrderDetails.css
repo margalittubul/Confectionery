@@ -1,0 +1,81 @@
+.order-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .order-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #5c2c06;
+  }
+  
+  .order-date,
+  .order-price {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .products-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #444;
+  }
+  
+  .products-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .product-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fafafa;
+  }
+  
+  .product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-left: 16px;
+  }
+  
+  .product-info {
+    flex: 1;
+  }
+  
+  .product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .product-price,
+  .product-quantity {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
+  }
+  

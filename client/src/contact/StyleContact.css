@@ -1,0 +1,64 @@
+.contact-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  p {
+    text-align: center;
+    color: #555;
+  }
+  
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .contact-item {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    margin: 10px 0;
+    transition: color 0.2s ease;
+  }
+  
+  .contact-item:hover {
+    color: #f7bfbf;
+  }
+  
+  .contact-form {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .contact-form button {
+    width: 40%; /* צמצום הרוחב ל-40% */
+    padding: 8px; /* ריווח פנימי קטן יותר */
+    background-color: #f9cfcf;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+  .contact-form button:hover {
+    background-color: #f7bfbf;
+  }
+  

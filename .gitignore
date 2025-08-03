@@ -1,0 +1,15 @@
+# התיקיות שלא נרצה שיעלו ל-GitHub
+node_modules/
+client/node_modules/
+dist/
+build/
+
+# קבצי הגדרות מקומיים
+.env
+.DS_Store
+*.log
+npm-debug.log*
+
+# תיקיות של מערכות הפעלה או עורך קוד
+.vscode/
+.idea/

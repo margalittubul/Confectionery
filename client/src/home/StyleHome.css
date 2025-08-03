@@ -1,0 +1,63 @@
+/* עיצוב ארבע תמונות ריבועיות המוצגות אחת ליד השנייה ומתחלפות ביניהן */
+.four-images-gallery {
+  display: flex;
+  justify-content: space-around; /* או space-between אם אתה רוצה מרווחים שונים */
+  width: 100%;
+  margin-top: 50px;
+}
+
+.four-image {
+  width: 24%; /* בערך רבע מהרוחב */
+  /* הגדר גובה שווה לרוחב כדי ליצור ריבוע */
+  height: calc(24vw * 0.8); /* גובה יחסי לרוחב המסך כדי לשמור על פרופורציה */
+  max-height: 200px; /* מגביל את הגובה המקסימלי (אפשר לשנות) */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.5s ease-in-out, transform 0.4s ease, box-shadow 0.4s ease;
+  object-fit: cover; /* מבטיח שהתמונה תכסה את כל הריבוע בלי עיוות */
+}
+
+.four-image:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* שאר העיצובים */
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 50px;
+}
+.animated-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  object-fit: cover;
+}
+.animated-image:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.img {
+  width: 500px;
+  height: 100px;
+  margin-left: 100px;
+}
+
+.img2 {
+  width: 500px;
+  height: 100px;
+  margin-left: 700px;
+}
+
+.testimonials_h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}

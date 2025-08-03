@@ -1,0 +1,36 @@
+.main-title {
+    text-align: center;
+    color: #333;
+  }
+
+
+  .image-gallery {
+    display: flex; /* שימוש ב-Flexbox */
+    flex-wrap: wrap; /* מאפשר שבירה לשורות */
+    justify-content: center; /* ממרכז את האלמנטים אופקית */
+    align-items: center; /* ממרכז את האלמנטים אנכית */
+    gap: 20px; /* רווח בין האלמנטים */
+    padding: 20px; /* ריווח פנימי */
+}
+
+.image-gallery div {
+    text-align: center; /* ממרכז את התוכן בתוך כל אלמנט */
+}
+  .animated-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.4s ease, box-shadow 0.4s ease; 
+    object-fit: cover; 
+  }
+  .animated-image:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
+  }
+
+.StyleCake
+{
+  text-align: center;
+}
+

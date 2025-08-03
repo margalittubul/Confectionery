@@ -1,0 +1,50 @@
+/* כללי */
+body, html {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+  background-color: #faecdc;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+
+  background-image: url('./img/רקע.jpg');
+}  
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+a{text-decoration: none;color: black;} 
+.header, .footer {
+  /* background-color: #f0f0f0; */
+}
+    
+.main {
+  /* background-color: #ddd; */
+}
+  
+    
+  /* מסכים רחבים */
+  @media (min-width: 768px) {
+    .header, .footer {
+      flex: 1; /* רבע מהגובה */
+    }
+    
+    .main {
+      flex: 2; /* חצי מהגובה */
+    }
+  }
+    
+  /* מסכים קטנים */
+  @media (max-width: 767px) {
+    .header, .footer {
+      flex: 1; /* כל אחד יקבל שליש */
+    }
+    
+    .main {
+      flex: 3; /* שליש מהגובה */
+    }
+  }
+    

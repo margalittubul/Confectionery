@@ -1,0 +1,103 @@
+/* הפוקציות הבאות קשורות לאנימציה בעמוד הביתנ */
+.func1 {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(90deg, #ffd6e0, #fff3b0); 
+    height: 40px; 
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #f6a5c0; 
+    font-family: 'Varela Round', sans-serif; 
+  }
+  .func2 {
+    white-space: nowrap;
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+    font-size: 16px;
+    color: #7a3e48; 
+    padding-left: 100%;
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  } 
+  /* עיצוב לוגו */
+.logo-image
+{
+    display:block;
+    width: 200px;
+    height: 200px;
+    margin-left: 535px;
+    position: absolute;
+    top: 60px;
+    /* right: 5px; */
+}
+.logo-button {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.link-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f9cfcf;
+  color: black !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; /* טקסט מוקטן */
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none !important;
+  line-height: 1.2;
+  padding: 5px;
+  margin: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  border: none;
+  float: right;
+  overflow: hidden;
+  white-space: normal;
+}
+.link-button:hover {
+  background-color: #f7bfbf;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.link-button2 {
+  width: 60px; /* רוחב הכפתור */
+  height: 60px; /* גובה הכפתור */
+  border-radius: 50%; /* הופך את הכפתור לעיגול */
+  background-color: #f9cfcf; /* צבע רקע */
+  color: black; /* צבע טקסט */
+  display: inline-flex; /* שימוש ב-Flexbox */
+  align-items: center; /* ממרכז את התוכן אנכית */
+  justify-content: center; /* ממרכז את התוכן אופקית */
+  font-size: 16px; /* גודל טקסט */
+  font-weight: bold; /* טקסט מודגש */
+  text-decoration: none; /* הסרת קו תחתון */
+  line-height: 1.2; /* שיפור מרווח בין שורות */
+  margin: 10px; /* ריווח חיצוני */
+  padding: 5px; /* ריווח פנימי */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15); /* צל לכפתור */
+  transition: all 0.2s ease; /* אנימציה חלקה */
+  border: none; /* ללא גבול */
+  text-align: center; /* יישור טקסט */
+  overflow: hidden; /* מניעת גלישה של תוכן */
+  white-space: normal; /* מאפשר שבירת שורות */
+}
+
+.link-button2:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* צל מוגבר בעת ריחוף */
+  transform: translateY(-3px); /* הזזת הכפתור למעלה בעת ריחוף */
+}

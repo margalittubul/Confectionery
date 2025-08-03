@@ -1,0 +1,47 @@
+.club-container {
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #fff9f5;
+    border-radius: 20px;
+  }
+  
+  .club-benefits {
+    flex: 1;
+    min-width: 300px;
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .highlight {
+    color: rgb(255, 178, 223);
+    font-weight: bold;
+  }
+  
+  .club-form {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .birthday-select {
+    display: flex;
+    gap: 10px;
+  }
+  

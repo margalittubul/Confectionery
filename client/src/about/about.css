@@ -1,0 +1,21 @@
+
+  .main-title {
+    text-align: center;
+    color: #333;
+  }
+  
+  .sub-title {
+    text-align: center;
+    color: #333;
+  }
+  p {
+    font-size: 1.2em; /* גודל טקסט קריא */
+    color: #000000; /* צבע חום כהה */
+    line-height: 1.8; /* ריווח גבוה בין השורות */
+    margin-bottom: 20px; /* רווח מתחת לפסקה */
+    text-align: right; /* מישור ימין */
+  }
+  .ground{
+   
+  }
+  

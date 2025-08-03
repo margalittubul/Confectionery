@@ -1,0 +1,47 @@
+.orders-container {
+  display: flex;
+  flex-wrap: wrap; /* מאפשר שבירת שורות */
+  gap: 15px; /* רווח קטן יותר בין ההזמנות */
+  justify-content: center; /* ממרכז את ההזמנות */
+  padding: 15px;
+}
+
+.order-item {
+  border: 1px solid #ccc; /* מסגרת מסביב להזמנה */
+  border-radius: 8px; /* פינות מעוגלות */
+  padding: 10px; /* ריווח פנימי */
+  background-color: #f9f9f9; /* רקע בהיר */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* צל קל */
+  width: 250px; /* רוחב קטן יותר לכל כרטיס */
+  text-align: right; /* יישור לימין */
+}
+
+.order-item img {
+  display: block; /* הופך את התמונה ל-block element */
+  margin: 0 auto; /* ממרכז את התמונה אופקית */
+  width: 80%; /* הקטנת רוחב התמונה */
+  height: auto; /* שמירה על פרופורציות */
+  border-radius: 5px; /* פינות מעוגלות לתמונה */
+  margin-bottom: 10px; /* רווח מתחת לתמונה */
+}
+
+.order-item h3 {
+  font-size: 16px; /* גודל כותרת קטן יותר */
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.order-item p {
+  margin: 4px 0; /* רווח קטן יותר בין הפסקאות */
+  font-size: 14px; /* גודל טקסט קטן יותר */
+}
+
+.order-item a {
+  font-size: 14px; /* גודל טקסט של הקישור */
+  color: #007BFF; /* צבע כחול לקישור */
+  text-decoration: none; /* הסרת קו תחתון */
+}
+
+.order-item a:hover {
+  text-decoration: underline; /* קו תחתון בעת ריחוף */
+}
