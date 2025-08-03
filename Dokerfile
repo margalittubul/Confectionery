@@ -1,0 +1,33 @@
+# שלב 1: בניית אפליקציית React
+FROM node:18-alpine AS build-react
+
+WORKDIR /app/client
+
+# התקנת תלויות של ה-client
+COPY client/package*.json ./
+RUN npm install
+
+# העתקת כל קבצי ה-client ובניית הפרויקט
+COPY client/. .
+RUN npm run build
+
+# שלב 2: בניית השרת והרצת כל הפרויקט
+FROM node:18-alpine
+
+WORKDIR /app
+
+# התקנת תלויות של השרת בלבד
+COPY server/package*.json ./server/
+RUN cd server && npm install
+
+# העתקת קוד השרת
+COPY server/. ./server/
+
+# העתקת ה-build של React לתוך public בשרת
+COPY --from=build-react /app/client/build ./server/public
+
+# חשיפת פורט 3000
+EXPOSE 3000
+
+# פקודת ברירת מחדל להרצת השרת
+CMD ["node", "server/index.js"]
