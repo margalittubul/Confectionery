@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams, Link } from 'react-router-dom';
 import { fetchOrders } from '../Redux/ordersSlice';
-import './Order.css';
+import './order.css';
 
 export default function Order() {
   const dispatch = useDispatch();
