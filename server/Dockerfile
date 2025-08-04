@@ -3,7 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # מעתיק רק את ה־package.json של השרת
-COPY server/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
