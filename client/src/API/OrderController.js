@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/order';
+// const API_URL = 'http://localhost:3000/order';
+const API_URL='https://confectionery-server-59ew.onrender.com'
 
 export const getAllOrders = async () => {
   const token = localStorage.getItem('userToken');

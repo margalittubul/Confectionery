@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/products';
+// const API_URL = 'http://localhost:3000/products';
+const API_URL='https://confectionery-server-59ew.onrender.com'
 
 export const getAllProducts = async (categoryId) => {
   try {
