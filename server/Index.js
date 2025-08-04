@@ -19,6 +19,9 @@ app.use(cors({
   origin: 'https://confectionery.onrender.com', 
   credentials: true
 }))
+
+app.options('*', cors());
+
 app.use(bodyParser.json())
 app.use(express.json());
 
