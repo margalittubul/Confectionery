@@ -16,7 +16,7 @@ const port = 3000;
 connectDB();
 
 app.use(cors({
-  origin: 'https://confectionery-server-59ew.onrender.com', 
+  origin: 'https://confectionery.onrender.com', 
   credentials: true
 }))
 app.use(bodyParser.json())
