@@ -8,7 +8,7 @@ COPY server/package*.json ./
 RUN npm install
 
 # מעתיק את כל הקוד של השרת
-COPY server .
+COPY . .
 
 EXPOSE 3000
 
