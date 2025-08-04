@@ -2,10 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+# מעתיק רק את ה־package.json של השרת
+COPY server/package*.json ./
+
 RUN npm install
 
-COPY . .
+# מעתיק את כל הקוד של השרת
+COPY server .
 
 EXPOSE 3000
 
