@@ -9,7 +9,7 @@ body, html {
   padding: 20px;
   box-sizing: border-box;
 
-  background-image: url('./img/רקע.jpg');
+  background-image: url('/img/רקע.jpg');
 }  
 .container {
   display: flex;
