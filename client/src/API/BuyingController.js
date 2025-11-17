@@ -1,7 +1,7 @@
 
 // const API_URL = 'http://localhost:3000/buying';
 const API_URL='https://confectionery-server-59ew.onrender.com/buying'
-
+console.log("Buying API URL:", API_URL);  
 export const getAllBuying = async () => {
   try {
     const response = await fetch(API_URL);
