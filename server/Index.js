@@ -3,7 +3,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import connectDB from "./database.js";
 
-
 import productRouter from './Routers/ProductRouter.js';
 import categoryRouter from './Routers/CategoryRouter.js';
 import customerRouter  from './Routers/CustomerRouter.js';  
@@ -12,6 +11,7 @@ import orderRouter from './Routers/OrderRouter.js';
 
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,21 +36,24 @@ app.use(cors({
   credentials: true
 }));
 
-// app.use(cors())
 app.use(bodyParser.json())
 app.use(express.json());
 
+// API routes
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 app.use('/customer',customerRouter)
 app.use('/buying',buyingRouter)
 app.use('/order',orderRouter)
 
-app.use(express.static(path.join(__dirname, "client/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
+// React build fallback – רק אם build קיים
+const reactBuildPath = path.join(__dirname, "client/build");
+if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
+  app.use(express.static(reactBuildPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(reactBuildPath, "index.html"));
+  });
+}
 
 app.listen(port, () =>
     console.log(`Example app listening on http://localhost:${port}`)
