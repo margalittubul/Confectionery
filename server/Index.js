@@ -39,21 +39,21 @@ app.use(cors({
 app.use(bodyParser.json())
 app.use(express.json());
 
-// API routes
+// API routes FIRST
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 app.use('/customer',customerRouter)
 app.use('/buying',buyingRouter)
 app.use('/order',orderRouter)
 
-// React build fallback – רק אם build קיים
+// Serve static files AFTER API routes
 const reactBuildPath = path.join(__dirname, "../client/dist");
-if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
-  app.use(express.static(reactBuildPath));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(reactBuildPath, "index.html"));
-  });
-}
+app.use(express.static(reactBuildPath));
+
+// SPA fallback for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(reactBuildPath, "index.html"));
+});
 
 app.listen(port, () =>
     console.log(`Example app listening on http://localhost:${port}`)
