@@ -48,12 +48,24 @@ app.use('/order',orderRouter)
 
 // Serve static files AFTER API routes
 const reactBuildPath = path.join(__dirname, "../client/dist");
-app.use(express.static(reactBuildPath));
-
-// SPA fallback for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(reactBuildPath, "index.html"));
-});
+if (fs.existsSync(reactBuildPath)) {
+  app.use(express.static(reactBuildPath));
+  
+  // SPA fallback - only for non-API routes
+  app.use((req, res, next) => {
+    if (!req.path.startsWith('/products') && 
+        !req.path.startsWith('/categories') && 
+        !req.path.startsWith('/customer') && 
+        !req.path.startsWith('/buying') && 
+        !req.path.startsWith('/order')) {
+      res.sendFile(path.join(reactBuildPath, "index.html"));
+    } else {
+      next();
+    }
+  });
+} else {
+  console.log("⚠️ Client build not found at:", reactBuildPath);
+}
 
 app.listen(port, () =>
     console.log(`Example app listening on http://localhost:${port}`)
