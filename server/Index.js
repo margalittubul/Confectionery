@@ -47,7 +47,7 @@ app.use('/buying',buyingRouter)
 app.use('/order',orderRouter)
 
 // React build fallback – רק אם build קיים
-const reactBuildPath = path.join(__dirname, "client/dist");
+const reactBuildPath = path.join(__dirname, "../client/dist");
 if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
   app.use(express.static(reactBuildPath));
   app.get("*", (req, res) => {
