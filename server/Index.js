@@ -39,32 +39,20 @@ app.use(cors({
 app.use(bodyParser.json())
 app.use(express.json());
 
-// API routes FIRST
+// API routes
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 app.use('/customer',customerRouter)
 app.use('/buying',buyingRouter)
 app.use('/order',orderRouter)
 
-// Serve static files AFTER API routes
-const reactBuildPath = path.join(__dirname, "../client/dist");
-if (fs.existsSync(reactBuildPath)) {
+// React build fallback – רק אם build קיים
+const reactBuildPath = path.join(__dirname, "client/dist");
+if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
   app.use(express.static(reactBuildPath));
-  
-  // SPA fallback - only for non-API routes
-  app.use((req, res, next) => {
-    if (!req.path.startsWith('/products') && 
-        !req.path.startsWith('/categories') && 
-        !req.path.startsWith('/customer') && 
-        !req.path.startsWith('/buying') && 
-        !req.path.startsWith('/order')) {
-      res.sendFile(path.join(reactBuildPath, "index.html"));
-    } else {
-      next();
-    }
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(reactBuildPath, "index.html"));
   });
-} else {
-  console.log("⚠️ Client build not found at:", reactBuildPath);
 }
 
 app.listen(port, () =>
