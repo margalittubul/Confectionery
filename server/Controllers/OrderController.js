@@ -70,7 +70,7 @@ import Order from '../Models/Order.js';
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!['הוזמן', 'שולם', 'אושרה הזמנה'].includes(status)) {
+    if (!["הוזמן", "שולם", "אושרה הזמנה","בתהליך...","נשלח","הגיע ליעד, בתאבון!!!"].includes(status)) {
         return res.status(400).json({ message: 'Invalid status' });
     }
 

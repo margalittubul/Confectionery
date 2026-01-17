@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import {Link,useParams} from 'react-router-dom'
 import {getOrderById} from '../API/OrderController.js';
 import { updateOrderStatus } from '../API/OrderController.js';
+import { clearBuyingCart } from '../API/BuyingController.js';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCart } from '../Redux/cartSlice.js';
 
 export default function Tashlum()
 {
@@ -12,6 +15,7 @@ export default function Tashlum()
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
    useEffect(() => {
   const fetchOrder = async () => {
@@ -36,6 +40,14 @@ export default function Tashlum()
         console.log('מנסה לעדכן סטטוס...');
         const response = await updateOrderStatus(orderId, 'שולם');
         console.log('הסטטוס עודכן בהצלחה:', response);
+        
+        // ריקון הסל לאחר תשלום מוצלח
+        await clearBuyingCart();
+        console.log('הסל רוקן בהצלחה');
+        
+        // עדכון Redux state
+        dispatch(setCart([]));
+        
         navigate(`/OkOrder/${orderId}`);
     } catch (err) {
         console.error('שגיאה במהלך עדכון הסטטוס:', err);

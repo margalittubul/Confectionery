@@ -32,9 +32,11 @@ export default function Order() {
           <div className="order-item" key={order._id}>
             <h3>תאריך: {new Date(order.orderDate).toLocaleDateString('he-IL')}</h3>
             <p>סכום: {order.price} ש"ח</p>
+            <p> סטטוס הזמנה: {order.status} </p>
             <Link to={`/order-details/${order._id}`} className="order-link">
               <button className="details-btn">פרטי הזמנה</button>
             </Link>
+            
           </div>
         ))
       )}

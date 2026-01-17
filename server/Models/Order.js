@@ -18,8 +18,8 @@ orderDate: {
 },
 status: {
     type: String,
-    enum: ["הוזמן", "שולם", "אושרה הזמנה"],
-    default: "pending"
+    enum: ["הוזמן", "שולם", "אושרה הזמנה","בתהליך...","נשלח","הגיע ליעד, בתאבון!!!"],
+    default: "הוזמן"
   },
 price: {
     type: Number,
