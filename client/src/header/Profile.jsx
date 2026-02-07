@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -44,27 +44,26 @@ const Profile = () => {
     setSaving(true);
     setMessage("");
 
-      // ולידציה
-      if (!user.name) {
-        setMessage("יש להזין שם");
-        setSaving(false);
-        return;
-      }
-      if (!user.email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(user.email)) {
-        setMessage("יש להזין אימייל תקין");
-        setSaving(false);
-        return;
-      }
-      if (!user.address) {
-        setMessage("יש להזין כתובת");
-        setSaving(false);
-        return;
-      }
-      if (user.password && user.password.length < 4) {
-        setMessage("סיסמה חייבת להיות לפחות 4 תווים");
-        setSaving(false);
-        return;
-      }
+    if (!user.name) {
+      setMessage("יש להזין שם");
+      setSaving(false);
+      return;
+    }
+    if (!user.email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(user.email)) {
+      setMessage("יש להזין אימייל תקין");
+      setSaving(false);
+      return;
+    }
+    if (!user.address) {
+      setMessage("יש להזין כתובת");
+      setSaving(false);
+      return;
+    }
+    if (user.password && user.password.length < 4) {
+      setMessage("סיסמה חייבת להיות לפחות 4 תווים");
+      setSaving(false);
+      return;
+    }
 
     try {
       const updatedUser = {
@@ -77,13 +76,13 @@ const Profile = () => {
       }
       const result = await updateCustomer(user._id, updatedUser);
       if (result) {
-        setMessage("✅ הפרטים עודכנו בהצלחה");
+        setMessage("הפרטים עודכנו בהצלחה");
         setEditMode(false);
       } else {
-        setMessage("❌ העדכון נכשל");
+        setMessage("העדכון נכשל");
       }
     } catch {
-      setMessage("❌ שגיאה בעת העדכון");
+      setMessage("שגיאה בעת העדכון");
     } finally {
       setSaving(false);
     }
@@ -123,9 +122,15 @@ const Profile = () => {
 
       {!editMode ? (
         <Stack spacing={2} mt={2} alignItems="center">
-          <Typography><strong>שם:</strong> {user.name}</Typography>
-          <Typography><strong>אימייל:</strong> {user.email}</Typography>
-          <Typography><strong>כתובת:</strong> {user.address}</Typography>
+          <Typography>
+            <strong>שם:</strong> {user.name}
+          </Typography>
+          <Typography>
+            <strong>אימייל:</strong> {user.email}
+          </Typography>
+          <Typography>
+            <strong>כתובת:</strong> {user.address}
+          </Typography>
 
           <Stack direction="row" spacing={2} mt={2}>
             <Button variant="outlined" onClick={() => setEditMode(true)}>
@@ -137,7 +142,13 @@ const Profile = () => {
           </Stack>
         </Stack>
       ) : (
-        <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+        <Box
+          component="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSave();
+          }}
+        >
           <Stack spacing={2}>
             <TextField
               label="שם"
@@ -187,7 +198,7 @@ const Profile = () => {
       {message && (
         <Typography
           textAlign="center"
-          color={message.includes("✅") ? "green" : "error"}
+          color={message.includes("") ? "green" : "error"}
           mt={2}
         >
           {message}

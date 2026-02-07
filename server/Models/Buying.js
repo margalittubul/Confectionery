@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 const BuyingSchema = mongoose.Schema({
-
-customerId: {
+  customerId: {
     type: String,
     ref: "Customer",
     required: true,
-},
-products:[
+  },
+  products: [
     {
       productId: { type: Number, required: true },
       quantity: { type: Number, default: 1 },
-      _id: false
-    }
-]
-
+      _id: false,
+    },
+  ],
 });
-export default mongoose.model("Buying",BuyingSchema,"Buying");
+export default mongoose.model("Buying", BuyingSchema, "Buying");

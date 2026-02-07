@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { getCustomerProfile } from "../API/CustomerController";
 
 const RequireAdmin = ({ children }) => {
@@ -20,6 +21,10 @@ const RequireAdmin = ({ children }) => {
   if (loading) return <div>טוען...</div>;
 
   return isAdmin ? children : <Navigate to="/Picthur" />;
+};
+
+RequireAdmin.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default RequireAdmin;

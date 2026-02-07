@@ -1,5 +1,5 @@
-/* כללי */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
 
@@ -9,42 +9,35 @@ body, html {
   padding: 20px;
   box-sizing: border-box;
 
-  background-image: url('/img/רקע.jpg');
-}  
+  background-image: url("/img/רקע.jpg");
+}
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
-a{text-decoration: none;color: black;} 
-.header, .footer {
-  /* background-color: #f0f0f0; */
+a {
+  text-decoration: none;
+  color: black;
 }
-    
-.main {
-  /* background-color: #ddd; */
+/*responsive*/
+@media (min-width: 768px) {
+  .header,
+  .footer {
+    flex: 1;
+  }
+
+  .main {
+    flex: 2;
+  }
 }
-  
-    
-  /* מסכים רחבים */
-  @media (min-width: 768px) {
-    .header, .footer {
-      flex: 1; /* רבע מהגובה */
-    }
-    
-    .main {
-      flex: 2; /* חצי מהגובה */
-    }
+@media (max-width: 767px) {
+  .header,
+  .footer {
+    flex: 1;
   }
-    
-  /* מסכים קטנים */
-  @media (max-width: 767px) {
-    .header, .footer {
-      flex: 1; /* כל אחד יקבל שליש */
-    }
-    
-    .main {
-      flex: 3; /* שליש מהגובה */
-    }
+
+  .main {
+    flex: 3;
   }
-    
+}

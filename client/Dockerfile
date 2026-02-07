@@ -1,4 +1,3 @@
-# שלב 1: בניית אפליקציית React
 FROM node:18-alpine AS build
 
 WORKDIR /app
@@ -9,7 +8,6 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# שלב 2: הרצת ה-build על שרת nginx
 FROM nginx:stable-alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html

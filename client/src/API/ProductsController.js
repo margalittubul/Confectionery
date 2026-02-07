@@ -1,5 +1,5 @@
 // const API_URL = 'http://localhost:3000/products';
-const API_URL='https://confectionery-server-59ew.onrender.com/products'
+const API_URL = "https://confectionery-server-59ew.onrender.com/products";
 
 export const getAllProducts = async (categoryId) => {
   try {
@@ -25,7 +25,7 @@ export const getProductById = async (id) => {
       throw new Error(`Failed to fetch product, status: ${response.status}`);
     }
     const data = await response.json();
-    return data.product; 
+    return data.product;
   } catch (error) {
     console.error("Error fetching product by ID:", error);
     return null;
@@ -33,19 +33,19 @@ export const getProductById = async (id) => {
 };
 
 export const addProduct = async (productData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(productData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to add product');
+      throw new Error("Failed to add product");
     }
 
     return await response.json();
@@ -56,19 +56,19 @@ export const addProduct = async (productData) => {
 };
 
 export const updateProduct = async (id, productData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(productData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update product');
+      throw new Error("Failed to update product");
     }
 
     return await response.json();

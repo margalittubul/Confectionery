@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import './ChocolateDrips.css';
+import { useEffect, useState } from "react";
+import "./ChocolateDrips.css";
 
-import cake1 from '/img/cakes/1.jpg';
-import cake2 from '/img/cakes/2.jpg';
-import cake3 from '/img/cakes/3.jpg';
-import cake4 from '/img/cakes/4.jpg';
+import cake1 from "/img/cakes/1.jpg";
+import cake2 from "/img/cakes/2.jpg";
+import cake3 from "/img/cakes/3.jpg";
+import cake4 from "/img/cakes/4.jpg";
 
 const cakes = [cake1, cake2, cake3, cake4];
 
@@ -18,12 +18,12 @@ export default function CakeRain() {
         left: Math.random() * 100,
         image: cakes[Math.floor(Math.random() * cakes.length)],
       }));
-      setDrops(prev => [...prev, ...newDrops]);
+      setDrops((prev) => [...prev, ...newDrops]);
 
       // הסרת עוגות ישנות אחרי 3 שניות
       setTimeout(() => {
-        setDrops(prev =>
-          prev.filter(drop => !newDrops.find(d => d.id === drop.id))
+        setDrops((prev) =>
+          prev.filter((drop) => !newDrops.find((d) => d.id === drop.id)),
         );
       }, 3000);
     }, 500); // כל חצי שנייה
@@ -33,7 +33,7 @@ export default function CakeRain() {
 
   return (
     <div className="cake-rain-container">
-      {drops.map(drop => (
+      {drops.map((drop) => (
         <img
           key={drop.id}
           src={drop.image}

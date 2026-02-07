@@ -1,17 +1,17 @@
 // const API_URL = 'http://localhost:3000/order';
-const API_URL='https://confectionery-server-59ew.onrender.com/order'
+const API_URL = "https://confectionery-server-59ew.onrender.com/order";
 
 export const getAllOrders = async () => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(API_URL, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch orders');
+      throw new Error("Failed to fetch orders");
     }
 
     const data = await response.json();
@@ -23,15 +23,15 @@ export const getAllOrders = async () => {
 };
 
 export const getOrderById = async (id) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch order');
+      throw new Error("Failed to fetch order");
     }
     return await response.json();
   } catch (error) {
@@ -41,45 +41,43 @@ export const getOrderById = async (id) => {
 };
 
 export const addOrder = async (orderData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(orderData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create order');
+      throw new Error("Failed to create order");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error("Error creating order:", error);
     return null;
   }
 };
 
 export const updateOrderStatus = async (orderId, status) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
 
   const response = await fetch(`${API_URL}/${orderId}/status`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ status }),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to update order status');
+    throw new Error("Failed to update order status");
   }
 
   return await response.json();
 };
-
-

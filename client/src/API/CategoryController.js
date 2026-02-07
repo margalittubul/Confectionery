@@ -1,5 +1,5 @@
-// const API_URL = 'http://localhost:3000/categories'; 
-const API_URL='https://confectionery-server-59ew.onrender.com/categories'
+// const API_URL = 'http://localhost:3000/categories';
+const API_URL = "https://confectionery-server-59ew.onrender.com/categories";
 
 export const getAllCategories = async () => {
   try {
@@ -9,33 +9,33 @@ export const getAllCategories = async () => {
     }
     return await response.json();
   } catch (error) {
-    console.error("❌ Error fetching categories:", error);
+    console.error("Error fetching categories:", error);
     return null;
   }
 };
 
 export const getCategoryById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`); 
+    const response = await fetch(`${API_URL}/${id}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch category: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
-    console.error(`❌ Error fetching category by ID (${id}):`, error);
+    console.error(`Error fetching category by ID (${id}):`, error);
     return null;
   }
 };
 
 export const addCategory = async (categoryData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
 
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(categoryData),
     });
@@ -46,20 +46,20 @@ export const addCategory = async (categoryData) => {
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error adding category:", error);
+    console.error("Error adding category:", error);
     return null;
   }
 };
 
 export const updateCategory = async (id, categoryData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
 
   try {
     const response = await fetch(`${API_URL}/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(categoryData),
     });
@@ -70,8 +70,7 @@ export const updateCategory = async (id, categoryData) => {
 
     return await response.json();
   } catch (error) {
-    console.error(`❌ Error updating category (${id}):`, error);
+    console.error(`Error updating category (${id}):`, error);
     return null;
   }
 };
-

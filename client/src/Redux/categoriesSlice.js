@@ -1,28 +1,39 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getAllCategories,
   getCategoryById,
   addCategory,
-  updateCategory
+  updateCategory,
 } from "../API/CategoryController";
 
-export const fetchCategories = createAsyncThunk("categories/fetchAll", async () => {
-  const data = await getAllCategories();
-  return data?.categories || [];
-});
+export const fetchCategories = createAsyncThunk(
+  "categories/fetchAll",
+  async () => {
+    const data = await getAllCategories();
+    return data?.categories || [];
+  },
+);
 
-export const fetchCategoryById = createAsyncThunk("categories/fetchById", async (id) => {
-  return await getCategoryById(id);
-});
+export const fetchCategoryById = createAsyncThunk(
+  "categories/fetchById",
+  async (id) => {
+    return await getCategoryById(id);
+  },
+);
 
-export const createCategory = createAsyncThunk("categories/create", async (categoryData) => {
-  return await addCategory(categoryData);
-});
+export const createCategory = createAsyncThunk(
+  "categories/create",
+  async (categoryData) => {
+    return await addCategory(categoryData);
+  },
+);
 
-export const editCategory = createAsyncThunk("categories/edit", async ({ id, categoryData }) => {
-  return await updateCategory(id, categoryData);
-});
+export const editCategory = createAsyncThunk(
+  "categories/edit",
+  async ({ id, categoryData }) => {
+    return await updateCategory(id, categoryData);
+  },
+);
 
 const categoriesSlice = createSlice({
   name: "categories",
@@ -37,7 +48,9 @@ const categoriesSlice = createSlice({
       state.items.push(action.payload);
     },
     updateCategoryInState: (state, action) => {
-      const index = state.items.findIndex(cat => cat._id === action.payload._id);
+      const index = state.items.findIndex(
+        (cat) => cat._id === action.payload._id,
+      );
       if (index !== -1) {
         state.items[index] = action.payload;
       }
@@ -70,20 +83,21 @@ const categoriesSlice = createSlice({
 
       .addCase(editCategory.fulfilled, (state, action) => {
         const updated = action.payload;
-        const index = state.items.findIndex(cat => cat._id === updated._id);
+        const index = state.items.findIndex((cat) => cat._id === updated._id);
         if (index !== -1) {
           state.items[index] = updated;
         }
-        if (state.selectedCategory && state.selectedCategory._id === updated._id) {
+        if (
+          state.selectedCategory &&
+          state.selectedCategory._id === updated._id
+        ) {
           state.selectedCategory = updated;
         }
       });
   },
 });
 
-export const {
-  addCategoryToState,
-  updateCategoryInState,
-} = categoriesSlice.actions;
+export const { addCategoryToState, updateCategoryInState } =
+  categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

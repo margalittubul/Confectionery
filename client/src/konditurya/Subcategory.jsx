@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../Redux/productsSlice";
 import { Link, useParams } from "react-router-dom";
@@ -9,9 +9,11 @@ export default function SubCategory() {
   const numericCategoryId = Number(categoryId);
   const dispatch = useDispatch();
 
-  const { items: products, loading, error } = useSelector(
-    (state) => state.products
-  );
+  const {
+    items: products,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts(numericCategoryId));

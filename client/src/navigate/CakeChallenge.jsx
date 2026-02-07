@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import './CakeChallenge.css';
+import { useEffect, useState } from "react";
+import "./CakeChallenge.css";
 
 const allOptions = {
-  בסיס: ['שוקולד', 'וניל', 'לימון', 'גזר', 'רד וולווט', 'קוקוס'],
-  קרם: ['קצפת', 'גנאש', 'מסקרפונה', 'חמאת בוטנים', 'שוקולד לבן', 'ריבה'],
-  תוספת: ['פירות יער', 'שוקולד צ’יפס', 'סוכריות צבעוניות', 'אגוזים', 'מרשמלו', 'פירות יבשים']
+  בסיס: ["שוקולד", "וניל", "לימון", "גזר", "רד וולווט", "קוקוס"],
+  קרם: ["קצפת", "גנאש", "מסקרפונה", "חמאת בוטנים", "שוקולד לבן", "ריבה"],
+  תוספת: [
+    "פירות יער",
+    "שוקולד צ’יפס",
+    "סוכריות צבעוניות",
+    "אגוזים",
+    "מרשמלו",
+    "פירות יבשים",
+  ],
 };
 
 const steps = Object.keys(allOptions);
 
 function getRandomRequest() {
   const request = {};
-  steps.forEach(step => {
+  steps.forEach((step) => {
     const options = allOptions[step];
     const random = options[Math.floor(Math.random() * options.length)];
     request[step] = random;
@@ -32,7 +39,7 @@ export default function CakeChallenge() {
     if (isFinished) return;
 
     const countdown = setInterval(() => {
-      setTimer(prev => {
+      setTimer((prev) => {
         if (prev === 1) {
           handleSelect(randomChoice(allOptions[currentStep]));
           return 5;
@@ -68,22 +75,27 @@ export default function CakeChallenge() {
     setTimer(5);
   }
 
-  const success = isFinished && steps.every(step => selections[step] === request[step]);
+  const success =
+    isFinished && steps.every((step) => selections[step] === request[step]);
 
   return (
     <div className="cake-challenge-container">
       <h2>הזמנת לקוח:</h2>
       <ul className="client-request">
-        {steps.map(step => (
-          <li key={step}><strong>{step}:</strong> {request[step]}</li>
+        {steps.map((step) => (
+          <li key={step}>
+            <strong>{step}:</strong> {request[step]}
+          </li>
         ))}
       </ul>
 
       {!isFinished ? (
         <div className="cake-step fade-in">
-          <h3>בחר/י {currentStep} (נשארו {timer} שניות):</h3>
+          <h3>
+            בחר/י {currentStep} (נשארו {timer} שניות):
+          </h3>
           <div className="cake-options">
-            {allOptions[currentStep].map(option => (
+            {allOptions[currentStep].map((option) => (
               <button
                 key={option}
                 className="cake-option-btn"
@@ -96,16 +108,22 @@ export default function CakeChallenge() {
         </div>
       ) : (
         <div className="cake-result fade-in">
-          <h3>{success ? '🎉 הצלחת להרכיב את העוגה המושלמת!' : '😅 לא בדיוק מה שהלקוח רצה...'}</h3>
+          <h3>
+            {success
+              ? "🎉 הצלחת להרכיב את העוגה המושלמת!"
+              : "😅 לא בדיוק מה שהלקוח רצה..."}
+          </h3>
           <h4>העוגה שלך:</h4>
           <ul>
-            {steps.map(step => (
+            {steps.map((step) => (
               <li key={step}>
                 <strong>{step}:</strong> {selections[step]}
               </li>
             ))}
           </ul>
-          <button className="cake-restart-btn" onClick={restartGame}>נסה שוב 🔁</button>
+          <button className="cake-restart-btn" onClick={restartGame}>
+            נסה שוב 🔁
+          </button>
         </div>
       )}
     </div>

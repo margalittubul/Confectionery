@@ -8,10 +8,10 @@ import userReducer from "./userSlice";
 
 export const store = configureStore({
   reducer: {
-    categories: categoriesReducer, 
-    products: productsReducer,    
-    orders: ordersReducer,         
-    cart: cartReducer,             
-    user: userReducer,      
+    categories: categoriesReducer,
+    products: productsReducer,
+    orders: ordersReducer,
+    cart: cartReducer,
+    user: userReducer,
   },
 });

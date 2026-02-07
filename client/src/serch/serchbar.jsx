@@ -1,6 +1,5 @@
-
-import React from 'react';
-import './Serch.css'
+import "./Serch.css";
+import PropTypes from "prop-types";
 
 function SearchBar({ query, setQuery, onSearch }) {
   return (
@@ -18,5 +17,11 @@ function SearchBar({ query, setQuery, onSearch }) {
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  query: PropTypes.string.isRequired,
+  setQuery: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

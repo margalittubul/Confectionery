@@ -1,16 +1,16 @@
 // const API_URL = 'http://localhost:3000/customer';
-const API_URL='https://confectionery-server-59ew.onrender.com/customer'
+const API_URL = "https://confectionery-server-59ew.onrender.com/customer";
 
 export const getAllCustomers = async () => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(API_URL, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch customers');
+      throw new Error("Failed to fetch customers");
     }
     return await response.json();
   } catch (error) {
@@ -20,15 +20,15 @@ export const getAllCustomers = async () => {
 };
 
 export const getCustomerById = async (id) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch customer');
+      throw new Error("Failed to fetch customer");
     }
     return await response.json();
   } catch (error) {
@@ -38,19 +38,22 @@ export const getCustomerById = async (id) => {
 };
 
 export const getCustomerByEmail = async (email) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     //מוודא שהמייל תקין ומקודד אותו
-    const response = await fetch(`${API_URL}/by-email?email=${encodeURIComponent(email)}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `${API_URL}/by-email?email=${encodeURIComponent(email)}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch customer by email');
+      throw new Error("Failed to fetch customer by email");
     }
 
     return await response.json();
@@ -63,15 +66,15 @@ export const getCustomerByEmail = async (email) => {
 export const addCustomer = async (customerData) => {
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(customerData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to add customer');
+      throw new Error("Failed to add customer");
     }
 
     return await response.json();
@@ -82,19 +85,19 @@ export const addCustomer = async (customerData) => {
 };
 
 export const updateCustomer = async (id, customerData) => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(customerData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update customer');
+      throw new Error("Failed to update customer");
     }
 
     return await response.json();
@@ -107,15 +110,15 @@ export const updateCustomer = async (id, customerData) => {
 export const loginCustomer = async (loginData) => {
   try {
     const response = await fetch(`${API_URL}/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(loginData),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to login');
+      throw new Error("Failed to login");
     }
 
     return await response.json();
@@ -126,18 +129,18 @@ export const loginCustomer = async (loginData) => {
 };
 
 export const getCustomerProfile = async () => {
-  const token = localStorage.getItem('userToken');
+  const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/profile`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch profile');
+      throw new Error("Failed to fetch profile");
     }
 
     return await response.json();

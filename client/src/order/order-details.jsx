@@ -1,17 +1,17 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchOrderById } from '../Redux/ordersSlice';
-import { getProductById } from '../API/ProductsController';
-import './OrderDetails.css';
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderById } from "../Redux/ordersSlice";
+import { getProductById } from "../API/ProductsController";
+import "./OrderDetails.css";
 
 export default function OrderDetails() {
   const { orderId } = useParams();
   const dispatch = useDispatch();
 
-  const order = useSelector(state => state.orders.selectedOrder);
-  const loading = useSelector(state => state.orders.loading);
-  const error = useSelector(state => state.orders.error);
+  const order = useSelector((state) => state.orders.selectedOrder);
+  const loading = useSelector((state) => state.orders.loading);
+  const error = useSelector((state) => state.orders.error);
 
   const [productsDetails, setProductsDetails] = useState([]);
 
@@ -28,10 +28,10 @@ export default function OrderDetails() {
           const details = await getProductById(product.productId);
           if (!details) return null;
           return { ...details, quantity: product.quantity };
-        })
+        }),
       );
 
-      setProductsDetails(productsWithDetails.filter(Boolean));//שאין הזמנה שהיא Null
+      setProductsDetails(productsWithDetails.filter(Boolean));
     };
 
     fetchProducts();
@@ -43,9 +43,10 @@ export default function OrderDetails() {
   return (
     <div className="order-details">
       <h2 className="order-title">פרטי הזמנה</h2>
-      {/* ממיר את התאריך לתאריך מקומי */}
-      <p className="order-date">תאריך: {new Date(order.orderDate).toLocaleDateString('he-IL')}</p>
-      <p className="order-price">סכום: {order.price} ש"ח</p>
+      <p className="order-date">
+        תאריך: {new Date(order.orderDate).toLocaleDateString("he-IL")}
+      </p>
+      <p className="order-price">סכום: {order.price} ש&quot;ח</p>
       <h3 className="products-title">מוצרים:</h3>
       <ul className="products-list">
         {productsDetails.map((product) => (
@@ -57,7 +58,7 @@ export default function OrderDetails() {
             />
             <div className="product-info">
               <p className="product-name">{product.name}</p>
-              <p className="product-price">{product.price} ש"ח</p>
+              <p className="product-price">{product.price} ש&quot;ח</p>
               <p className="product-quantity">כמות: {product.quantity}</p>
             </div>
           </li>

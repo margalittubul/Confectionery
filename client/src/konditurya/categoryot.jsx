@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../Redux/categoriesSlice";
 import { Link } from "react-router-dom";
@@ -6,9 +6,11 @@ import "./StyleConditurya.css";
 
 export default function Category() {
   const dispatch = useDispatch();
-  const { items: categories, loading, error } = useSelector(
-    (state) => state.categories
-  );
+  const {
+    items: categories,
+    loading,
+    error,
+  } = useSelector((state) => state.categories);
 
   useEffect(() => {
     if (!categories || categories.length === 0) {
@@ -28,7 +30,11 @@ export default function Category() {
           <p>{categoryItem.name}</p>
           <Link to={`/SubCategory/${categoryItem.id}`}>
             <img
-              src={categoryItem.imageUrl ? categoryItem.imageUrl : "/img/default.jpg"}
+              src={
+                categoryItem.imageUrl
+                  ? categoryItem.imageUrl
+                  : "/img/default.jpg"
+              }
               alt={categoryItem.name}
               className="animated-image"
             />

@@ -1,16 +1,19 @@
-
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../Redux/productsSlice';
-import SearchBar from './serchbar';
-import SearchResults from './serchresult';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../Redux/productsSlice";
+import SearchBar from "./serchbar";
+import SearchResults from "./serchresult";
 
 function Serch() {
   const dispatch = useDispatch();
 
-  const { items: products, loading, error } = useSelector(state => state.products);
+  const {
+    items: products,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
 
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [filteredCakes, setFilteredCakes] = useState([]);
 
   useEffect(() => {
@@ -20,8 +23,8 @@ function Serch() {
   }, [dispatch, products.length]);
 
   const handleSearch = () => {
-    const results = products.filter(cake =>
-      cake.name.toLowerCase().includes(query.toLowerCase())
+    const results = products.filter((cake) =>
+      cake.name.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredCakes(results);
   };
@@ -32,7 +35,7 @@ function Serch() {
   return (
     <>
       <SearchBar query={query} setQuery={setQuery} onSearch={handleSearch} />
-      <main style={{ marginTop: '80px' }}>
+      <main style={{ marginTop: "80px" }}>
         <SearchResults cakes={filteredCakes} />
       </main>
     </>
@@ -40,4 +43,3 @@ function Serch() {
 }
 
 export default Serch;
-

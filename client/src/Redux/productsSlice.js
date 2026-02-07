@@ -6,25 +6,37 @@ import {
   updateProduct,
 } from "../API/ProductsController";
 
-export const fetchProducts = createAsyncThunk("products/fetch", async (categoryId) => {
-  const data = await getAllProducts(categoryId);
-  return data || [];
-});
+export const fetchProducts = createAsyncThunk(
+  "products/fetch",
+  async (categoryId) => {
+    const data = await getAllProducts(categoryId);
+    return data || [];
+  },
+);
 
-export const fetchProductById = createAsyncThunk("products/fetchById", async (id) => {
-  const data = await getProductById(id);
-  return data;
-});
+export const fetchProductById = createAsyncThunk(
+  "products/fetchById",
+  async (id) => {
+    const data = await getProductById(id);
+    return data;
+  },
+);
 
-export const addProductAsync = createAsyncThunk("products/add", async (productData) => {
-  const data = await addProduct(productData);
-  return data?.product || null; 
-});
+export const addProductAsync = createAsyncThunk(
+  "products/add",
+  async (productData) => {
+    const data = await addProduct(productData);
+    return data?.product || null;
+  },
+);
 
-export const updateProductAsync = createAsyncThunk("products/update", async ({ id, productData }) => {
-  const data = await updateProduct(id, productData);
-  return data?.product || null;
-});
+export const updateProductAsync = createAsyncThunk(
+  "products/update",
+  async ({ id, productData }) => {
+    const data = await updateProduct(id, productData);
+    return data?.product || null;
+  },
+);
 
 const productsSlice = createSlice({
   name: "products",
@@ -72,11 +84,17 @@ const productsSlice = createSlice({
 
       .addCase(updateProductAsync.fulfilled, (state, action) => {
         if (action.payload) {
-          const index = state.items.findIndex(p => p._id === action.payload._id || p.id === action.payload.id);
+          const index = state.items.findIndex(
+            (p) => p._id === action.payload._id || p.id === action.payload.id,
+          );
           if (index !== -1) {
             state.items[index] = action.payload;
           }
-          if (state.selectedProduct && (state.selectedProduct._id === action.payload._id || state.selectedProduct.id === action.payload.id)) {
+          if (
+            state.selectedProduct &&
+            (state.selectedProduct._id === action.payload._id ||
+              state.selectedProduct.id === action.payload.id)
+          ) {
             state.selectedProduct = action.payload;
           }
         }

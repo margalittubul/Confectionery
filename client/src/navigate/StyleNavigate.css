@@ -1,6 +1,5 @@
-.li
-{
-  width:150px;
+.li {
+  width: 150px;
   height: 150px;
 }
 
@@ -10,8 +9,8 @@
 }
 
 .footer {
-  height: 25vh; 
-  background: linear-gradient(90deg, #ffd6e0, #fff3b0); 
+  height: 25vh;
+  background: linear-gradient(90deg, #ffd6e0, #fff3b0);
   color: rgb(0, 0, 0);
   padding: 1rem;
 }
@@ -23,7 +22,6 @@
   height: 100%;
 }
 
-.txt
-{
+.txt {
   text-align: right;
 }
