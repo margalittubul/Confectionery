@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams, Link } from "react-router-dom";
 import { fetchOrders } from "../Redux/ordersSlice";
+import { advanceOrderStatus } from "../API/OrderController";
 import "./order.css";
 
 export default function Order() {
@@ -15,6 +16,8 @@ export default function Order() {
     error,
   } = useSelector((state) => state.orders);
 
+  const userRole = useSelector((state) => state.user?.role);
+
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
@@ -23,6 +26,15 @@ export default function Order() {
     if (!customerId) return allOrders;
     return allOrders.filter((order) => order.customerId === customerId);
   }, [allOrders, customerId]);
+
+  const handleAdvance = async (orderId) => {
+    try {
+      await advanceOrderStatus(orderId);
+      dispatch(fetchOrders());
+    } catch {
+      alert("שגיאה");
+    }
+  };
 
   if (loading) return <div>...טוען הזמנות</div>;
   if (error) return <div>שגיאה: {error}</div>;
@@ -42,6 +54,11 @@ export default function Order() {
             <Link to={`/order-details/${order._id}`} className="order-link">
               <button className="details-btn">פרטי הזמנה</button>
             </Link>
+            {userRole === "admin" && (order.status === "אושרה הזמנה" || order.status === "בתהליך...") && (
+              <button onClick={() => handleAdvance(order._id)} style={{marginRight:"8px",marginTop:"8px",padding:"8px 16px",backgroundColor:"#4caf50",color:"white",border:"none",borderRadius:"5px",cursor:"pointer"}}>
+                {order.status === "אושרה הזמנה" ? "התחל בתהליך" : "סמן כנשלח"}
+              </button>
+            )}
           </div>
         ))
       )}

@@ -9,5 +9,6 @@ orderRouter.get("/:id",authMiddleware, OrderController.getById);
 orderRouter.post("/",authMiddleware, OrderController.add);
 orderRouter.delete("/:id",authMiddleware, roleMiddleware('admin'), OrderController.delete);
 orderRouter.put('/:id/status',authMiddleware, OrderController.updateOrderStatus);
+orderRouter.patch('/:id/advance',authMiddleware, OrderController.advanceStatus);
 
 export default orderRouter;

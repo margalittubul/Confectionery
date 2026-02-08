@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderById } from "../Redux/ordersSlice";
 import { getProductById } from "../API/ProductsController";
+import { advanceOrderStatus } from "../API/OrderController";
 import "./OrderDetails.css";
 
 export default function OrderDetails() {
@@ -12,6 +13,7 @@ export default function OrderDetails() {
   const order = useSelector((state) => state.orders.selectedOrder);
   const loading = useSelector((state) => state.orders.loading);
   const error = useSelector((state) => state.orders.error);
+  const userRole = useSelector((state) => state.user?.role);
 
   const [productsDetails, setProductsDetails] = useState([]);
 
@@ -37,6 +39,15 @@ export default function OrderDetails() {
     fetchProducts();
   }, [order]);
 
+  const handleConfirm = async () => {
+    try {
+      await advanceOrderStatus(orderId);
+      dispatch(fetchOrderById(orderId));
+    } catch {
+      alert("שגיאה");
+    }
+  };
+
   if (error) return <p className="error-message">{error}</p>;
   if (loading || !order) return <p>טוען...</p>;
 
@@ -47,6 +58,12 @@ export default function OrderDetails() {
         תאריך: {new Date(order.orderDate).toLocaleDateString("he-IL")}
       </p>
       <p className="order-price">סכום: {order.price} ש&quot;ח</p>
+      <p className="order-price">סטטוס: {order.status}</p>
+      {userRole !== "admin" && order.status === "נשלח" && (
+        <button onClick={handleConfirm} style={{width:"100%",padding:"12px",backgroundColor:"#4caf50",color:"white",border:"none",borderRadius:"8px",cursor:"pointer",fontSize:"16px",marginBottom:"16px"}}>
+          אשר קבלת הזמנה
+        </button>
+      )}
       <h3 className="products-title">מוצרים:</h3>
       <ul className="products-list">
         {productsDetails.map((product) => (

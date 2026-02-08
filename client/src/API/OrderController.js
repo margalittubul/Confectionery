@@ -81,3 +81,13 @@ export const updateOrderStatus = async (orderId, status) => {
 
   return await response.json();
 };
+
+export const advanceOrderStatus = async (orderId) => {
+  const token = localStorage.getItem("userToken");
+  const response = await fetch(`${API_URL}/${orderId}/advance`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error("Failed to advance");
+  return await response.json();
+};

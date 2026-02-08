@@ -96,5 +96,24 @@ const OrderController = {
       res.status(500).json({ message: "Server error" });
     }
   },
+  advanceStatus: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const order = await Order.findById(id);
+      if (!order) return res.status(404).json({ message: "Order not found" });
+      
+      let newStatus;
+      if (order.status === "אושרה הזמנה") newStatus = "בתהליך...";
+      else if (order.status === "בתהליך...") newStatus = "נשלח";
+      else if (order.status === "נשלח") newStatus = "הגיע ליעד, בתאבון!!!";
+      else return res.status(400).json({ message: "Cannot advance" });
+      
+      order.status = newStatus;
+      await order.save();
+      res.json(order);
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  },
 };
 export default OrderController;
