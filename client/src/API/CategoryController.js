@@ -74,3 +74,25 @@ export const updateCategory = async (id, categoryData) => {
     return null;
   }
 };
+
+export const deleteCategory = async (id) => {
+  const token = localStorage.getItem("userToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete category: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error deleting category (${id}):`, error);
+    return null;
+  }
+};

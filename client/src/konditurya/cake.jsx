@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import { getProductById } from "../API/ProductsController.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductToBuying } from "../Redux/cartSlice.js";
 
 export default function Cake() {
@@ -13,6 +13,7 @@ export default function Cake() {
   const [error, setError] = useState(null);
   const { cakeId } = useParams();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     async function fetchCake() {
@@ -28,6 +29,10 @@ export default function Cake() {
 
   const handleAddToCart = () => {
     if (!cake) return;
+    if (!user.token) {
+      alert("עליך להתחבר כדי להוסיף מוצרים לסל");
+      return;
+    }
     dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
       .unwrap()
       .then(() => alert("המוצר נוסף לסל בהצלחה!"))

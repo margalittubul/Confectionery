@@ -10,7 +10,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { ShoppingCart, PersonSearch, AddCircle } from "@mui/icons-material";
+import { ShoppingCart, PersonSearch, AddCircle, Category } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCustomerByEmail } from "../API/CustomerController";
 
@@ -56,6 +56,11 @@ export default function Manager() {
       label: "עדכון מוצר",
       icon: <AddCircle fontSize="large" />,
       click: () => setOpen("edit"),
+    },
+    {
+      label: "ניהול קטגוריות",
+      icon: <Category fontSize="large" />,
+      click: () => navigate("/ManageCategories"),
     },
     {
       label: "כל המשתמשים",
@@ -123,11 +128,12 @@ export default function Manager() {
             autoFocus
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            color="secondary"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(null)}>ביטול</Button>
-          <Button onClick={handle} variant="contained">
+          <Button onClick={() => setOpen(null)} sx={{ color: "#f48fb1" }}>ביטול</Button>
+          <Button onClick={handle} variant="contained" sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
             אישור
           </Button>
         </DialogActions>

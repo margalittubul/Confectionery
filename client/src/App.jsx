@@ -33,6 +33,7 @@ import AddProductForm from "./maneger/addProduct";
 import EditProductForm from "./maneger/updateProduct";
 import AllUsersPage from "./maneger/AllUsersPage";
 import AddAdmin from "./maneger/AddAdmin";
+import ManageCategories from "./maneger/ManageCategories";
 
 import Profile from "./header/Profile";
 
@@ -83,6 +84,7 @@ function App() {
         { path: "/EditProductForm/:id", element: <EditProductForm /> },
         { path: "/AllUsersPage", element: <AllUsersPage /> },
         { path: "/AddAdmin", element: <AddAdmin /> },
+        { path: "/ManageCategories", element: <ManageCategories /> },
 
         { path: "/profile/:username", element: <Profile /> },
       ],

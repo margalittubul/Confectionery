@@ -114,6 +114,7 @@ const AddProductForm = () => {
         type="number"
         value={id}
         onChange={(e) => setId(e.target.value)}
+        color="secondary"
       />
 
       <TextField
@@ -121,6 +122,7 @@ const AddProductForm = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
+        color="secondary"
       />
 
       <TextField
@@ -130,6 +132,7 @@ const AddProductForm = () => {
         multiline
         rows={3}
         required
+        color="secondary"
       />
 
       <TextField
@@ -139,15 +142,17 @@ const AddProductForm = () => {
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         required
+        color="secondary"
       />
 
       <TextField
         label="כתובת תמונה"
         value={imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
+        color="secondary"
       />
 
-      <FormControl required>
+      <FormControl required color="secondary">
         <InputLabel id="category-select-label">קטגוריה</InputLabel>
         {loadingCategories ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
@@ -173,7 +178,7 @@ const AddProductForm = () => {
         )}
       </FormControl>
 
-      <Button type="submit" variant="contained" disabled={loading}>
+      <Button type="submit" variant="contained" disabled={loading} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
         {loading ? "מתווסף..." : "הוסף מוצר"}
       </Button>
 

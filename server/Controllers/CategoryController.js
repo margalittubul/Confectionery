@@ -11,8 +11,8 @@ const CategoryController = {
   },
   add: async (req, res) => {
     try {
-      const { name } = req.body;
-      const newCategory = await category.create({ name });
+      const { name, imageUrl } = req.body;
+      const newCategory = await category.create({ name, imageUrl });
       res.status(201).json(newCategory);
     } catch (e) {
       res.status(400).json({ message: e.message });
@@ -28,6 +28,16 @@ const CategoryController = {
       if (!updatedCategory)
         return res.status(404).json({ message: "Category not found" });
       res.json(updatedCategory);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const deletedCategory = await category.findByIdAndDelete(req.params.id);
+      if (!deletedCategory)
+        return res.status(404).json({ message: "Category not found" });
+      res.json({ message: "Category deleted" });
     } catch (e) {
       res.status(400).json({ message: e.message });
     }

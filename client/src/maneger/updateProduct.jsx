@@ -160,6 +160,7 @@ export default function EditProduct() {
         value={product.name || ""}
         onChange={handleChange}
         required
+        color="secondary"
       />
 
       <TextField
@@ -170,6 +171,7 @@ export default function EditProduct() {
         multiline
         rows={3}
         required
+        color="secondary"
       />
 
       <TextField
@@ -179,6 +181,7 @@ export default function EditProduct() {
         value={product.price || ""}
         onChange={handleChange}
         required
+        color="secondary"
       />
 
       <TextField
@@ -186,9 +189,10 @@ export default function EditProduct() {
         name="imageUrl"
         value={product.imageUrl || ""}
         onChange={handleChange}
+        color="secondary"
       />
 
-      <FormControl required>
+      <FormControl required color="secondary">
         <InputLabel>קטגוריה</InputLabel>
         <Select
           name="categoryId"
@@ -204,7 +208,7 @@ export default function EditProduct() {
         </Select>
       </FormControl>
 
-      <Button type="submit" variant="contained" disabled={saving}>
+      <Button type="submit" variant="contained" disabled={saving} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
         {saving ? "שומר..." : "שמור שינויים"}
       </Button>
 

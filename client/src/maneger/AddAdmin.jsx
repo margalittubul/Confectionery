@@ -76,6 +76,8 @@ export default function AddAdmin() {
         value={form.name}
         onChange={handleChange}
         sx={{ mb: 2 }}
+        focused
+        color="secondary"
       />
       <TextField
         name="email"
@@ -83,6 +85,8 @@ export default function AddAdmin() {
         value={form.email}
         onChange={handleChange}
         sx={{ mb: 2 }}
+        focused
+        color="secondary"
       />
       <TextField
         name="city"
@@ -90,6 +94,8 @@ export default function AddAdmin() {
         value={form.city}
         onChange={handleChange}
         sx={{ mb: 2 }}
+        focused
+        color="secondary"
       />
       <TextField
         name="password"
@@ -98,10 +104,12 @@ export default function AddAdmin() {
         value={form.password}
         onChange={handleChange}
         sx={{ mb: 3 }}
+        focused
+        color="secondary"
       />
 
       <Stack direction="row" justifyContent="center">
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" onClick={handleSubmit} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
           צור מנהל
         </Button>
       </Stack>
