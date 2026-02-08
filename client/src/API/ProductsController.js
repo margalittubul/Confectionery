@@ -77,3 +77,24 @@ export const updateProduct = async (id, productData) => {
     return null;
   }
 };
+
+export const deleteProduct = async (id) => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete product");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return null;
+  }
+};

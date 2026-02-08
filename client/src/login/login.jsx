@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addCustomer } from "../API/CustomerController";
 
-import { TextField, Box, Stack, Button } from "@mui/material";
+import { TextField, Box, Stack, Button, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useDispatch } from "react-redux";
 import { login } from "../Redux/userSlice";
@@ -13,6 +14,7 @@ export default function Signin() {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
@@ -36,8 +38,20 @@ export default function Signin() {
       setError("יש להזין עיר מגורים");
       return;
     }
-    if (!password || password.length < 4) {
-      setError("יש להזין סיסמה (לפחות 4 תווים)");
+    if (!password || password.length < 8) {
+      setError("הסיסמה חייבת להכיל לפחות 8 תווים");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError("הסיסמה חייבת להכיל לפחות אות גדולה אחת");
+      return;
+    }
+    if (!/[a-z]/.test(password)) {
+      setError("הסיסמה חייבת להכיל לפחות אות קטנה אחת");
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      setError("הסיסמה חייבת להכיל לפחות מספר אחד");
       return;
     }
 
@@ -106,11 +120,20 @@ export default function Signin() {
         />
         <TextField
           label="סיסמא"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           sx={{ width: 250, mb: 4 }}
           variant="outlined"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>

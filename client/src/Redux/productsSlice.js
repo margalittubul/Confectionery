@@ -4,6 +4,7 @@ import {
   getProductById,
   addProduct,
   updateProduct,
+  deleteProduct,
 } from "../API/ProductsController";
 
 export const fetchProducts = createAsyncThunk(
@@ -35,6 +36,14 @@ export const updateProductAsync = createAsyncThunk(
   async ({ id, productData }) => {
     const data = await updateProduct(id, productData);
     return data?.product || null;
+  },
+);
+
+export const deleteProductAsync = createAsyncThunk(
+  "products/delete",
+  async (id) => {
+    await deleteProduct(id);
+    return id;
   },
 );
 
@@ -98,6 +107,12 @@ const productsSlice = createSlice({
             state.selectedProduct = action.payload;
           }
         }
+      })
+
+      .addCase(deleteProductAsync.fulfilled, (state, action) => {
+        state.items = state.items.filter(
+          (p) => p._id !== action.payload && p.id !== action.payload,
+        );
       });
   },
 });

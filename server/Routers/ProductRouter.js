@@ -8,6 +8,7 @@ productRouter.get("/", ProductsController.getList);
 productRouter.get("/:id", ProductsController.getById);
 productRouter.post("/",authMiddleware,roleMiddleware('admin'), ProductsController.add);
 productRouter.put("/:id",authMiddleware, roleMiddleware('admin'), ProductsController.update);
+productRouter.delete("/:id",authMiddleware, roleMiddleware('admin'), ProductsController.delete);
 
 export default productRouter;
 

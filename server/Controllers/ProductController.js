@@ -71,6 +71,17 @@ const ProductsController = {
       res.status(400).json({ message: e.message });
     }
   },
+
+  delete: async (req, res) => {
+    try {
+      const deletedProduct = await product.findByIdAndDelete(req.params.id);
+      if (!deletedProduct)
+        return res.status(404).json({ message: "Product not found" });
+      res.json({ message: "Product deleted successfully" });
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
 };
 
 export default ProductsController;

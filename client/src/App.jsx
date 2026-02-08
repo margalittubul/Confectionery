@@ -27,6 +27,7 @@ import Root from "./Root/Root";
 
 import UpdateCake from "./maneger/updateProduct";
 import AddCake from "./maneger/addProduct";
+import ProductsList from "./maneger/ProductsList";
 
 import Manager from "./maneger/maneger";
 import AddProductForm from "./maneger/addProduct";
@@ -81,6 +82,7 @@ function App() {
           ),
         },
         { path: "/AddProductForm", element: <AddProductForm /> },
+        { path: "/ProductsList", element: <ProductsList /> },
         { path: "/EditProductForm/:id", element: <EditProductForm /> },
         { path: "/AllUsersPage", element: <AllUsersPage /> },
         { path: "/AddAdmin", element: <AddAdmin /> },

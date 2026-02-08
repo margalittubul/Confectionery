@@ -10,7 +10,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { ShoppingCart, PersonSearch, AddCircle, Category } from "@mui/icons-material";
+import { ShoppingCart, PersonSearch, AddCircle, Category, List } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCustomerByEmail } from "../API/CustomerController";
 
@@ -22,7 +22,6 @@ export default function Manager() {
   const handle = async () => {
     const val = input.trim();
     if (!val) return;
-    if (open === "edit") navigate(`/EditProductForm/${val}`);
     if (open === "orders") {
       try {
         const c = await getCustomerByEmail(val);
@@ -53,9 +52,9 @@ export default function Manager() {
       click: () => navigate("/AddProductForm"),
     },
     {
-      label: "עדכון מוצר",
-      icon: <AddCircle fontSize="large" />,
-      click: () => setOpen("edit"),
+      label: "רשימת מוצרים",
+      icon: <List fontSize="large" />,
+      click: () => navigate("/ProductsList"),
     },
     {
       label: "ניהול קטגוריות",
@@ -119,9 +118,7 @@ export default function Manager() {
       </Paper>
 
       <Dialog open={!!open} onClose={() => setOpen(null)}>
-        <DialogTitle>
-          {open === "edit" ? "קוד מוצר" : "אימייל לקוח"}
-        </DialogTitle>
+        <DialogTitle>אימייל לקוח</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
