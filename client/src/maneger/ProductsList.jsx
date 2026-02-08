@@ -51,7 +51,9 @@ export default function ProductsList() {
   };
 
   const filteredProducts = products.filter((p) => {
-    const matchCategory = !selectedCategory || p.categoryId === selectedCategory;
+    const matchCategory = !selectedCategory || 
+      String(p.categoryId) === String(selectedCategory) ||
+      Number(p.categoryId) === Number(selectedCategory);
     const matchSearch = !searchTerm || 
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.id.toString().includes(searchTerm);
@@ -59,7 +61,7 @@ export default function ProductsList() {
   });
 
   const getCategoryName = (categoryId) => {
-    const cat = categories.find((c) => c._id === categoryId || c.id === categoryId);
+    const cat = categories.find((c) => (c._id === categoryId || c.id === categoryId || c.id === Number(categoryId) || c._id === Number(categoryId)));
     return cat?.name || "לא ידוע";
   };
 
@@ -95,7 +97,7 @@ export default function ProductsList() {
           >
             <MenuItem value="">הכל</MenuItem>
             {categories.map((cat) => (
-              <MenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
+              <MenuItem key={cat._id || cat.id} value={cat.id || cat._id}>
                 {cat.name}
               </MenuItem>
             ))}
@@ -151,7 +153,7 @@ export default function ProductsList() {
         <DialogTitle>אישור מחיקה</DialogTitle>
         <DialogContent>
           <Typography>
-            האם אתה בטוח שברצונך למחוק את המוצר "{deleteDialog?.name}"?
+            האם אתה בטוח שברצונך למחוק את המוצר {deleteDialog?.name}?
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -161,7 +163,7 @@ export default function ProductsList() {
           <Button
             onClick={handleDelete}
             variant="contained"
-            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+            sx={{ bgcolor: "#f7b5cd", '&:hover': { bgcolor: "#f48fb1" } }}
           >
             מחק
           </Button>
