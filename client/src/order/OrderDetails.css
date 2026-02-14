@@ -78,3 +78,19 @@
   text-align: center;
   margin-top: 40px;
 }
+
+.confirm-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  color: #333;
+  border: 2px solid pink;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.confirm-btn:hover {
+  background-color: #fff0f5;
+}

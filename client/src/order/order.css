@@ -45,3 +45,38 @@
 .order-item a:hover {
   text-decoration: underline;
 }
+
+.details-btn {
+  padding: 8px 16px;
+  background-color: #f9cfcf;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.details-btn:hover {
+  background-color: #f7bfbf;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+.advance-btn {
+  margin-right: 8px;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border: 2px solid pink;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.advance-btn:hover {
+  background-color: #fff0f5;
+}

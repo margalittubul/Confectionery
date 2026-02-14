@@ -59,8 +59,8 @@ export default function OrderDetails() {
       </p>
       <p className="order-price">סכום: {order.price} ש&quot;ח</p>
       <p className="order-price">סטטוס: {order.status}</p>
-      {userRole !== "admin" && order.status === "נשלח" && (
-        <button onClick={handleConfirm} style={{width:"100%",padding:"12px",backgroundColor:"#4caf50",color:"white",border:"none",borderRadius:"8px",cursor:"pointer",fontSize:"16px",marginBottom:"16px"}}>
+      {order.status === "נשלח" && userRole !== "admin" && (
+        <button onClick={handleConfirm} className="confirm-btn">
           אשר קבלת הזמנה
         </button>
       )}

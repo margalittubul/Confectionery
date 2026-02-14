@@ -55,8 +55,19 @@ export default function Order() {
               <button className="details-btn">פרטי הזמנה</button>
             </Link>
             {userRole === "admin" && (order.status === "אושרה הזמנה" || order.status === "בתהליך...") && (
-              <button onClick={() => handleAdvance(order._id)} style={{marginRight:"8px",marginTop:"8px",padding:"8px 16px",backgroundColor:"#4caf50",color:"white",border:"none",borderRadius:"5px",cursor:"pointer"}}>
+              <button 
+                onClick={() => handleAdvance(order._id)} 
+                className="advance-btn"
+              >
                 {order.status === "אושרה הזמנה" ? "התחל בתהליך" : "סמן כנשלח"}
+              </button>
+            )}
+            {userRole !== "admin" && order.status === "נשלח" && (
+              <button 
+                onClick={() => handleAdvance(order._id)} 
+                className="advance-btn"
+              >
+                אשר קבלת הזמנה
               </button>
             )}
           </div>
