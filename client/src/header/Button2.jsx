@@ -30,7 +30,7 @@ export default function Button() {
   }, []);
 
   return (
-    <>
+    <div className="buttons-container">
       <Link to={`/profile/${username}`} className="link-button2">
         {username}
       </Link>
@@ -51,6 +51,6 @@ export default function Button() {
           alt="חיפוש"
         />
       </Link>
-    </>
+    </div>
   );
 }

@@ -1,13 +1,13 @@
 .login-container {
   display: flex;
-  gap: 40px;
+  gap: clamp(20px, 3vw, 40px);
   max-width: 1000px;
   margin: auto;
   flex-wrap: wrap;
-  margin-left: 300px;
+  justify-content: center;
 }
 .img-style {
-  height: 400px;
-  width: 400px;
+  height: clamp(250px, 30vw, 400px);
+  width: clamp(250px, 30vw, 400px);
   border-radius: 10%;
 }

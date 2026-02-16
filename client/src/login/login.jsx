@@ -140,7 +140,14 @@ export default function Signin() {
           <Button
             variant="contained"
             onClick={handleRegister}
-            sx={{ backgroundColor: "#4A90E2", color: "white", px: 3 }}
+            sx={{ 
+              backgroundColor: "#f9cfcf", 
+              color: "black",
+              px: 3,
+              '&:hover': {
+                backgroundColor: "#f7bfbf"
+              }
+            }}
           >
             הרשמה
           </Button>

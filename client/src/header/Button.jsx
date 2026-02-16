@@ -2,11 +2,7 @@ import "./StyleHeader.css";
 import { Link } from "react-router-dom";
 export default function Button() {
   return (
-    <>
-      <Link to="/Picthur" className="link-button">
-        {" "}
-        דף הבית
-      </Link>
+    <div className="buttons-container">
       <Link to="/about" className="link-button">
         אודותינו
       </Link>
@@ -19,6 +15,6 @@ export default function Button() {
       <Link to="/order" className="link-button">
         הזמנות
       </Link>
-    </>
+    </div>
   );
 }

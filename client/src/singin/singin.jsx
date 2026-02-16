@@ -88,7 +88,14 @@ export default function Login() {
           <Button
             variant="contained"
             onClick={handleLogin}
-            sx={{ backgroundColor: "#4A90E2", color: "white", px: 3 }}
+            sx={{ 
+              backgroundColor: "#f9cfcf", 
+              color: "black", 
+              px: 3,
+              '&:hover': {
+                backgroundColor: "#f7bfbf"
+              }
+            }}
           >
             אישור
           </Button>
@@ -96,7 +103,15 @@ export default function Login() {
           <Link to="/login">
             <Button
               variant="outlined"
-              sx={{ color: "#333", borderColor: "#aaa", px: 3 }}
+              sx={{ 
+                color: "#333", 
+                borderColor: "#f9cfcf", 
+                px: 3,
+                '&:hover': {
+                  borderColor: "#f7bfbf",
+                  backgroundColor: "#fff0f5"
+                }
+              }}
             >
               הרשמה
             </Button>

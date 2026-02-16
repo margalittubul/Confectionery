@@ -32,8 +32,8 @@
 }
 
 .animated-image {
-  width: 200px;
-  height: 200px;
+  width: clamp(150px, 15vw, 200px);
+  height: clamp(150px, 15vw, 200px);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition:
@@ -47,19 +47,22 @@
 }
 
 .img {
-  width: 500px;
-  height: 100px;
-  margin-left: 100px;
+  width: clamp(250px, 35vw, 500px);
+  height: auto;
+  display: block;
+  margin: 10px 0 10px clamp(50px, 8vw, 100px);
 }
 
 .img2 {
-  width: 500px;
-  height: 100px;
-  margin-left: 700px;
+  width: clamp(250px, 35vw, 500px);
+  height: auto;
+  display: block;
+  margin: 10px 0 10px auto;
+  margin-right: clamp(50px, 8vw, 100px);
 }
 
 .testimonials_h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   margin-bottom: 1.5rem;
   color: #333;
   text-align: center;

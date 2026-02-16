@@ -27,13 +27,23 @@
   }
 }
 
+.header-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.logo-container {
+  flex: 0 0 auto;
+  margin: 0 20px;
+}
+
 .logo-image {
-  display: block;
-  width: 200px;
-  height: 200px;
-  margin-left: 535px;
-  position: absolute;
-  top: 60px;
+  width: clamp(110px, 14vw, 180px);
+  height: clamp(110px, 14vw, 180px);
+  object-fit: contain;
 }
 
 .logo-button {
@@ -43,28 +53,35 @@
   cursor: pointer;
 }
 
+.buttons-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
 .link-button {
-  width: 60px;
-  height: 60px;
+  width: clamp(45px, 5.5vw, 70px);
+  height: clamp(45px, 5.5vw, 70px);
   border-radius: 50%;
   background-color: #f9cfcf;
   color: black !important;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: clamp(13px, 1.2vw, 16px);
   font-weight: bold;
   text-align: center;
   text-decoration: none !important;
   line-height: 1.2;
   padding: 5px;
-  margin: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
   border: none;
-  float: right;
   overflow: hidden;
   white-space: normal;
+  flex-shrink: 0;
 }
 
 .link-button:hover {
@@ -75,26 +92,46 @@
 }
 
 .link-button2 {
-  width: 60px;
-  height: 60px;
+  width: clamp(45px, 5.5vw, 70px);
+  height: clamp(45px, 5.5vw, 70px);
   border-radius: 50%;
   background-color: #f9cfcf;
   color: black;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: clamp(13px, 1.2vw, 16px);
   font-weight: bold;
   text-decoration: none;
   line-height: 1.2;
-  margin: 10px;
   padding: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
   border: none;
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
   white-space: normal;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4757;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+  z-index: 10;
 }
 
 .link-button2:hover {

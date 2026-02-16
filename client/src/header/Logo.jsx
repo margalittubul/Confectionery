@@ -4,8 +4,8 @@ import logo from "/img/מתוק מהבית .png";
 
 export default function Logo() {
   return (
-    <Link to="/Picthur">
-      <img src={logo} className="logo-image" />
+    <Link to="/Picthur" className="logo-container">
+      <img src={logo} className="logo-image" alt="לוגו" />
     </Link>
   );
 }

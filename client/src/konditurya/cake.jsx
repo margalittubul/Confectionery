@@ -36,7 +36,7 @@ export default function Cake() {
     dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
       .unwrap()
       .then(() => alert("המוצר נוסף לסל בהצלחה!"))
-      .catch(() => alert("שגיאה בהוספת המוצר לסל"));
+      .catch(() => alert("שגיאה בהוספת המוצר לסל. אנא נסה שוב."));
   };
 
   if (error) return <div>שגיאה: {error}</div>;

@@ -4,26 +4,26 @@
 }
 .snifim-container {
   display: flex;
-  gap: 40px;
+  gap: clamp(20px, 3vw, 40px);
   max-width: 1000px;
   margin: auto;
   flex-wrap: wrap;
-  margin-left: 300px;
+  justify-content: center;
 }
 .snifim-style {
-  height: 400px;
-  width: 400px;
+  height: clamp(250px, 30vw, 400px);
+  width: clamp(250px, 30vw, 400px);
   border-radius: 10%;
 }
 .styleImg {
-  height: 30px;
-  width: 30px;
+  height: clamp(20px, 2.5vw, 30px);
+  width: clamp(20px, 2.5vw, 30px);
   border-radius: 10%;
 }
 .branches-row {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: clamp(20px, 3vw, 40px);
   margin-top: 20px;
   flex-wrap: wrap;
 }
@@ -31,5 +31,5 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: clamp(14px, 1.2vw, 16px);
 }

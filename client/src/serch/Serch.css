@@ -39,10 +39,11 @@
 
 .cakes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
   gap: 20px;
   padding: 10px;
   margin-top: 70px;
+  justify-content: center;
 }
 
 .cake-item {
@@ -57,11 +58,13 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
   overflow: hidden;
+  width: 200px;
+  height: 280px;
 }
 
 .cake-item img {
   width: 100%;
-  height: auto;
+  height: 180px;
   border-radius: 10px;
   object-fit: cover;
 }

@@ -18,13 +18,14 @@ export default function Root() {
         <div className="header">
           <ChocolateDrips></ChocolateDrips>
           <Animation></Animation>
-          <Button2></Button2>
-          <Logo></Logo>
-          <Button></Button>
+          <div className="header-layout">
+             <Button2></Button2>
+            <Logo></Logo>
+            <Button></Button>
+           
+          </div>
         </div>
       </header>
-      <br />
-      <br />
       <br />
       <br />
       <main>
@@ -32,7 +33,8 @@ export default function Root() {
           <Outlet />
         </div>
       </main>
-
+      <br />
+      <br />
       <footer>
         <div className="footer">
           <Navigate2></Navigate2>

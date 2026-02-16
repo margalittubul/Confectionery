@@ -38,12 +38,13 @@
 
 .order-item a {
   font-size: 14px;
-  color: #007bff;
+  color: #d4849c;
   text-decoration: none;
 }
 
 .order-item a:hover {
   text-decoration: underline;
+  color: #c06b85;
 }
 
 .details-btn {

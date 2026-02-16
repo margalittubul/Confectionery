@@ -8,84 +8,47 @@ export default function Navigate2() {
           <div className="footer-grid">
             <div>
               <Link to="/CakeChallenge">
-                <img className="li" src="/img/game.jpg" />
+                <img className="li" src="/img/game.jpg" alt="משחק" />
               </Link>
             </div>
             <div></div>
-            <div>
-              <Link to="/contact" className="">
-                צור קשר
-              </Link>
-              <br />
-              <Link to="/ClubJoin" className="">
-                מועדון
-              </Link>
+            <div className="footer-column">
+              <strong className="footer-title">יצירת קשר</strong>
+              <Link to="/contact">צור קשר</Link>
+              <Link to="/ClubJoin">מועדון</Link>
             </div>
-            <div>
-              <Link to="/about" className="">
-                אודות
-              </Link>
-              <br />
-              <Link to="/articles" className="">
-                תקנון ותנאי שימוש
-              </Link>
-              <br />
-              <Link to="/snifim" className="">
-                סניפים
-              </Link>
+            <div className="footer-column">
+              <strong className="footer-title">אודות</strong>
+              <Link to="/about">אודות</Link>
+              <Link to="/articles">תקנון ותנאי שימוש</Link>
+              <Link to="/snifim">סניפים</Link>
             </div>
-            <div>
-              <Link to="/order" className="">
-                הזמנות
-              </Link>
-              <br />
-              <Link to="/buying" className="">
-                סל שלי
-              </Link>
-              <br />
+            <div className="footer-column">
+              <strong className="footer-title">הזמנות</strong>
+              <Link to="/order">הזמנות</Link>
+              <Link to="/buying">סל שלי</Link>
             </div>
-            <div>
-              <Link to="/Category" className="">
-                קונדיטוריה
-              </Link>
-              <br />
-              <Link to={`/SubCategory/${1}`} className="">
-                עוגות חלביות
-              </Link>
-              <br />
-              <Link to={`/SubCategory/${2}`} className="">
-                עוגות פרווה
-              </Link>
-              <br />
-              <Link to={`/SubCategory/${3}`} className="">
-                עוגות אירועים
-              </Link>
-              <br />
-              <Link to={`/SubCategory/${5}`} className="">
-                עוגיות
-              </Link>
-              <br />
-              <Link to={`/SubCategory/${4}`} className="">
-                מארזים
-              </Link>
+            <div className="footer-column">
+              <strong className="footer-title">קונדיטוריה</strong>
+              <Link to="/Category">קונדיטוריה</Link>
+              <Link to={`/SubCategory/${1}`}>עוגות חלביות</Link>
+              <Link to={`/SubCategory/${2}`}>עוגות פרווה</Link>
+              <Link to={`/SubCategory/${3}`}>עוגות אירועים</Link>
+              <Link to={`/SubCategory/${5}`}>עוגיות</Link>
+              <Link to={`/SubCategory/${4}`}>מארזים</Link>
             </div>
-            <div>
-              <Link to="/login" className="">
-                התחברות
-              </Link>
-              <br />
-              <Link to="/" className="">
-                כניסה
-              </Link>
-              <br />
-              <Link to="/manager" className="">
-                מנהל
-              </Link>
+            <div className="footer-column">
+              <strong className="footer-title">חשבון</strong>
+              <Link to="/login">התחברות</Link>
+              <Link to="/">כניסה</Link>
+              <Link to="/manager">מנהל</Link>
             </div>
+          </div>
+          <div className="footer-copyright">
+            <p>© 2026 מתוק מהבית - כל הזכויות שמורות</p>
           </div>
         </footer>
       </div>
-      <p>@margalittubul</p>
     </>
   );
 }

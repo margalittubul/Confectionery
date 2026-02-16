@@ -1,15 +1,17 @@
 .main-title {
   text-align: center;
   color: #333;
+  font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .sub-title {
   text-align: center;
   color: #333;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
 }
 
 p {
-  font-size: 1.2em;
+  font-size: clamp(1rem, 1.5vw, 1.2em);
   color: #000000;
   line-height: 1.8;
   margin-bottom: 20px;
