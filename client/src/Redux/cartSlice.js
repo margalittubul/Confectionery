@@ -77,9 +77,8 @@ const cartSlice = createSlice({
       })
       .addCase(addProductToBuying.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload && action.payload.items) {
-          state.items = action.payload.items;
-          state.totalPrice = action.payload.totalPrice || state.totalPrice;
+        if (action.payload && action.payload.products) {
+          state.items = action.payload.products;
         }
       })
       .addCase(addProductToBuying.rejected, (state, action) => {

@@ -15,9 +15,9 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.role = action.payload.role;
 
-      localStorage.removeItem("userToken");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userRole");
+      localStorage.setItem("userToken", action.payload.token);
+      localStorage.setItem("userName", action.payload.name);
+      localStorage.setItem("userRole", action.payload.role);
     },
     logout(state) {
       state.token = null;

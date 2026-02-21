@@ -2,9 +2,11 @@ import "./StyleHeader.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCustomerProfile } from "../API/CustomerController";
+import { useSelector } from "react-redux";
 
 export default function Button() {
   const [username, setUsername] = useState("אורח");
+  const cartItems = useSelector((state) => state.cart.items);
 
   const getUserData = async () => {
     const profile = await getCustomerProfile();
@@ -40,8 +42,27 @@ export default function Button() {
       <Link to="/login" className="link-button2">
         התחברות
       </Link>
-      <Link to="/buying" className="link-button2">
+      <Link to="/buying" className="link-button2" style={{ position: 'relative' }}>
         סל שלי
+        {cartItems.length > 0 && (
+          <span style={{
+            position: 'absolute',
+            top: '-8px',
+            right: '-8px',
+            background: '#ff8686',
+            color: 'white',
+            borderRadius: '50%',
+            width: '20px',
+            height: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            fontWeight: 'bold'
+          }}>
+            {cartItems.length}
+          </span>
+        )}
       </Link>
       <Link className="link-button2" to="/search">
         <img
