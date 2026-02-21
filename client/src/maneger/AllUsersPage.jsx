@@ -62,9 +62,9 @@ export default function AllUsersPage() {
                 <TableCell sx={{ fontWeight: "bold", textAlign: "right" }}>
                   כתובת
                 </TableCell>
-                <TableCell sx={{ fontWeight: "bold", textAlign: "right" }}>
+                {/* <TableCell sx={{ fontWeight: "bold", textAlign: "right" }}>
                   סיסמה
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -80,9 +80,9 @@ export default function AllUsersPage() {
                   <TableCell sx={{ textAlign: "right" }}>
                     {user.address}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "right" }}>
+                  {/* <TableCell sx={{ textAlign: "right" }}>
                     {user.password}
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

@@ -37,6 +37,7 @@ export default function SubCategory() {
 
         {products.map((cake) => (
           <div key={cake._id}>
+            <p className="title">{cake.name}</p>
             <Link to={`/cake/${cake.id}`}>
               <img
                 src={cake.imageUrl ? `/${cake.imageUrl}` : "/img/default.jpg"}

@@ -101,6 +101,25 @@ export const calculateTotalBuyingPrice = async () => {
   }
 };
 
+export const updateProductQuantity = async (productId, quantity) => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const response = await fetch(`${API_URL}/update-quantity`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId, quantity }),
+    });
+    if (!response.ok) throw new Error("Failed to update quantity");
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating quantity:", error);
+    return null;
+  }
+};
+
 export const clearBuyingCart = async () => {
   const token = localStorage.getItem("userToken");
   try {

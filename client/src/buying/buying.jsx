@@ -14,6 +14,7 @@ import {
   getBuyingById,
   calculateTotalBuyingPrice,
   removeProductFromBuying,
+  updateProductQuantity,
 } from "../API/BuyingController";
 
 import { getProductById } from "../API/ProductsController";
@@ -54,30 +55,32 @@ const Buying = () => {
   };
 
   useEffect(() => {
-    if (!cartItems?.length || !productsDetails?.length) {
-      fetchCartAndProducts();
-    }
+    fetchCartAndProducts();
   }, []);
 
-  const baseTotal = productsDetails.reduce((sum, product, idx) => {
-    const cartItem = cartItems[idx];
-    if (!product || !cartItem) return sum;
-    return sum + product.price * cartItem.quantity;
+  const baseTotal = cartItems.reduce((sum, item) => {
+    const product = productsDetails.find((p) => p.id === item.productId);
+    if (!product || !item) return sum;
+    return sum + product.price * item.quantity;
   }, 0);
 
   const total = delivery === "delivery" ? baseTotal + 25 : baseTotal;
 
-  const increaseQty = (productId) => {
+  const increaseQty = async (productId) => {
     const item = cartItems.find((i) => i.productId === productId);
     if (item) {
-      dispatch(updateQty({ productId, quantity: item.quantity + 1 }));
+      const newQty = item.quantity + 1;
+      dispatch(updateQty({ productId, quantity: newQty }));
+      await updateProductQuantity(productId, newQty);
     }
   };
 
-  const decreaseQty = (productId) => {
+  const decreaseQty = async (productId) => {
     const item = cartItems.find((i) => i.productId === productId);
     if (item && item.quantity > 1) {
-      dispatch(updateQty({ productId, quantity: item.quantity - 1 }));
+      const newQty = item.quantity - 1;
+      dispatch(updateQty({ productId, quantity: newQty }));
+      await updateProductQuantity(productId, newQty);
     }
   };
 

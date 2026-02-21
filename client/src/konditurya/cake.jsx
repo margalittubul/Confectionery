@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -14,6 +14,7 @@ export default function Cake() {
   const { cakeId } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchCake() {
@@ -33,10 +34,15 @@ export default function Cake() {
       alert("עליך להתחבר כדי להוסיף מוצרים לסל");
       return;
     }
-    dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
+     dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
       .unwrap()
-      .then(() => alert("המוצר נוסף לסל בהצלחה!"))
-      .catch(() => alert("שגיאה בהוספת המוצר לסל. אנא נסה שוב."));
+      .then(() => {
+        alert("המוצר נוסף לסל בהצלחה!");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("שגיאה בהוספת המוצר לסל. אנא נסה שוב.");
+      });
   };
 
   if (error) return <div>שגיאה: {error}</div>;

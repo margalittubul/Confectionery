@@ -25,8 +25,9 @@ const BuyingController = {
     try {
       const customerId = req.user.id;
       const { productId, quantity } = req.body;
+      const numProductId = Number(productId);
 
-      if (!productId || quantity <= 0) {
+      if (!numProductId || quantity <= 0) {
         return res.status(400).json({ message: "Invalid input" });
       }
 
@@ -34,17 +35,17 @@ const BuyingController = {
       if (!cart) {
         const newDoc = new Buying({
           customerId,
-          products: [{ productId, quantity }],
+          products: [{ productId: numProductId, quantity }],
         });
         cart = newDoc;
       } else {
         const existingProduct = cart.products.find(
-          (p) => p.productId === productId,
+          (p) => p.productId === numProductId,
         );
         if (existingProduct) {
           existingProduct.quantity += quantity;
         } else {
-          cart.products.push({ productId, quantity });
+          cart.products.push({ productId: numProductId, quantity });
         }
       }
       await cart.save();
@@ -124,15 +125,21 @@ const BuyingController = {
       res.status(400).json({ message: e.message });
     }
   },
-  update: async (req, res) => {
-    const customerId = req.user.id;
+  updateQuantity: async (req, res) => {
     try {
-      const updatedCart = await Buying.findByIdAndUpdate(customerId, req.body, {
-        new: true,
-      });
-      if (!updatedCart)
-        return res.status(404).json({ message: "Cart not found" });
-      res.json(updatedCart);
+      const customerId = req.user.id;
+      const { productId, quantity } = req.body;
+      const numProductId = Number(productId);
+
+      const cart = await Buying.findOne({ customerId });
+      if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+      const product = cart.products.find((p) => p.productId === numProductId);
+      if (!product) return res.status(404).json({ message: "Product not found" });
+
+      product.quantity = quantity;
+      await cart.save();
+      res.json(cart);
     } catch (e) {
       res.status(400).json({ message: e.message });
     }

@@ -9,7 +9,7 @@ buyingRouter.get("/products/:customerId", authMiddleware, BuyingController.getPr
 buyingRouter.get("/total-price", authMiddleware, BuyingController.calculateTotalPrice);
 buyingRouter.get("/my-cart", authMiddleware, BuyingController.getById);
 buyingRouter.post("/", authMiddleware, BuyingController.add);
-buyingRouter.put("/:id", authMiddleware, BuyingController.update);
+buyingRouter.put("/update-quantity", authMiddleware, BuyingController.updateQuantity);
 buyingRouter.post("/add-product", authMiddleware, BuyingController.addProduct);
 buyingRouter.delete("/remove-product/:productId", authMiddleware, BuyingController.removeProduct);
 buyingRouter.delete('/clear-cart', authMiddleware, BuyingController.clearCart);

@@ -6,6 +6,13 @@
   margin-bottom: 1.5rem;
 }
 
+.title {
+  text-align: center;
+   font-size: clamp(1rem, 1.5vw,1.8rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
 .category-item p {
   font-size: clamp(18px, 1.8vw, 24px);
   font-weight: 600;
@@ -56,3 +63,5 @@
   color: #333;
   line-height: 1.6;
 }
+
+

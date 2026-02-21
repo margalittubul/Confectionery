@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: null,
-  name: null,
-  role: null,
+  token: localStorage.getItem("userToken") || null,
+  name: localStorage.getItem("userName") || null,
+  role: localStorage.getItem("userRole") || null,
 };
 
 const userSlice = createSlice({
@@ -14,11 +14,19 @@ const userSlice = createSlice({
       state.token = action.payload.token;
       state.name = action.payload.name;
       state.role = action.payload.role;
+
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userRole");
     },
     logout(state) {
       state.token = null;
       state.name = null;
       state.role = null;
+
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userRole");
     },
   },
 });
