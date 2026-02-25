@@ -31,20 +31,68 @@
 .header-layout {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
   margin: 20px 0;
+  position: relative;
+}
+
+.desktop-buttons {
+  flex: 1;
+}
+
+.desktop-buttons.left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.desktop-buttons.right {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.mobile-buttons {
+  display: none;
+  width: 100%;
+  justify-content: center;
+}
+
+.mobile-buttons .buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+@media (max-width: 899px) {
+  .header-layout {
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .desktop-buttons {
+    display: none !important;
+  }
+  
+  .mobile-buttons {
+    display: flex !important;
+  }
 }
 
 .logo-container {
-  display: block;
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .logo-image {
-  width: clamp(110px, 14vw, 180px);
-  height: clamp(110px, 14vw, 180px);
+  width: 180px;
+  height: 180px;
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .logo-button {
@@ -66,6 +114,18 @@
   .buttons-container {
     width: 100%;
     justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .logo-image {
+    margin: 0 auto;
   }
 }
 

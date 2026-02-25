@@ -19,10 +19,19 @@ export default function Root() {
           <ChocolateDrips></ChocolateDrips>
           <Animation></Animation>
           <div className="header-layout">
-             <Button2></Button2>
+            <div className="desktop-buttons left">
+              <Button2></Button2>
+            </div>
             <Logo></Logo>
-            <Button></Button>
-           
+            <div className="desktop-buttons right">
+              <Button></Button>
+            </div>
+            <div className="mobile-buttons">
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center'}}>
+                <Button></Button>
+                <Button2></Button2>
+              </div>
+            </div>
           </div>
         </div>
       </header>

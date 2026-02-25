@@ -13,38 +13,34 @@ export default function MainComponent() {
       <Box sx={{ 
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
-        justifyContent: 'center',
+        justifyContent: { xs: 'center', md: 'space-between' },
         alignItems: 'center',
-        gap: { xs: 2, md: 0 },
-        minHeight: { xs: 'auto', md: '200px' },
-        mb: 2,
-        position: { xs: 'static', md: 'relative' }
+        gap: 2,
+        mb: 2
       }}>
         <Box sx={{ 
-          position: { xs: 'static', md: 'absolute' },
-          left: { md: 0 },
-          display: 'flex',
-          gap: { xs: 1, sm: 1.5 },
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          maxWidth: { xs: '100%', md: '40%' },
-          order: { xs: 2, md: 1 }
+          display: { xs: 'none', md: 'block' },
+          flex: 1
         }}>
           <Button />
         </Box>
-        <Box sx={{ order: { xs: 1, md: 2 } }}>
+        
+        <Box>
           <Logo />
         </Box>
+        
         <Box sx={{ 
-          position: { xs: 'static', md: 'absolute' },
-          right: { md: 0 },
-          display: 'flex',
-          gap: { xs: 1, sm: 1.5 },
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          maxWidth: { xs: '100%', md: '40%' },
-          order: { xs: 3, md: 3 }
+          display: { xs: 'none', md: 'block' },
+          flex: 1
         }}>
+          <Button2 />
+        </Box>
+        
+        <Box sx={{ 
+          display: { xs: 'block', md: 'none' },
+          width: '100%'
+        }}>
+          <Button />
           <Button2 />
         </Box>
       </Box>
