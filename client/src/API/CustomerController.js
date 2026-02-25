@@ -149,3 +149,36 @@ export const getCustomerProfile = async () => {
     return null;
   }
 };
+
+export const joinClub = async (clubData) => {
+  const token = localStorage.getItem("userToken");
+  console.log("=== API: Join Club ===");
+  console.log("1. Token:", token ? "exists" : "missing");
+  console.log("2. Data to send:", clubData);
+  
+  try {
+    const response = await fetch(`${API_URL}/join-club`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(clubData),
+    });
+
+    console.log("3. Response status:", response.status);
+    const data = await response.json();
+    console.log("4. Response data:", data);
+
+    if (!response.ok) {
+      console.error("5. Server error:", data);
+      return data;
+    }
+
+    console.log("5. Success - returning data");
+    return data;
+  } catch (error) {
+    console.error("Error joining club:", error);
+    return null;
+  }
+};

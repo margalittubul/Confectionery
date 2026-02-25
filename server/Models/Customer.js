@@ -22,5 +22,13 @@ const CustomerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  is_club_member: {
+    type: Boolean,
+    default: false,
+  },
+  birth_date: {
+    type: Date,
+    default: null,
+  },
 });
 export default mongoose.model("Customer", CustomerSchema, "Users");

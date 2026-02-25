@@ -1,10 +1,6 @@
 .club-container {
-  max-width: 1000px;
+  max-width: 500px;
   margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(20px, 3vw, 40px);
-  justify-content: center;
   padding: clamp(20px, 3vw, 40px);
   background-color: #fff9f5;
   border-radius: 20px;
@@ -23,8 +19,6 @@
 }
 
 .club-form {
-  flex: 1;
-  min-width: 300px;
   background: white;
   padding: clamp(16px, 2vw, 24px);
   border-radius: 12px;

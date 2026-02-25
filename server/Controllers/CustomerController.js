@@ -104,6 +104,54 @@ const CustomerController = {
       res.status(400).json({ message: e.message });
     }
   },
+  joinClub: async (req, res) => {
+    try {
+      console.log("=== JOIN CLUB START ===");
+      console.log("1. User ID from token:", req.user.id);
+      console.log("2. Request body:", req.body);
+      const { birth_date } = req.body;
+      console.log("3. Birth date extracted:", birth_date);
+      
+      const existingUser = await Customer.findById(req.user.id);
+      console.log("4. Existing user found:", { 
+        id: existingUser._id, 
+        name: existingUser.name,
+        is_club_member: existingUser.is_club_member,
+        birth_date: existingUser.birth_date 
+      });
+      
+      if (existingUser.is_club_member) {
+        console.log("5. User already a member - returning error");
+        return res.status(400).json({ message: "כבר רשום למועדון" });
+      }
+      
+      console.log("5. Updating user with:", { is_club_member: true, birth_date });
+      const user = await Customer.findByIdAndUpdate(
+        req.user.id,
+        { is_club_member: true, birth_date },
+        { new: true }
+      );
+      
+      console.log("6. User after update:", {
+        id: user._id,
+        name: user.name,
+        is_club_member: user.is_club_member,
+        birth_date: user.birth_date
+      });
+      
+      if (!user) {
+        console.log("7. User not found after update");
+        return res.status(404).json({ message: "משתמש לא נמצא" });
+      }
+      
+      console.log("7. Sending response with updated user");
+      console.log("=== JOIN CLUB END ===");
+      res.json(user);
+    } catch (e) {
+      console.error("Join Club Error:", e);
+      res.status(400).json({ message: e.message });
+    }
+  },
 };
 
 export default CustomerController;
