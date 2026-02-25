@@ -23,7 +23,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Edit, Delete, Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, deleteProductAsync } from "../Redux/productsSlice";
@@ -75,61 +75,81 @@ export default function ProductsList() {
   }
 
   return (
-    <Box sx={{ p: 3, direction: "rtl" }}>
-      <Typography variant="h4" textAlign="center" color="#b94f75" mb={3}>
-        רשימת מוצרים ({filteredProducts.length})
-      </Typography>
-      
-      <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-        <TextField
-          label="חיפוש לפי שם או קוד"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          color="secondary"
-          sx={{ flex: 1 }}
-        />
-        <FormControl sx={{ minWidth: 200 }} color="secondary">
-          <InputLabel>קטגוריה</InputLabel>
-          <Select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            label="קטגוריה"
+    <Box sx={{ p: 4, direction: "rtl", maxWidth: 1400, margin: "0 auto" }}>
+      <Paper sx={{ p: 3, bgcolor: "#fff0f5", borderRadius: 3 }}>
+        <Typography variant="h4" textAlign="center" color="#b94f75" mb={4} fontWeight="bold">
+          ניהול מוצרים
+        </Typography>
+        
+        <Box sx={{ display: "flex", gap: 2, mb: 3, alignItems: "center", flexWrap: "wrap" }}>
+          <TextField
+            label="חיפוש לפי שם או קוד"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            color="secondary"
+            sx={{ flex: 1, minWidth: 250 }}
+            size="small"
+          />
+          <FormControl sx={{ minWidth: 200 }} color="secondary" size="small">
+            <InputLabel>קטגוריה</InputLabel>
+            <Select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              label="קטגוריה"
+            >
+              <MenuItem value="">הכל</MenuItem>
+              {categories.map((cat) => (
+                <MenuItem key={cat._id || cat.id} value={cat.id || cat._id}>
+                  {cat.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={() => navigate("/AddProductForm")}
+            sx={{ 
+              bgcolor: "#f7b5cd", 
+              '&:hover': { bgcolor: "#f48fb1" },
+              height: 40
+            }}
           >
-            <MenuItem value="">הכל</MenuItem>
-            {categories.map((cat) => (
-              <MenuItem key={cat._id || cat.id} value={cat.id || cat._id}>
-                {cat.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
+            הוסף מוצר
+          </Button>
+        </Box>
 
-      <TableContainer component={Paper} sx={{ bgcolor: "#fff0f5" }}>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ bgcolor: "#f7b5cd" }}>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>קוד</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>שם</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>תיאור</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>מחיר</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>קטגוריה</TableCell>
-              <TableCell sx={{ fontWeight: "bold", color: "#fff" }}>פעולות</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredProducts.map((p) => (
-              <TableRow key={p._id || p.id} hover>
-                <TableCell>
-                  <Chip label={p.id} color="secondary" size="small" />
-                </TableCell>
-                <TableCell>{p.name}</TableCell>
-                <TableCell sx={{ maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {p.description}
-                </TableCell>
-                <TableCell>₪{p.price}</TableCell>
-                <TableCell>{getCategoryName(p.categoryId)}</TableCell>
-                <TableCell>
+        <Typography variant="body2" color="#666" mb={2}>
+          סה"כ {filteredProducts.length} מוצרים
+        </Typography>
+
+        <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: "#f7b5cd" }}>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "right", width: "8%" }}>קוד</TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "right", width: "20%" }}>שם</TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "right", width: "30%" }}>תיאור</TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "right", width: "12%" }}>מחיר</TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "right", width: "15%" }}>קטגוריה</TableCell>
+                <TableCell sx={{ fontWeight: "bold", color: "#fff", textAlign: "center", width: "15%" }}>פעולות</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredProducts.map((p) => (
+                <TableRow key={p._id || p.id} hover sx={{ '&:hover': { bgcolor: "#fff3f8" } }}>
+                  <TableCell sx={{ textAlign: "right" }}>
+                    <Chip label={p.id} color="secondary" size="small" />
+                  </TableCell>
+                  <TableCell sx={{ textAlign: "right", fontWeight: 500 }}>{p.name}</TableCell>
+                  <TableCell sx={{ textAlign: "right", color: "#666" }}>
+                    {p.description.length > 50 ? p.description.substring(0, 50) + "..." : p.description}
+                  </TableCell>
+                  <TableCell sx={{ textAlign: "right", fontWeight: "bold", color: "#b94f75" }}>₪{p.price}</TableCell>
+                  <TableCell sx={{ textAlign: "right" }}>
+                    <Chip label={getCategoryName(p.categoryId)} size="small" variant="outlined" color="secondary" />
+                  </TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
                   <IconButton
                     onClick={() => navigate(`/EditProductForm/${p.id}`)}
                     sx={{ color: "#f48fb1" }}
@@ -148,9 +168,10 @@ export default function ProductsList() {
           </TableBody>
         </Table>
       </TableContainer>
+      </Paper>
 
       <Dialog open={!!deleteDialog} onClose={() => setDeleteDialog(null)}>
-        <DialogTitle>אישור מחיקה</DialogTitle>
+        <DialogTitle sx={{ textAlign: "right" }}>אישור מחיקה</DialogTitle>
         <DialogContent>
           <Typography>
             האם אתה בטוח שברצונך למחוק את המוצר {deleteDialog?.name}?

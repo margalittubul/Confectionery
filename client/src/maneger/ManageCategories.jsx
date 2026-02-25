@@ -8,13 +8,10 @@ import {
   List,
   ListItem,
   ListItemText,
-  IconButton,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
 import {
   getAllCategories,
   addCategory,
-  deleteCategory,
 } from "../API/CategoryController";
 
 export default function ManageCategories() {
@@ -41,17 +38,6 @@ export default function ManageCategories() {
       loadCategories();
     } else {
       alert("שגיאה בהוספת קטגוריה");
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!confirm("למחוק קטגוריה זו?")) return;
-    const result = await deleteCategory(id);
-    if (result) {
-      alert("קטגוריה נמחקה");
-      loadCategories();
-    } else {
-      alert("שגיאה במחיקת קטגוריה");
     }
   };
 
@@ -82,14 +68,7 @@ export default function ManageCategories() {
         </Box>
         <List>
           {categories.map((cat) => (
-            <ListItem
-              key={cat._id}
-              secondaryAction={
-                <IconButton onClick={() => handleDelete(cat._id)} sx={{ color: "#f48fb1" }}>
-                  <Delete />
-                </IconButton>
-              }
-            >
+            <ListItem key={cat._id}>
               <ListItemText primary={cat.name} secondary={cat.imageUrl} />
             </ListItem>
           ))}

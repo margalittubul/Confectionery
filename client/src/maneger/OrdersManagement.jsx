@@ -1,67 +1,53 @@
 import { useState } from "react";
 import {
   Box,
-  Typography,
   Paper,
+  Typography,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Button,
+  TextField,
 } from "@mui/material";
-import { ShoppingCart, PersonSearch, AddCircle, Category, List } from "@mui/icons-material";
+import { ShoppingCart, PersonSearch } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCustomerByEmail } from "../API/CustomerController";
 
-export default function Manager() {
+export default function OrdersManagement() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
 
   const handle = async () => {
     const val = input.trim();
     if (!val) return;
-    if (open === "orders") {
-      try {
-        const c = await getCustomerByEmail(val);
-        if (!c) return alert("הלקוח לא נמצא");
-        navigate(`/Order?customerId=${c._id}`);
-      } catch {
-        alert("שגיאה");
-      }
+    try {
+      const c = await getCustomerByEmail(val);
+      if (!c) return alert("הלקוח לא נמצא");
+      navigate(`/Order?customerId=${c._id}`);
+    } catch {
+      alert("שגיאה");
     }
-    setOpen(null);
+    setOpen(false);
     setInput("");
   };
 
   const actions = [
     {
-      label: "ניהול מוצרים",
-      icon: <List fontSize="large" />,
-      click: () => navigate("/ProductsManagement"),
-    },
-    {
-      label: "ניהול קטגוריות",
-      icon: <Category fontSize="large" />,
-      click: () => navigate("/ManageCategories"),
-    },
-    {
-      label: "ניהול הזמנות",
+      label: "כל ההזמנות",
       icon: <ShoppingCart fontSize="large" />,
-      click: () => navigate("/OrdersManagement"),
+      click: () => navigate("/Order"),
     },
     {
-      label: "ניהול משתמשים",
+      label: "הזמנות לפי לקוח",
       icon: <PersonSearch fontSize="large" />,
-      click: () => navigate("/UsersManagement"),
+      click: () => setOpen(true),
     },
   ];
 
   return (
-    <Box
-      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
-    >
+    <Box sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}>
       <Paper
         sx={{
           p: 4,
@@ -73,7 +59,7 @@ export default function Manager() {
         }}
       >
         <Typography variant="h5" color="#b94f75">
-          ניהול האתר
+          ניהול הזמנות
         </Typography>
         <Box display="grid" gridTemplateColumns="repeat(2,1fr)" gap={2} mt={3}>
           {actions.map((a) => (
@@ -102,8 +88,8 @@ export default function Manager() {
         </Box>
       </Paper>
 
-      <Dialog open={!!open} onClose={() => setOpen(null)}>
-        <DialogTitle>אימייל לקוח</DialogTitle>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle sx={{ textAlign: "right" }}>אימייל לקוח</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
@@ -111,10 +97,11 @@ export default function Manager() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             color="secondary"
+            sx={{ mt: 2 }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(null)} sx={{ color: "#f48fb1" }}>ביטול</Button>
+          <Button onClick={() => setOpen(false)} sx={{ color: "#f48fb1" }}>ביטול</Button>
           <Button onClick={handle} variant="contained" sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
             אישור
           </Button>

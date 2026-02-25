@@ -6,14 +6,17 @@ import { useSelector } from "react-redux";
 
 export default function Button() {
   const [username, setUsername] = useState("אורח");
+  const [isAdmin, setIsAdmin] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
 
   const getUserData = async () => {
     const profile = await getCustomerProfile();
     if (profile && profile.name) {
       setUsername(profile.name);
+      setIsAdmin(profile.role === "admin");
     } else {
       setUsername("אורח");
+      setIsAdmin(false);
     }
   };
 
