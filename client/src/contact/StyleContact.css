@@ -63,3 +63,10 @@ p {
 .contact-form button:hover {
   background-color: #f7bfbf;
 }
+
+.error-message {
+  color: #ff4757;
+  font-size: 14px;
+  margin: 5px 0;
+  text-align: right;
+}

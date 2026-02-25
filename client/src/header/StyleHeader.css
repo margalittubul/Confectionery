@@ -1,5 +1,6 @@
 .func1 {
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   overflow: hidden;
   background: linear-gradient(90deg, #ffd6e0, #fff3b0);
   height: 40px;
@@ -8,6 +9,7 @@
   align-items: center;
   border-bottom: 2px solid #f6a5c0;
   font-family: "Varela Round", sans-serif;
+  direction: ltr;
 }
 .func2 {
   white-space: nowrap;
@@ -15,15 +17,14 @@
   animation: marquee 30s linear infinite;
   font-size: 16px;
   color: #7a3e48;
-  padding-left: 100%;
 }
 
 @keyframes marquee {
   0% {
-    transform: translateX(0%);
+    transform: translateX(-100%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 }
 
@@ -36,8 +37,8 @@
 }
 
 .logo-container {
-  flex: 0 0 auto;
-  margin: 0 20px;
+  display: block;
+  margin: 0;
 }
 
 .logo-image {
@@ -59,6 +60,13 @@
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+}
+
+@media (max-width: 899px) {
+  .buttons-container {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .link-button {

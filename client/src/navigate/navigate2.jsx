@@ -1,47 +1,66 @@
 import { Link } from "react-router-dom";
 import "./StyleNavigate.css";
+import { useState } from "react";
+
 export default function Navigate2() {
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+
   return (
     <>
       <div className="ground">
         <footer>
-          <div className="footer-grid">
-            <div>
+          <div className="footer-wrapper">
+            <div className="footer-image">
               <Link to="/CakeChallenge">
                 <img className="li" src="/img/game.jpg" alt="משחק" />
               </Link>
             </div>
-            <div></div>
-            <div className="footer-column">
-              <strong className="footer-title">יצירת קשר</strong>
-              <Link to="/contact">צור קשר</Link>
-              <Link to="/ClubJoin">מועדון</Link>
-            </div>
-            <div className="footer-column">
-              <strong className="footer-title">אודות</strong>
-              <Link to="/about">אודות</Link>
-              <Link to="/articles">תקנון ותנאי שימוש</Link>
-              <Link to="/snifim">סניפים</Link>
-            </div>
-            <div className="footer-column">
-              <strong className="footer-title">הזמנות</strong>
-              <Link to="/order">הזמנות</Link>
-              <Link to="/buying">סל שלי</Link>
-            </div>
-            <div className="footer-column">
-              <strong className="footer-title">קונדיטוריה</strong>
-              <Link to="/Category">קונדיטוריה</Link>
-              <Link to={`/SubCategory/${1}`}>עוגות חלביות</Link>
-              <Link to={`/SubCategory/${2}`}>עוגות פרווה</Link>
-              <Link to={`/SubCategory/${3}`}>עוגות אירועים</Link>
-              <Link to={`/SubCategory/${5}`}>עוגיות</Link>
-              <Link to={`/SubCategory/${4}`}>מארזים</Link>
-            </div>
-            <div className="footer-column">
-              <strong className="footer-title">חשבון</strong>
-              <Link to="/login">התחברות</Link>
-              <Link to="/">כניסה</Link>
-              <Link to="/manager">מנהל</Link>
+            <div className="footer-grid">
+              <div className="footer-column">
+                <strong className="footer-title" onClick={() => toggleSection('contact')}>יצירת קשר</strong>
+                <div className={`footer-links ${openSection === 'contact' ? 'open' : ''}`}>
+                  <Link to="/contact">צור קשר</Link>
+                  <Link to="/ClubJoin">מועדון</Link>
+                </div>
+              </div>
+              <div className="footer-column">
+                <strong className="footer-title" onClick={() => toggleSection('about')}>אודות</strong>
+                <div className={`footer-links ${openSection === 'about' ? 'open' : ''}`}>
+                  <Link to="/about">אודות</Link>
+                  <Link to="/articles">תקנון ותנאי שימוש</Link>
+                  <Link to="/snifim">סניפים</Link>
+                </div>
+              </div>
+              <div className="footer-column">
+                <strong className="footer-title" onClick={() => toggleSection('orders')}>הזמנות</strong>
+                <div className={`footer-links ${openSection === 'orders' ? 'open' : ''}`}>
+                  <Link to="/order">הזמנות</Link>
+                  <Link to="/buying">סל שלי</Link>
+                </div>
+              </div>
+              <div className="footer-column">
+                <strong className="footer-title" onClick={() => toggleSection('cakes')}>קונדיטוריה</strong>
+                <div className={`footer-links ${openSection === 'cakes' ? 'open' : ''}`}>
+                  <Link to="/Category">קונדיטוריה</Link>
+                  <Link to={`/SubCategory/${1}`}>עוגות חלביות</Link>
+                  <Link to={`/SubCategory/${2}`}>עוגות פרווה</Link>
+                  <Link to={`/SubCategory/${3}`}>עוגות אירועים</Link>
+                  <Link to={`/SubCategory/${5}`}>עוגיות</Link>
+                  <Link to={`/SubCategory/${4}`}>מארזים</Link>
+                </div>
+              </div>
+              <div className="footer-column">
+                <strong className="footer-title" onClick={() => toggleSection('account')}>חשבון</strong>
+                <div className={`footer-links ${openSection === 'account' ? 'open' : ''}`}>
+                  <Link to="/login">התחברות</Link>
+                  <Link to="/">כניסה</Link>
+                  <Link to="/manager">מנהל</Link>
+                </div>
+              </div>
             </div>
           </div>
           <div className="footer-copyright">

@@ -38,8 +38,8 @@ export default function OkOrder() {
   return (
     <>
       <h2 className="main-title">ההזמנה אושרה</h2>
-      <p>בסך: {order.price}</p>
-      <p>בתאריך: {order.orderDate}</p>
+      <p>בסך: {order.price} ש"ח</p>
+      <p>בתאריך: {new Date(order.orderDate).toLocaleDateString('he-IL')}</p>
       <p>תגיע תוך שעתיים ממועד ההזמנה</p>
       <p>בתאבון</p>
       <p>🍰😘🍰</p>

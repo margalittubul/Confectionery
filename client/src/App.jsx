@@ -1,8 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "./Redux/userSlice";
+import { isTokenExpired } from "./utils/tokenUtils";
 import "./App.css";
 
 import Picthur from "./home/Picthur";
 import Buying from "./buying/buying";
+import DeliveryChoice from "./buying/DeliveryChoice";
 import Tashlum from "./buying/tashlum";
 import OkOrder from "./buying/okOrder";
 import About from "./about/about";
@@ -41,6 +46,15 @@ import Profile from "./header/Profile";
 import RequireAdmin from "./maneger/RequireAdmin";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (token && isTokenExpired(token)) {
+      dispatch(logout());
+    }
+  }, [dispatch]);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -48,6 +62,7 @@ function App() {
       children: [
         { path: "/Picthur", element: <Picthur /> },
         { path: "/Buying", element: <Buying /> },
+        { path: "/delivery-choice/:orderId", element: <DeliveryChoice /> },
         { path: "/Tashlum/:orderId", element: <Tashlum /> },
         { path: "/OkOrder/:orderId", element: <OkOrder /> },
         { path: "/About", element: <About /> },

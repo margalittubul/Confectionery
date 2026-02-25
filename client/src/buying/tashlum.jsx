@@ -1,20 +1,21 @@
 import "./css.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderById } from "../API/OrderController.js";
-import { updateOrderStatus } from "../API/OrderController.js";
+import { getOrderById, updateOrderStatus } from "../API/OrderController.js";
 import { clearBuyingCart } from "../API/BuyingController.js";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../Redux/cartSlice.js";
 
 export default function Tashlum() {
   const { orderId } = useParams();
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
+  const [finalPrice, setFinalPrice] = useState(0);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const delivery = useSelector((state) => state.cart.delivery);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -22,27 +23,25 @@ export default function Tashlum() {
         const ord = await getOrderById(orderId);
         if (!ord) throw new Error("Order not found");
         setOrder(ord);
+        
+        const price = delivery === "delivery" ? ord.price + 25 : ord.price;
+        setFinalPrice(price);
       } catch (err) {
         setError(err.message);
       }
     };
 
     fetchOrder();
-  }, [orderId]);
+  }, [orderId, delivery]);
 
   if (error) return <div>שגיאה: {error}</div>;
+  if (!order) return <div>טוען...</div>;
 
   const handleSubmit = async () => {
     try {
-      console.log("מנסה לעדכן סטטוס...");
-      const response = await updateOrderStatus(orderId, "שולם");
-      console.log("הסטטוס עודכן בהצלחה:", response);
-
+      await updateOrderStatus(orderId, "שולם");
       await clearBuyingCart();
-      console.log("הסל רוקן בהצלחה");
-
       dispatch(setCart([]));
-
       navigate(`/OkOrder/${orderId}`);
     } catch (err) {
       console.error("שגיאה במהלך עדכון הסטטוס:", err);
@@ -55,14 +54,16 @@ export default function Tashlum() {
       <div className="payment-container">
         <h2 className="main-title">טופס רכישה מאובטחת</h2>
 
-        <form className="form-grid">
-          <input placeholder="שם מלא *" className="input-style" required />
-          <input placeholder="דוא״ל *" className="input-style" required />
-          <input placeholder="טלפון *" className="input-style" required />
-          <input placeholder="כתובת *" className="input-style" required />
-          <input placeholder="עיר *" className="input-style" required />
-          <input placeholder="מיקוד" className="input-style" />
-        </form>
+        {delivery === "delivery" && (
+          <form className="form-grid">
+            <input placeholder="שם מלא *" className="input-style" required />
+            <input placeholder="דוא״ל *" className="input-style" required />
+            <input placeholder="טלפון *" className="input-style" required />
+            <input placeholder="כתובת *" className="input-style" required />
+            <input placeholder="עיר *" className="input-style" required />
+            <input placeholder="מיקוד" className="input-style" />
+          </form>
+        )}
 
         <h3 className="main-title">פרטי אשראי</h3>
 
@@ -96,7 +97,7 @@ export default function Tashlum() {
         </div>
 
         <div className="total-section">
-          <p>סה&quot;כ לתשלום: ₪ {order.price}</p>
+          <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>
         </div>
 
         <button className="submit-btn" onClick={handleSubmit}>

@@ -19,11 +19,12 @@ import {
 
 import { getProductById } from "../API/ProductsController";
 import { addOrder } from "../API/OrderController";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./css.css";
 
 const Buying = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     items: cartItems,
     productsDetails,
@@ -64,8 +65,6 @@ const Buying = () => {
     return sum + product.price * item.quantity;
   }, 0);
 
-  const total = delivery === "delivery" ? baseTotal + 25 : baseTotal;
-
   const increaseQty = async (productId) => {
     const item = cartItems.find((i) => i.productId === productId);
     if (item) {
@@ -101,20 +100,19 @@ const Buying = () => {
   const handleOrder = async () => {
     const token = localStorage.getItem("userToken");
     if (!token) return alert("משתמש לא מחובר");
-    if (!delivery) return alert("יש לבחור שיטת משלוח");
     if (cartItems.length === 0) return alert("הסל ריק");
 
     const orderData = {
       products: cartItems,
       orderDate: new Date(),
       status: "ממתין",
-      price: total,
+      price: baseTotal,
     };
 
     const result = await addOrder(orderData);
     if (result) {
-      alert("ההזמנה בוצעה בהצלחה!");
       dispatch(setOrderCreated(result));
+      navigate(`/delivery-choice/${result._id}`);
     } else {
       alert("אירעה שגיאה בביצוע ההזמנה");
     }
@@ -162,58 +160,28 @@ const Buying = () => {
 
       <div className="order-summary">
         <h2>סיכום הזמנה</h2>
-        <div className="summary-line">
-          <span>סכום משנה</span>
-          <span>{baseTotal} ש&quot;ח</span>
-        </div>
 
-        <br />
-
-        <p className="estimate-link">הערכת משלוח</p>
-
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="delivery"
-              value="pickup"
-              onChange={() => dispatch(setDelivery("pickup"))}
-              checked={delivery === "pickup"}
-            />
-            איסוף עצמי
-          </label>
-          <br />
-          <label>
-            <input
-              type="radio"
-              name="delivery"
-              value="delivery"
-              onChange={() => dispatch(setDelivery("delivery"))}
-              checked={delivery === "delivery"}
-            />
-            משלוח (+25 ש&quot;ח)
-          </label>
-        </div>
-
-        <br />
         <div className="summary-total">
           <strong>סך הכול</strong>
-          <strong>{total} ש&quot;ח</strong>
+          <strong>{baseTotal} ש&quot;ח</strong>
         </div>
 
         <br />
 
         {orderCreated ? (
-          <Link to={`/tashlum/${orderCreated._id}`}>
-            <button className="checkout-btn">מעבר לתשלום</button>
-          </Link>
+          <button
+            className="checkout-btn"
+            onClick={() => navigate(`/delivery-choice/${orderCreated._id}`)}
+          >
+            המשך להזמנה
+          </button>
         ) : (
           <button
             className="checkout-btn"
             onClick={handleOrder}
-            disabled={!delivery || cartItems.length === 0}
+            disabled={cartItems.length === 0}
           >
-            תשלום
+            המשך
           </button>
         )}
       </div>
