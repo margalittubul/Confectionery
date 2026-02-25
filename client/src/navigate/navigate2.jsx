@@ -1,9 +1,30 @@
 import { Link } from "react-router-dom";
 import "./StyleNavigate.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getCustomerProfile } from "../API/CustomerController";
 
 export default function Navigate2() {
   const [openSection, setOpenSection] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const profile = await getCustomerProfile();
+      setIsAdmin(profile?.role === "admin");
+    };
+    checkAdmin();
+
+    const handleLogin = () => checkAdmin();
+    const handleLogout = () => setIsAdmin(false);
+
+    window.addEventListener("user-logged-in", handleLogin);
+    window.addEventListener("user-logged-out", handleLogout);
+
+    return () => {
+      window.removeEventListener("user-logged-in", handleLogin);
+      window.removeEventListener("user-logged-out", handleLogout);
+    };
+  }, []);
 
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
@@ -58,7 +79,7 @@ export default function Navigate2() {
                 <div className={`footer-links ${openSection === 'account' ? 'open' : ''}`}>
                   <Link to="/login">התחברות</Link>
                   <Link to="/">כניסה</Link>
-                  <Link to="/manager">מנהל</Link>
+                  {isAdmin && <Link to="/manager">מנהל</Link>}
                 </div>
               </div>
             </div>

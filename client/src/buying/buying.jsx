@@ -100,7 +100,10 @@ const Buying = () => {
   const handleOrder = async () => {
     const token = localStorage.getItem("userToken");
     if (!token) return alert("משתמש לא מחובר");
-    if (cartItems.length === 0) return alert("הסל ריק");
+    if (cartItems.length === 0) {
+      alert("הסל ריק - אין מוצרים להזמנה");
+      return;
+    }
 
     const orderData = {
       products: cartItems,
