@@ -36,7 +36,7 @@ const CustomerSchema = mongoose.Schema({
   },
   birthday_discount_used_year: {
     type: Number,
-    default: null,
+    default: 0,
   },
 });
 export default mongoose.model("Customer", CustomerSchema, "Users");

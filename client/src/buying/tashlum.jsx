@@ -90,14 +90,19 @@ export default function Tashlum() {
 
   const handleSubmit = async () => {
     try {
+      console.log("Payment - hasDiscount:", hasDiscount, "hasBirthdayDiscount:", hasBirthdayDiscount);
+      
       await updateOrderPrice(orderId, finalPrice);
       
       if (hasDiscount) {
+        console.log("Marking first purchase...");
         await markFirstPurchaseUsed();
       }
       
       if (hasBirthdayDiscount) {
-        await markBirthdayDiscountUsed();
+        console.log("Marking birthday discount...");
+        const result = await markBirthdayDiscountUsed();
+        console.log("Birthday discount result:", result);
       }
       
       await updateOrderStatus(orderId, "שולם");
