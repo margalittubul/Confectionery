@@ -6,7 +6,7 @@ import { clearBuyingCart } from "../API/BuyingController.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../Redux/cartSlice.js";
-import { getCustomerProfile, markFirstPurchaseUsed } from "../API/CustomerController.js";
+import { getCustomerProfile, markFirstPurchaseUsed, markBirthdayDiscountUsed } from "../API/CustomerController.js";
 import { Alert } from "@mui/material";
 
 export default function Tashlum() {
@@ -16,6 +16,7 @@ export default function Tashlum() {
   const [finalPrice, setFinalPrice] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
   const [hasDiscount, setHasDiscount] = useState(false);
+  const [hasBirthdayDiscount, setHasBirthdayDiscount] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function Tashlum() {
     setFinalPrice(0);
     setOriginalPrice(0);
     setHasDiscount(false);
+    setHasBirthdayDiscount(false);
     setUserProfile(null);
     
     const fetchOrder = async () => {
@@ -39,19 +41,37 @@ export default function Tashlum() {
         const profile = await getCustomerProfile();
         setUserProfile(profile);
         
-        // חישוב מחיר עם משלוח אם רלוונטי
         let price = ord.price;
         if (delivery === "delivery") {
           price += 25;
         }
         setOriginalPrice(price);
         
-        // בדיקת הנחת מועדון
+        // בדיקת הנחת מועדון 10%
         if (profile && profile.is_club_member && !profile.first_club_purchase_used) {
           setHasDiscount(true);
           price = price * 0.9;
         } else {
           setHasDiscount(false);
+        }
+        
+        // בדיקת יום הולדת - 25 שקל הנחה (שבוע מיום ההולדת)
+        if (profile && profile.birth_date) {
+          const today = new Date();
+          const birthDate = new Date(profile.birth_date);
+          const currentYear = today.getFullYear();
+          
+          const birthdayThisYear = new Date(currentYear, birthDate.getMonth(), birthDate.getDate());
+          const weekAfterBirthday = new Date(birthdayThisYear);
+          weekAfterBirthday.setDate(weekAfterBirthday.getDate() + 7);
+          
+          const isInBirthdayWeek = today >= birthdayThisYear && today <= weekAfterBirthday;
+          const usedThisYear = profile.birthday_discount_used_year === currentYear;
+          
+          if (isInBirthdayWeek && !usedThisYear) {
+            setHasBirthdayDiscount(true);
+            price = Math.max(0, price - 25);
+          }
         }
         
         setFinalPrice(price);
@@ -70,12 +90,14 @@ export default function Tashlum() {
 
   const handleSubmit = async () => {
     try {
-      // עדכון מחיר ההזמנה למחיר הסופי (עם משלוח והנחה)
       await updateOrderPrice(orderId, finalPrice);
       
-      // אם היתה הנחה, סמן שימוש
       if (hasDiscount) {
         await markFirstPurchaseUsed();
+      }
+      
+      if (hasBirthdayDiscount) {
+        await markBirthdayDiscountUsed();
       }
       
       await updateOrderStatus(orderId, "שולם");
@@ -125,10 +147,12 @@ export default function Tashlum() {
         </div>
 
         <div className="total-section">
-          {hasDiscount && (
+          {(hasDiscount || hasBirthdayDiscount) && (
             <>
               <Alert severity="success" sx={{ mb: 2 }}>
-                🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה
+                {hasDiscount && "🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה"}
+                {hasDiscount && hasBirthdayDiscount && <br />}
+                {hasBirthdayDiscount && "🎂 יום הולדת שמח! 25₪ הנחה"}
               </Alert>
               <p style={{ textDecoration: 'line-through', color: '#999' }}>
                 מחיר לפני הנחה: ₪ {originalPrice.toFixed(2)}
@@ -138,7 +162,7 @@ export default function Tashlum() {
               </p>
             </>
           )}
-          {!hasDiscount && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
+          {!hasDiscount && !hasBirthdayDiscount && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
         </div>
 
         <button className="submit-btn" onClick={handleSubmit}>

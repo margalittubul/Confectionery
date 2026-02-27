@@ -197,3 +197,25 @@ export const markFirstPurchaseUsed = async () => {
     return null;
   }
 };
+
+export const markBirthdayDiscountUsed = async () => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const response = await fetch(`${API_URL}/mark-birthday-discount`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error("Failed to mark birthday discount");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error marking birthday discount:", error);
+    return null;
+  }
+};

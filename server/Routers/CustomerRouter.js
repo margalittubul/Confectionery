@@ -10,6 +10,7 @@ customerRouter.get("/by-email", authMiddleware, roleMiddleware('admin'), Custome
 customerRouter.post("/", CustomerController.add);
 customerRouter.put("/join-club", authMiddleware, CustomerController.joinClub);
 customerRouter.put("/mark-first-purchase", authMiddleware, CustomerController.markFirstPurchaseUsed);
+customerRouter.put("/mark-birthday-discount", authMiddleware, CustomerController.markBirthdayDiscountUsed);
 customerRouter.put("/:id", authMiddleware, CustomerController.update);
 customerRouter.get("/:id", authMiddleware, CustomerController.getById);
 customerRouter.post('/login', CustomerController.login);

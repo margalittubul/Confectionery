@@ -144,6 +144,26 @@ const CustomerController = {
       res.status(400).json({ message: e.message });
     }
   },
+  markBirthdayDiscountUsed: async (req, res) => {
+    try {
+      console.log("Marking birthday discount for user:", req.user.id);
+      const currentYear = new Date().getFullYear();
+      console.log("Current year:", currentYear);
+      const user = await Customer.findByIdAndUpdate(
+        req.user.id,
+        { birthday_discount_used_year: currentYear },
+        { new: true }
+      );
+      if (!user) {
+        return res.status(404).json({ message: "משתמש לא נמצא" });
+      }
+      console.log("Updated birthday_discount_used_year:", user.birthday_discount_used_year);
+      res.json(user);
+    } catch (e) {
+      console.error("Error marking birthday discount:", e);
+      res.status(400).json({ message: e.message });
+    }
+  },
 };
 
 export default CustomerController;

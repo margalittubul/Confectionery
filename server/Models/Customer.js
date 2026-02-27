@@ -34,5 +34,9 @@ const CustomerSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  birthday_discount_used_year: {
+    type: Number,
+    default: null,
+  },
 });
 export default mongoose.model("Customer", CustomerSchema, "Users");
