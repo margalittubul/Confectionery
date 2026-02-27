@@ -1,30 +1,63 @@
 import "./css.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderById, updateOrderStatus } from "../API/OrderController.js";
+import { getOrderById, updateOrderStatus, updateOrderPrice } from "../API/OrderController.js";
 import { clearBuyingCart } from "../API/BuyingController.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../Redux/cartSlice.js";
+import { getCustomerProfile, markFirstPurchaseUsed } from "../API/CustomerController.js";
+import { Alert } from "@mui/material";
 
 export default function Tashlum() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
   const [finalPrice, setFinalPrice] = useState(0);
+  const [originalPrice, setOriginalPrice] = useState(0);
+  const [hasDiscount, setHasDiscount] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const delivery = useSelector((state) => state.cart.delivery);
 
   useEffect(() => {
+    // איפוס state בכל פעם שמשתנה orderId
+    setOrder(null);
+    setError(null);
+    setFinalPrice(0);
+    setOriginalPrice(0);
+    setHasDiscount(false);
+    setUserProfile(null);
+    
     const fetchOrder = async () => {
       try {
+        console.log("Fetching order:", orderId);
         const ord = await getOrderById(orderId);
         if (!ord) throw new Error("Order not found");
+        console.log("Order data:", ord);
         setOrder(ord);
         
-        const price = delivery === "delivery" ? ord.price + 25 : ord.price;
+        let price = delivery === "delivery" ? ord.price + 25 : ord.price;
+        console.log("Calculated price:", price);
+        setOriginalPrice(price);
+        
+        // בדיקה אם זכאי להנחת מועדון - תמיד שולף מחדש
+        const profile = await getCustomerProfile();
+        console.log("User profile:", profile);
+        setUserProfile(profile);
+        
+        if (profile && profile.is_club_member && !profile.first_club_purchase_used) {
+          console.log("זכאי להנחה!");
+          setHasDiscount(true);
+          price = price * 0.9; // הנחה של 10%
+        } else {
+          console.log("לא זכאי להנחה");
+          setHasDiscount(false);
+        }
+        
+        console.log("Final price:", price);
         setFinalPrice(price);
       } catch (err) {
         setError(err.message);
@@ -39,6 +72,17 @@ export default function Tashlum() {
 
   const handleSubmit = async () => {
     try {
+      console.log("Starting payment process, hasDiscount:", hasDiscount);
+      
+      // אם היתה הנחה, עדכן מחיר וסמן שימוש
+      if (hasDiscount) {
+        console.log("Updating order price to:", finalPrice);
+        await updateOrderPrice(orderId, finalPrice);
+        
+        console.log("Marking first purchase as used...");
+        await markFirstPurchaseUsed();
+      }
+      
       await updateOrderStatus(orderId, "שולם");
       await clearBuyingCart();
       dispatch(setCart([]));
@@ -53,17 +97,6 @@ export default function Tashlum() {
     <>
       <div className="payment-container">
         <h2 className="main-title">טופס רכישה מאובטחת</h2>
-
-        {delivery === "delivery" && (
-          <form className="form-grid">
-            <input placeholder="שם מלא *" className="input-style" required />
-            <input placeholder="דוא״ל *" className="input-style" required />
-            <input placeholder="טלפון *" className="input-style" required />
-            <input placeholder="כתובת *" className="input-style" required />
-            <input placeholder="עיר *" className="input-style" required />
-            <input placeholder="מיקוד" className="input-style" />
-          </form>
-        )}
 
         <h3 className="main-title">פרטי אשראי</h3>
 
@@ -97,7 +130,20 @@ export default function Tashlum() {
         </div>
 
         <div className="total-section">
-          <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>
+          {hasDiscount && (
+            <>
+              <Alert severity="success" sx={{ mb: 2 }}>
+                🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה
+              </Alert>
+              <p style={{ textDecoration: 'line-through', color: '#999' }}>
+                מחיר לפני הנחה: ₪ {originalPrice.toFixed(2)}
+              </p>
+              <p style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#4caf50' }}>
+                מחיר לאחר הנחה: ₪ {finalPrice.toFixed(2)}
+              </p>
+            </>
+          )}
+          {!hasDiscount && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
         </div>
 
         <button className="submit-btn" onClick={handleSubmit}>

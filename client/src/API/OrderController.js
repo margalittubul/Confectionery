@@ -91,3 +91,26 @@ export const advanceOrderStatus = async (orderId) => {
   if (!response.ok) throw new Error("Failed to advance");
   return await response.json();
 };
+
+export const updateOrderPrice = async (orderId, price) => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const response = await fetch(`${API_URL}/${orderId}/price`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ price }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update order price");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating order price:", error);
+    return null;
+  }
+};

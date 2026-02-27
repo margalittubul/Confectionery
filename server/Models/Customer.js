@@ -30,5 +30,9 @@ const CustomerSchema = mongoose.Schema({
     type: Date,
     default: null,
   },
+  first_club_purchase_used: {
+    type: Boolean,
+    default: false,
+  },
 });
 export default mongoose.model("Customer", CustomerSchema, "Users");

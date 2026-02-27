@@ -45,20 +45,16 @@ export default function ClubJoin() {
       return;
     }
 
-    console.log("=== CLIENT: Preparing to join club ===");
-    console.log("1. Day:", day, "Month:", month, "Year:", year);
-    
     const monthIndex = [
       "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
       "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
     ].indexOf(month) + 1;
 
     const birthDate = new Date(year, monthIndex - 1, day);
-    console.log("2. Birth date created:", birthDate);
-    console.log("3. Sending to API...");
+    console.log("Sending birth_date:", birthDate);
 
     const result = await joinClub({ birth_date: birthDate });
-    console.log("4. Result from server:", result);
+    console.log("Result from server:", result);
     if (result && result._id) {
       setSuccess("הצטרפת בהצלחה למועדון!");
       setTimeout(() => navigate("/"), 1500);
@@ -74,6 +70,9 @@ export default function ClubJoin() {
       <div className="club-form">
         <Typography variant="h6">בואו להיות חברים שלנו!</Typography>
         <Typography variant="body1">הירשמו ותיהנו ממגוון הטבות!</Typography>
+        <Alert severity="info" sx={{ mb: 2 }}>
+          🎉 חברי מועדון מקבלים 10% הנחה בקנייה הראשונה!
+        </Alert>
         <form>
           <Typography variant="body2" align="right">
             תאריך יום הולדת:
@@ -130,7 +129,7 @@ export default function ClubJoin() {
               onChange={(e) => setYear(e.target.value)}
               sx={{ width: 150 }}
             >
-              {Array.from({ length: 21 }, (_, i) => 2005 + i).map((y) => (
+              {Array.from({ length: 22 }, (_, i) => 2005 + i).map((y) => (
                 <MenuItem key={y} value={y}>
                   {y}
                 </MenuItem>

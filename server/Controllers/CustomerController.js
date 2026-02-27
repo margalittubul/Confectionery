@@ -106,49 +106,45 @@ const CustomerController = {
   },
   joinClub: async (req, res) => {
     try {
-      console.log("=== JOIN CLUB START ===");
-      console.log("1. User ID from token:", req.user.id);
-      console.log("2. Request body:", req.body);
       const { birth_date } = req.body;
-      console.log("3. Birth date extracted:", birth_date);
+      console.log("Join Club - User ID:", req.user.id);
+      console.log("Join Club - Birth Date:", birth_date);
       
       const existingUser = await Customer.findById(req.user.id);
-      console.log("4. Existing user found:", { 
-        id: existingUser._id, 
-        name: existingUser.name,
-        is_club_member: existingUser.is_club_member,
-        birth_date: existingUser.birth_date 
-      });
-      
       if (existingUser.is_club_member) {
-        console.log("5. User already a member - returning error");
         return res.status(400).json({ message: "כבר רשום למועדון" });
       }
       
-      console.log("5. Updating user with:", { is_club_member: true, birth_date });
       const user = await Customer.findByIdAndUpdate(
         req.user.id,
         { is_club_member: true, birth_date },
         { new: true }
       );
-      
-      console.log("6. User after update:", {
-        id: user._id,
-        name: user.name,
-        is_club_member: user.is_club_member,
-        birth_date: user.birth_date
-      });
-      
+      console.log("Updated User:", user);
       if (!user) {
-        console.log("7. User not found after update");
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
-      
-      console.log("7. Sending response with updated user");
-      console.log("=== JOIN CLUB END ===");
       res.json(user);
     } catch (e) {
       console.error("Join Club Error:", e);
+      res.status(400).json({ message: e.message });
+    }
+  },
+  markFirstPurchaseUsed: async (req, res) => {
+    try {
+      console.log("Marking first purchase as used for user:", req.user.id);
+      const user = await Customer.findByIdAndUpdate(
+        req.user.id,
+        { first_club_purchase_used: true },
+        { new: true }
+      );
+      if (!user) {
+        return res.status(404).json({ message: "משתמש לא נמצא" });
+      }
+      console.log("Updated user first_club_purchase_used:", user.first_club_purchase_used);
+      res.json(user);
+    } catch (e) {
+      console.error("Error marking first purchase:", e);
       res.status(400).json({ message: e.message });
     }
   },

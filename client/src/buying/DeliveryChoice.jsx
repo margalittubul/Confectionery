@@ -14,6 +14,14 @@ export default function DeliveryChoice() {
   const { orderId } = useParams();
   const [deliveryType, setDeliveryType] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
+  const [deliveryDetails, setDeliveryDetails] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    zipCode: ""
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,6 +33,12 @@ export default function DeliveryChoice() {
     if (deliveryType === "pickup" && !selectedBranch) {
       alert("יש לבחור סניף לאיסוף");
       return;
+    }
+    if (deliveryType === "delivery") {
+      if (!deliveryDetails.fullName || !deliveryDetails.phone || !deliveryDetails.address || !deliveryDetails.city) {
+        alert("יש למלא את כל השדות הנדרשים");
+        return;
+      }
     }
 
     dispatch(setDelivery(deliveryType));
@@ -85,6 +99,54 @@ export default function DeliveryChoice() {
               </label>
             ))}
           </div>
+        </div>
+      )}
+
+      {deliveryType === "delivery" && (
+        <div className="delivery-form-container">
+          <h3 className="section-title">פרטי משלוח:</h3>
+          <form className="form-grid">
+            <input 
+              placeholder="שם מלא *" 
+              className="input-style" 
+              value={deliveryDetails.fullName}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, fullName: e.target.value})}
+              required 
+            />
+            <input 
+              placeholder="דוא״ל" 
+              className="input-style" 
+              value={deliveryDetails.email}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, email: e.target.value})}
+            />
+            <input 
+              placeholder="טלפון *" 
+              className="input-style" 
+              value={deliveryDetails.phone}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, phone: e.target.value})}
+              required 
+            />
+            <input 
+              placeholder="כתובת *" 
+              className="input-style" 
+              value={deliveryDetails.address}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, address: e.target.value})}
+              required 
+            />
+            <input 
+              placeholder="עיר *" 
+              className="input-style" 
+              value={deliveryDetails.city}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, city: e.target.value})}
+              required 
+            />
+            <input 
+              placeholder="מיקוד" 
+              className="input-style" 
+              value={deliveryDetails.zipCode}
+              onChange={(e) => setDeliveryDetails({...deliveryDetails, zipCode: e.target.value})}
+            />
+          </form>
         </div>
       )}
 

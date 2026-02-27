@@ -152,11 +152,8 @@ export const getCustomerProfile = async () => {
 
 export const joinClub = async (clubData) => {
   const token = localStorage.getItem("userToken");
-  console.log("=== API: Join Club ===");
-  console.log("1. Token:", token ? "exists" : "missing");
-  console.log("2. Data to send:", clubData);
-  
   try {
+    console.log("Sending to server:", clubData);
     const response = await fetch(`${API_URL}/join-club`, {
       method: "PUT",
       headers: {
@@ -166,19 +163,47 @@ export const joinClub = async (clubData) => {
       body: JSON.stringify(clubData),
     });
 
-    console.log("3. Response status:", response.status);
+    console.log("Response status:", response.status);
     const data = await response.json();
-    console.log("4. Response data:", data);
+    console.log("Response data:", data);
 
     if (!response.ok) {
-      console.error("5. Server error:", data);
+      console.error("Server error:", data);
       return data;
     }
 
-    console.log("5. Success - returning data");
     return data;
   } catch (error) {
     console.error("Error joining club:", error);
+    return null;
+  }
+};
+
+export const markFirstPurchaseUsed = async () => {
+  const token = localStorage.getItem("userToken");
+  try {
+    console.log("Calling markFirstPurchaseUsed API");
+    const response = await fetch(`${API_URL}/mark-first-purchase`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("markFirstPurchaseUsed response status:", response.status);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Server error:", errorData);
+      throw new Error("Failed to mark first purchase");
+    }
+
+    const data = await response.json();
+    console.log("markFirstPurchaseUsed response data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error marking first purchase:", error);
     return null;
   }
 };
