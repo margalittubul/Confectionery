@@ -23,7 +23,6 @@ export default function Tashlum() {
   const delivery = useSelector((state) => state.cart.delivery);
 
   useEffect(() => {
-    // איפוס state בכל פעם שמשתנה orderId
     setOrder(null);
     setError(null);
     setFinalPrice(0);
@@ -33,38 +32,37 @@ export default function Tashlum() {
     
     const fetchOrder = async () => {
       try {
-        console.log("Fetching order:", orderId);
         const ord = await getOrderById(orderId);
         if (!ord) throw new Error("Order not found");
-        console.log("Order data:", ord);
         setOrder(ord);
         
-        let price = delivery === "delivery" ? ord.price + 25 : ord.price;
-        console.log("Calculated price:", price);
-        setOriginalPrice(price);
-        
-        // בדיקה אם זכאי להנחת מועדון - תמיד שולף מחדש
         const profile = await getCustomerProfile();
-        console.log("User profile:", profile);
         setUserProfile(profile);
         
+        // חישוב מחיר עם משלוח אם רלוונטי
+        let price = ord.price;
+        if (delivery === "delivery") {
+          price += 25;
+        }
+        setOriginalPrice(price);
+        
+        // בדיקת הנחת מועדון
         if (profile && profile.is_club_member && !profile.first_club_purchase_used) {
-          console.log("זכאי להנחה!");
           setHasDiscount(true);
-          price = price * 0.9; // הנחה של 10%
+          price = price * 0.9;
         } else {
-          console.log("לא זכאי להנחה");
           setHasDiscount(false);
         }
         
-        console.log("Final price:", price);
         setFinalPrice(price);
       } catch (err) {
         setError(err.message);
       }
     };
 
-    fetchOrder();
+    if (orderId) {
+      fetchOrder();
+    }
   }, [orderId, delivery]);
 
   if (error) return <div>שגיאה: {error}</div>;
@@ -72,14 +70,11 @@ export default function Tashlum() {
 
   const handleSubmit = async () => {
     try {
-      console.log("Starting payment process, hasDiscount:", hasDiscount);
+      // עדכון מחיר ההזמנה למחיר הסופי (עם משלוח והנחה)
+      await updateOrderPrice(orderId, finalPrice);
       
-      // אם היתה הנחה, עדכן מחיר וסמן שימוש
+      // אם היתה הנחה, סמן שימוש
       if (hasDiscount) {
-        console.log("Updating order price to:", finalPrice);
-        await updateOrderPrice(orderId, finalPrice);
-        
-        console.log("Marking first purchase as used...");
         await markFirstPurchaseUsed();
       }
       

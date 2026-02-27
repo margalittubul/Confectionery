@@ -56,6 +56,7 @@ const Buying = () => {
   };
 
   useEffect(() => {
+    dispatch(setOrderCreated(null));
     fetchCartAndProducts();
   }, []);
 

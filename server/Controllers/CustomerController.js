@@ -107,8 +107,6 @@ const CustomerController = {
   joinClub: async (req, res) => {
     try {
       const { birth_date } = req.body;
-      console.log("Join Club - User ID:", req.user.id);
-      console.log("Join Club - Birth Date:", birth_date);
       
       const existingUser = await Customer.findById(req.user.id);
       if (existingUser.is_club_member) {
@@ -120,7 +118,7 @@ const CustomerController = {
         { is_club_member: true, birth_date },
         { new: true }
       );
-      console.log("Updated User:", user);
+      
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
@@ -132,7 +130,6 @@ const CustomerController = {
   },
   markFirstPurchaseUsed: async (req, res) => {
     try {
-      console.log("Marking first purchase as used for user:", req.user.id);
       const user = await Customer.findByIdAndUpdate(
         req.user.id,
         { first_club_purchase_used: true },
@@ -141,7 +138,6 @@ const CustomerController = {
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
-      console.log("Updated user first_club_purchase_used:", user.first_club_purchase_used);
       res.json(user);
     } catch (e) {
       console.error("Error marking first purchase:", e);

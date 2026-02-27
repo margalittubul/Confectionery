@@ -51,10 +51,8 @@ export default function ClubJoin() {
     ].indexOf(month) + 1;
 
     const birthDate = new Date(year, monthIndex - 1, day);
-    console.log("Sending birth_date:", birthDate);
 
     const result = await joinClub({ birth_date: birthDate });
-    console.log("Result from server:", result);
     if (result && result._id) {
       setSuccess("הצטרפת בהצלחה למועדון!");
       setTimeout(() => navigate("/"), 1500);
