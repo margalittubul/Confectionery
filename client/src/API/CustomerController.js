@@ -220,6 +220,7 @@ export const markBirthdayDiscountUsed = async () => {
 
     const data = await response.json();
     console.log("Birthday discount marked:", data);
+    console.log("birthday_discount_used_year value:", data.birthday_discount_used_year);
     return data;
   } catch (error) {
     console.error("Error marking birthday discount:", error);
