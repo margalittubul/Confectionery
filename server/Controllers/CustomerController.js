@@ -146,19 +146,17 @@ const CustomerController = {
   },
   markBirthdayDiscountUsed: async (req, res) => {
     try {
-      console.log("Marking birthday discount for user:", req.user.id);
       const currentYear = new Date().getFullYear();
-      console.log("Current year:", currentYear);
       
-      const user = await Customer.findById(req.user.id);
+      const user = await Customer.findByIdAndUpdate(
+        req.user.id,
+        { $set: { birthday_discount_used_year: currentYear } },
+        { new: true, runValidators: false }
+      );
+      
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
-      
-      console.log("Before update:", user.birthday_discount_used_year);
-      user.birthday_discount_used_year = currentYear;
-      await user.save();
-      console.log("After update:", user.birthday_discount_used_year);
       
       res.json(user);
     } catch (e) {

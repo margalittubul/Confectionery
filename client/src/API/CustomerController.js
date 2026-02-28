@@ -201,7 +201,6 @@ export const markFirstPurchaseUsed = async () => {
 export const markBirthdayDiscountUsed = async () => {
   const token = localStorage.getItem("userToken");
   try {
-    console.log("Calling markBirthdayDiscountUsed API");
     const response = await fetch(`${API_URL}/mark-birthday-discount`, {
       method: "PUT",
       headers: {
@@ -210,18 +209,12 @@ export const markBirthdayDiscountUsed = async () => {
       },
     });
     
-    console.log("Response status:", response.status);
-    
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Server error:", errorData);
       throw new Error("Failed to mark birthday discount");
     }
 
-    const data = await response.json();
-    console.log("Birthday discount marked:", data);
-    console.log("birthday_discount_used_year value:", data.birthday_discount_used_year);
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error marking birthday discount:", error);
     return null;
