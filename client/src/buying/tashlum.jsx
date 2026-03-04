@@ -17,6 +17,7 @@ export default function Tashlum() {
   const [originalPrice, setOriginalPrice] = useState(0);
   const [hasDiscount, setHasDiscount] = useState(false);
   const [hasBirthdayDiscount, setHasBirthdayDiscount] = useState(false);
+  const [useBirthdayDiscount, setUseBirthdayDiscount] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export default function Tashlum() {
     setOriginalPrice(0);
     setHasDiscount(false);
     setHasBirthdayDiscount(false);
+    setUseBirthdayDiscount(false);
     setUserProfile(null);
     
     const fetchOrder = async () => {
@@ -45,17 +47,12 @@ export default function Tashlum() {
         if (delivery === "delivery") {
           price += 25;
         }
-        setOriginalPrice(price);
         
-        // בדיקת הנחת מועדון 10%
         if (profile && profile.is_club_member && !profile.first_club_purchase_used) {
           setHasDiscount(true);
           price = price * 0.9;
-        } else {
-          setHasDiscount(false);
         }
         
-        // בדיקת יום הולדת - 25 שקל הנחה (שבוע מיום ההולדת)
         if (profile && profile.birth_date) {
           const today = new Date();
           const birthDate = new Date(profile.birth_date);
@@ -70,10 +67,10 @@ export default function Tashlum() {
           
           if (isInBirthdayWeek && !usedThisYear) {
             setHasBirthdayDiscount(true);
-            price = Math.max(0, price - 25);
           }
         }
         
+        setOriginalPrice(price);
         setFinalPrice(price);
       } catch (err) {
         setError(err.message);
@@ -84,6 +81,14 @@ export default function Tashlum() {
       fetchOrder();
     }
   }, [orderId, delivery]);
+
+  useEffect(() => {
+    if (useBirthdayDiscount && hasBirthdayDiscount) {
+      setFinalPrice(Math.max(0, originalPrice - 25));
+    } else {
+      setFinalPrice(originalPrice);
+    }
+  }, [useBirthdayDiscount, hasBirthdayDiscount, originalPrice]);
 
   if (error) return <div>שגיאה: {error}</div>;
   if (!order) return <div>טוען...</div>;
@@ -96,7 +101,7 @@ export default function Tashlum() {
         await markFirstPurchaseUsed();
       }
       
-      if (hasBirthdayDiscount) {
+      if (useBirthdayDiscount && hasBirthdayDiscount) {
         await markBirthdayDiscountUsed();
       }
       
@@ -145,14 +150,25 @@ export default function Tashlum() {
             ))}
           </select>
         </div>
-
+        <br/>
         <div className="total-section">
-          {(hasDiscount || hasBirthdayDiscount) && (
+          {hasBirthdayDiscount && (
+            <label className="birthday-checkbox">
+              <input 
+                type="checkbox" 
+                checked={useBirthdayDiscount}
+                onChange={(e) => setUseBirthdayDiscount(e.target.checked)}
+              />
+              <span>🎂 השתמש בהנחת יום הולדת (25₪)</span>
+            </label>
+          )}
+          
+          {(hasDiscount || (hasBirthdayDiscount && useBirthdayDiscount)) && (
             <>
               <Alert severity="success" sx={{ mb: 2 }}>
                 {hasDiscount && "🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה"}
-                {hasDiscount && hasBirthdayDiscount && <br />}
-                {hasBirthdayDiscount && "🎂 יום הולדת שמח! 25₪ הנחה"}
+                {hasDiscount && useBirthdayDiscount && <br />}
+                {useBirthdayDiscount && "🎂 יום הולדת שמח! 25₪ הנחה"}
               </Alert>
               <p style={{ textDecoration: 'line-through', color: '#999' }}>
                 מחיר לפני הנחה: ₪ {originalPrice.toFixed(2)}
@@ -162,7 +178,7 @@ export default function Tashlum() {
               </p>
             </>
           )}
-          {!hasDiscount && !hasBirthdayDiscount && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
+          {!hasDiscount && !(hasBirthdayDiscount && useBirthdayDiscount) && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
         </div>
 
         <button className="submit-btn" onClick={handleSubmit}>
