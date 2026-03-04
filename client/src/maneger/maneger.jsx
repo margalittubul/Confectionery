@@ -10,7 +10,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { ShoppingCart, PersonSearch, AddCircle, Category, List } from "@mui/icons-material";
+import { ShoppingCart, PersonSearch, AddCircle, Category, List, LocalOffer } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCustomerByEmail } from "../API/CustomerController";
 
@@ -55,6 +55,11 @@ export default function Manager() {
       label: "ניהול משתמשים",
       icon: <PersonSearch fontSize="large" />,
       click: () => navigate("/UsersManagement"),
+    },
+    {
+      label: "ניהול קופונים",
+      icon: <LocalOffer fontSize="large" />,
+      click: () => navigate("/ManageCoupons"),
     },
   ];
 

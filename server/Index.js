@@ -8,6 +8,7 @@ import categoryRouter from "./Routers/CategoryRouter.js";
 import customerRouter from "./Routers/CustomerRouter.js";
 import buyingRouter from "./Routers/BuyingRouter.js";
 import orderRouter from "./Routers/OrderRouter.js";
+import couponRouter from "./Routers/CouponRouter.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -46,6 +47,7 @@ app.use("/categories", categoryRouter);
 app.use("/customer", customerRouter);
 app.use("/buying", buyingRouter);
 app.use("/order", orderRouter);
+app.use("/coupons", couponRouter);
 
 const reactBuildPath = path.join(__dirname, "client/dist");
 if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
