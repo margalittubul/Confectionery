@@ -1,4 +1,6 @@
 import Order from "../Models/Order.js";
+import Customer from "../Models/Customer.js";
+import { sendOrderStatusEmail } from "../EmailService.js";
 const OrderController = {
   getList: async (req, res) => {
     try {
@@ -91,6 +93,21 @@ const OrderController = {
         { new: true },
       );
       if (!updated) return res.status(404).json({ message: "Order not found" });
+      
+      const customer = await Customer.findById(updated.customerId);
+      if (customer?.email) {
+        try {
+          await sendOrderStatusEmail(customer.email, {
+            orderId: updated._id,
+            status: updated.status,
+            orderDate: updated.orderDate,
+            price: updated.price,
+          });
+        } catch (emailErr) {
+          console.error("Failed to send email:", emailErr.message);
+        }
+      }
+      
       res.json(updated);
     } catch (err) {
       res.status(500).json({ message: "Server error" });
@@ -110,6 +127,21 @@ const OrderController = {
       
       order.status = newStatus;
       await order.save();
+      
+      const customer = await Customer.findById(order.customerId);
+      if (customer?.email) {
+        try {
+          await sendOrderStatusEmail(customer.email, {
+            orderId: order._id,
+            status: order.status,
+            orderDate: order.orderDate,
+            price: order.price,
+          });
+        } catch (emailErr) {
+          console.error("Failed to send email:", emailErr.message);
+        }
+      }
+      
       res.json(order);
     } catch (err) {
       res.status(500).json({ message: "Server error" });
