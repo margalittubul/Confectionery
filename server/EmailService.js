@@ -6,9 +6,13 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  connectionTimeout: 5000,
+  greetingTimeout: 5000,
 });
 
 export const sendOrderStatusEmail = async (customerEmail, orderData) => {
+  console.log("EmailService: Preparing to send email to", customerEmail);
+  
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: customerEmail,
@@ -27,5 +31,7 @@ export const sendOrderStatusEmail = async (customerEmail, orderData) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  const result = await transporter.sendMail(mailOptions);
+  console.log("EmailService: Email sent successfully", result.messageId);
+  return result;
 };

@@ -73,6 +73,8 @@ const OrderController = {
     const { id } = req.params;
     const { status } = req.body;
 
+    console.log("Updating order status:", { id, status });
+
     if (
       ![
         "הוזמן",
@@ -94,22 +96,25 @@ const OrderController = {
       );
       if (!updated) return res.status(404).json({ message: "Order not found" });
       
+      console.log("Order updated successfully");
+      
       const customer = await Customer.findById(updated.customerId);
+      console.log("Customer found:", customer?.email);
+      
       if (customer?.email) {
-        try {
-          await sendOrderStatusEmail(customer.email, {
-            orderId: updated._id,
-            status: updated.status,
-            orderDate: updated.orderDate,
-            price: updated.price,
-          });
-        } catch (emailErr) {
-          console.error("Failed to send email:", emailErr.message);
-        }
+        sendOrderStatusEmail(customer.email, {
+          orderId: updated._id,
+          status: updated.status,
+          orderDate: updated.orderDate,
+          price: updated.price,
+        }).catch(emailErr => {
+          console.error("Failed to send email:", emailErr);
+        });
       }
       
       res.json(updated);
     } catch (err) {
+      console.error("Error in updateOrderStatus:", err);
       res.status(500).json({ message: "Server error" });
     }
   },
@@ -130,16 +135,14 @@ const OrderController = {
       
       const customer = await Customer.findById(order.customerId);
       if (customer?.email) {
-        try {
-          await sendOrderStatusEmail(customer.email, {
-            orderId: order._id,
-            status: order.status,
-            orderDate: order.orderDate,
-            price: order.price,
-          });
-        } catch (emailErr) {
-          console.error("Failed to send email:", emailErr.message);
-        }
+        sendOrderStatusEmail(customer.email, {
+          orderId: order._id,
+          status: order.status,
+          orderDate: order.orderDate,
+          price: order.price,
+        }).catch(emailErr => {
+          console.error("Failed to send email:", emailErr);
+        });
       }
       
       res.json(order);
