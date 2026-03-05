@@ -29,10 +29,13 @@ export default function Order() {
 
   const handleAdvance = async (orderId) => {
     try {
-      await advanceOrderStatus(orderId);
-      dispatch(fetchOrders());
-    } catch {
-      alert("שגיאה");
+      const updated = await advanceOrderStatus(orderId);
+      if (updated) {
+        await dispatch(fetchOrders());
+      }
+    } catch (err) {
+      console.error(err);
+      alert("שגיאה בעדכון הסטטוס");
     }
   };
 
