@@ -1,4 +1,8 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
+
+// Force IPv4
+dns.setDefaultResultOrder('ipv4first');
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -11,6 +15,7 @@ const transporter = nodemailer.createTransport({
   connectionTimeout: 10000,
   greetingTimeout: 10000,
   socketTimeout: 10000,
+  family: 4,
 });
 
 export const sendOrderStatusEmail = async (customerEmail, orderData) => {
