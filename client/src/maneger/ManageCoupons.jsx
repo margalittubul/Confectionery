@@ -231,6 +231,7 @@ export default function ManageCoupons() {
               <thead>
                 <tr style={{ backgroundColor: "#fff9e6", color: "#333" }}>
                   <th style={{ padding: "12px", textAlign: "right", border: "1px solid #f0e6d2", fontWeight: "600" }}>קוד</th>
+                  <th style={{ padding: "12px", textAlign: "right", border: "1px solid #f0e6d2", fontWeight: "600" }}>תיאור</th>
                   <th style={{ padding: "12px", textAlign: "right", border: "1px solid #f0e6d2", fontWeight: "600" }}>הנחה</th>
                   <th style={{ padding: "12px", textAlign: "right", border: "1px solid #f0e6d2", fontWeight: "600" }}>תוקף</th>
                   <th style={{ padding: "12px", textAlign: "right", border: "1px solid #f0e6d2", fontWeight: "600" }}>קטגוריה</th>
@@ -243,6 +244,9 @@ export default function ManageCoupons() {
                 {coupons.map((coupon, index) => (
                   <tr key={coupon._id} style={{ backgroundColor: index % 2 === 0 ? "#fff" : "#fffef9" }}>
                     <td style={{ padding: "10px", textAlign: "right", border: "1px solid #f0e6d2" }}>{coupon.code}</td>
+                    <td style={{ padding: "10px", textAlign: "right", border: "1px solid #f0e6d2", maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {coupon.description || "-"}
+                    </td>
                     <td style={{ padding: "10px", textAlign: "right", border: "1px solid #f0e6d2" }}>
                       {coupon.discountType === "fixed" ? `${coupon.discountValue}₪` : `${coupon.discountValue}%`}
                     </td>
