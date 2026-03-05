@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams, Link } from "react-router-dom";
-import { fetchOrders } from "../Redux/ordersSlice";
+import { fetchOrders, updateOrderInList } from "../Redux/ordersSlice";
 import { advanceOrderStatus } from "../API/OrderController";
 import "./order.css";
 
@@ -31,7 +31,7 @@ export default function Order() {
     try {
       const updated = await advanceOrderStatus(orderId);
       if (updated) {
-        await dispatch(fetchOrders());
+        dispatch(updateOrderInList(updated));
       }
     } catch (err) {
       console.error(err);

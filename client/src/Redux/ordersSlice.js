@@ -22,6 +22,14 @@ const ordersSlice = createSlice({
     loading: false,
     error: null,
   },
+  reducers: {
+    updateOrderInList: (state, action) => {
+      const index = state.list.findIndex(order => order._id === action.payload._id);
+      if (index !== -1) {
+        state.list[index] = action.payload;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrders.pending, (state) => {
@@ -51,4 +59,5 @@ const ordersSlice = createSlice({
   },
 });
 
+export const { updateOrderInList } = ordersSlice.actions;
 export default ordersSlice.reducer;
