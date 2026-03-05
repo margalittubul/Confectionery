@@ -12,26 +12,33 @@ export default function OkOrder() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchOrder = async () => {
       try {
         const ord = await getOrderById(orderId);
         if (!ord) throw new Error("Failed to fetch user cart");
+        if (!isMounted) return;
+        
         setOrder(ord || []);
 
-        await updateOrderStatus(orderId, "אושרה הזמנה");
+        // שלח מייל רק אם הסטטוס עדיין לא "אושרה הזמנה"
+        if (ord.status !== "אושרה הזמנה") {
+          await updateOrderStatus(orderId, "אושרה הזמנה");
+        }
 
         await clearBuyingCart();
 
         setTimeout(() => {
-          navigate("/Picthur");
+          if (isMounted) navigate("/Picthur");
         }, 4000);
       } catch (err) {
-        setError(err.message);
+        if (isMounted) setError(err.message);
       }
     };
 
     fetchOrder();
-  }, []);
+    return () => { isMounted = false; };
+  }, [orderId, navigate]);
 
   if (error) return <div>שגיאה: {error}</div>;
 

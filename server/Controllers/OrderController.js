@@ -89,32 +89,39 @@ const OrderController = {
     }
 
     try {
-      const updated = await Order.findByIdAndUpdate(
-        id,
-        { status },
-        { new: true },
-      );
-      if (!updated) return res.status(404).json({ message: "Order not found" });
+      const order = await Order.findById(id);
+      if (!order) return res.status(404).json({ message: "Order not found" });
       
-      console.log("Order updated successfully");
+      // בדוק אם הסטטוס באמת השתנה
+      const statusChanged = order.status !== status;
       
-      const customer = await Customer.findById(updated.customerId);
-      console.log("Customer found:", customer?.email);
+      order.status = status;
+      const updated = await order.save();
       
-      if (customer?.email) {
-        console.log("Starting to send email in background...");
-        sendOrderStatusEmail(customer.email, {
-          orderId: updated._id,
-          status: updated.status,
-          orderDate: updated.orderDate,
-          price: updated.price,
-        }).then(() => {
-          console.log("Email sent successfully!");
-        }).catch(emailErr => {
-          console.error("Failed to send email:", emailErr);
-        });
+      console.log("Order updated successfully, status changed:", statusChanged);
+      
+      // שלח מייל רק אם הסטטוס באמת השתנה
+      if (statusChanged) {
+        const customer = await Customer.findById(updated.customerId);
+        console.log("Customer found:", customer?.email);
+        
+        if (customer?.email) {
+          console.log("Starting to send email in background...");
+          sendOrderStatusEmail(customer.email, {
+            orderId: updated._id,
+            status: updated.status,
+            orderDate: updated.orderDate,
+            price: updated.price,
+          }).then(() => {
+            console.log("Email sent successfully!");
+          }).catch(emailErr => {
+            console.error("Failed to send email:", emailErr);
+          });
+        } else {
+          console.log("No customer email found, skipping email");
+        }
       } else {
-        console.log("No customer email found, skipping email");
+        console.log("Status unchanged, skipping email");
       }
       
       res.json(updated);
