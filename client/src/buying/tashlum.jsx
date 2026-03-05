@@ -111,7 +111,11 @@ export default function Tashlum() {
       return;
     }
     
-    const result = await validateCoupon(couponCode, originalPrice);
+    // מצא קטגוריות מהמוצרים בהזמנה
+    const categoryIds = order.products?.map(p => p.product?.category).filter(Boolean) || [];
+    const uniqueCategoryId = categoryIds.length > 0 ? categoryIds[0] : null;
+    
+    const result = await validateCoupon(couponCode, originalPrice, uniqueCategoryId);
     
     if (result.valid) {
       setCouponData(result);

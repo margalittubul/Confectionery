@@ -38,6 +38,7 @@ export default function Picthur() {
   const [activeCoupons, setActiveCoupons] = useState([]);
   const [displayItems, setDisplayItems] = useState([]);
   const [couponPosition, setCouponPosition] = useState(0);
+  const [currentCouponIndex, setCurrentCouponIndex] = useState(0);
   const [showCoupon, setShowCoupon] = useState(false);
 
   useEffect(() => {
@@ -78,6 +79,7 @@ export default function Picthur() {
       if (activeCoupons.length > 0) {
         setShowCoupon(prev => !prev);
         setCouponPosition(Math.floor(Math.random() * 4)); // מיקום אקראי 0-3
+        setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length)); // קופון אקראי
       }
     }, 3000);
 
@@ -113,10 +115,10 @@ export default function Picthur() {
                 boxSizing: 'border-box'
               }}>
               <div style={{ fontSize: '2em', marginBottom: '8px' }}>🎫</div>
-              <div style={{ fontSize: '1.4em', fontWeight: 'bold', marginBottom: '8px' }}>{activeCoupons[0].code}</div>
-              <div style={{ fontSize: '0.9em', marginBottom: '10px', lineHeight: '1.3' }}>{activeCoupons[0].description}</div>
+              <div style={{ fontSize: '1.4em', fontWeight: 'bold', marginBottom: '8px' }}>{activeCoupons[currentCouponIndex].code}</div>
+              <div style={{ fontSize: '0.9em', marginBottom: '10px', lineHeight: '1.3' }}>{activeCoupons[currentCouponIndex].description}</div>
               <div style={{ fontSize: '1.2em', fontWeight: 'bold', backgroundColor: '#f48fb1', color: '#fff', padding: '6px 12px', borderRadius: '15px' }}>
-                {activeCoupons[0].discountType === 'fixed' ? `${activeCoupons[0].discountValue}₪` : `${activeCoupons[0].discountValue}%`} הנחה
+                {activeCoupons[currentCouponIndex].discountType === 'fixed' ? `${activeCoupons[currentCouponIndex].discountValue}₪` : `${activeCoupons[currentCouponIndex].discountValue}%`} הנחה
               </div>
             </div>
           ) : (
