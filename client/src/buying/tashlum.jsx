@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../Redux/cartSlice.js";
 import { getCustomerProfile, markFirstPurchaseUsed, markBirthdayDiscountUsed } from "../API/CustomerController.js";
+import { validateCoupon } from "../API/CouponController.js";
 import { Alert } from "@mui/material";
 
 export default function Tashlum() {
@@ -19,6 +20,10 @@ export default function Tashlum() {
   const [hasBirthdayDiscount, setHasBirthdayDiscount] = useState(false);
   const [useBirthdayDiscount, setUseBirthdayDiscount] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponData, setCouponData] = useState(null);
+  const [couponError, setCouponError] = useState("");
+  const [useCoupon, setUseCoupon] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +38,10 @@ export default function Tashlum() {
     setHasBirthdayDiscount(false);
     setUseBirthdayDiscount(false);
     setUserProfile(null);
+    setCouponCode("");
+    setCouponData(null);
+    setCouponError("");
+    setUseCoupon(false);
     
     const fetchOrder = async () => {
       try {
@@ -83,12 +92,37 @@ export default function Tashlum() {
   }, [orderId, delivery]);
 
   useEffect(() => {
+    let price = originalPrice;
+    
     if (useBirthdayDiscount && hasBirthdayDiscount) {
-      setFinalPrice(Math.max(0, originalPrice - 25));
-    } else {
-      setFinalPrice(originalPrice);
+      price = Math.max(0, price - 25);
     }
-  }, [useBirthdayDiscount, hasBirthdayDiscount, originalPrice]);
+    
+    if (useCoupon && couponData) {
+      price = Math.max(0, price - couponData.discount);
+    }
+    
+    setFinalPrice(price);
+  }, [useBirthdayDiscount, hasBirthdayDiscount, useCoupon, couponData, originalPrice]);
+
+  const handleCheckCoupon = async () => {
+    if (!couponCode.trim()) {
+      setCouponError("יש להזין קוד קופון");
+      return;
+    }
+    
+    const result = await validateCoupon(couponCode, originalPrice);
+    
+    if (result.valid) {
+      setCouponData(result);
+      setCouponError("");
+      setUseCoupon(true);
+    } else {
+      setCouponError(result.message);
+      setCouponData(null);
+      setUseCoupon(false);
+    }
+  };
 
   if (error) return <div>שגיאה: {error}</div>;
   if (!order) return <div>טוען...</div>;
@@ -151,6 +185,44 @@ export default function Tashlum() {
           </select>
         </div>
         <br/>
+        
+        <div className="coupon-section" style={{ marginBottom: "20px", padding: "15px", backgroundColor: "#f9f9f9", borderRadius: "8px" }}>
+          <h3 className="main-title">קוד קופון</h3>
+          <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+            <input
+              placeholder="הזן קוד קופון"
+              className="input-style"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              style={{ flex: 1 }}
+            />
+            <button 
+              onClick={handleCheckCoupon}
+              style={{ padding: "10px 20px", backgroundColor: "#f7b5cd", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+            >
+              בדוק קופון
+            </button>
+          </div>
+          
+          {couponError && (
+            <Alert severity="error" sx={{ mb: 1 }}>{couponError}</Alert>
+          )}
+          
+          {couponData && (
+            <>
+              <Alert severity="success" sx={{ mb: 1 }}>{couponData.message}</Alert>
+              <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                <input 
+                  type="checkbox" 
+                  checked={useCoupon}
+                  onChange={(e) => setUseCoupon(e.target.checked)}
+                />
+                <span>השתמש בקופון זה</span>
+              </label>
+            </>
+          )}
+        </div>
+        
         <div className="total-section">
           {hasBirthdayDiscount && (
             <label className="birthday-checkbox">
@@ -163,12 +235,14 @@ export default function Tashlum() {
             </label>
           )}
           
-          {(hasDiscount || (hasBirthdayDiscount && useBirthdayDiscount)) && (
+          {(hasDiscount || (hasBirthdayDiscount && useBirthdayDiscount) || (useCoupon && couponData)) && (
             <>
               <Alert severity="success" sx={{ mb: 2 }}>
                 {hasDiscount && "🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה"}
-                {hasDiscount && useBirthdayDiscount && <br />}
+                {hasDiscount && (useBirthdayDiscount || useCoupon) && <br />}
                 {useBirthdayDiscount && "🎂 יום הולדת שמח! 25₪ הנחה"}
+                {useBirthdayDiscount && useCoupon && <br />}
+                {useCoupon && couponData && `🎫 ${couponData.message}`}
               </Alert>
               <p style={{ textDecoration: 'line-through', color: '#999' }}>
                 מחיר לפני הנחה: ₪ {originalPrice.toFixed(2)}
@@ -178,7 +252,7 @@ export default function Tashlum() {
               </p>
             </>
           )}
-          {!hasDiscount && !(hasBirthdayDiscount && useBirthdayDiscount) && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
+          {!hasDiscount && !(hasBirthdayDiscount && useBirthdayDiscount) && !useCoupon && <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>}
         </div>
 
         <button className="submit-btn" onClick={handleSubmit}>

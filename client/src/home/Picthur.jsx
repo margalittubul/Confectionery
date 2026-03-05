@@ -24,6 +24,7 @@ import img12 from "/img/39.jpg";
 import img13 from "/img/40.jpg";
 import img14 from "/img/41.jpg";
 import { useState, useEffect } from "react";
+import { getAllCoupons } from "../API/CouponController";
 
 export default function Picthur() {
   const imageSets = [
@@ -34,6 +35,36 @@ export default function Picthur() {
   ];
 
   const [currentIndices, setCurrentIndices] = useState([0, 0, 0, 0]);
+  const [activeCoupons, setActiveCoupons] = useState([]);
+  const [displayItems, setDisplayItems] = useState([]);
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      const coupons = await getAllCoupons();
+      if (coupons) {
+        const now = new Date();
+        const active = coupons.filter(c => 
+          c.isActive && 
+          new Date(c.validFrom) <= now && 
+          new Date(c.validUntil) >= now &&
+          c.description
+        );
+        setActiveCoupons(active);
+      }
+    };
+    fetchCoupons();
+  }, []);
+
+  useEffect(() => {
+    const items = [];
+    imageSets.forEach((set, i) => {
+      items.push({ type: 'image', data: set, index: i });
+    });
+    activeCoupons.forEach((coupon, i) => {
+      items.push({ type: 'coupon', data: coupon, index: i });
+    });
+    setDisplayItems(items);
+  }, [activeCoupons]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -54,13 +85,35 @@ export default function Picthur() {
       <br />
 
       <div className="four-images-gallery">
-        {imageSets.map((set, index) => (
-          <img
-            key={index}
-            src={set[currentIndices[index]]}
-            alt={`gallery-image-${index + 1}`}
-            className={`four-image active-${index}`}
-          />
+        {displayItems.slice(0, 4).map((item, index) => (
+          item.type === 'image' ? (
+            <img
+              key={`img-${index}`}
+              src={item.data[currentIndices[item.index]]}
+              alt={`gallery-image-${index + 1}`}
+              className={`four-image active-${index}`}
+            />
+          ) : (
+            <div key={`coupon-${index}`} className="four-image coupon-card" style={{
+              background: 'linear-gradient(135deg, #f7b5cd 0%, #f48fb1 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '20px',
+              color: '#fff',
+              textAlign: 'center',
+              borderRadius: '10px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+            }}>
+              <div style={{ fontSize: '2.5em', marginBottom: '10px' }}>🎫</div>
+              <div style={{ fontSize: '1.8em', fontWeight: 'bold', marginBottom: '10px' }}>{item.data.code}</div>
+              <div style={{ fontSize: '1.1em', marginBottom: '15px', lineHeight: '1.4' }}>{item.data.description}</div>
+              <div style={{ fontSize: '1.5em', fontWeight: 'bold', backgroundColor: 'rgba(255,255,255,0.3)', padding: '8px 15px', borderRadius: '20px' }}>
+                {item.data.discountType === 'fixed' ? `${item.data.discountValue}₪` : `${item.data.discountValue}%`} הנחה
+              </div>
+            </div>
+          )
         ))}
       </div>
 

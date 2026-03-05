@@ -27,11 +27,12 @@ export const createCoupon = async (couponData) => {
 export const getAllCoupons = async () => {
   const token = localStorage.getItem("userToken");
   try {
-    const response = await fetch(API_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const headers = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    
+    const response = await fetch(API_URL, { headers });
 
     if (!response.ok) {
       throw new Error("Failed to fetch coupons");
