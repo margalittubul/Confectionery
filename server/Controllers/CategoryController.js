@@ -19,6 +19,9 @@ const CategoryController = {
     try {
       const { name, imageUrl, folderName } = req.body;
       
+      const lastCategory = await category.findOne().sort({ id: -1 });
+      const newId = lastCategory ? lastCategory.id + 1 : 1;
+      
       if (folderName) {
         const folderPath = path.join(__dirname, "../../client/public/img", folderName);
         if (!fs.existsSync(folderPath)) {
@@ -26,7 +29,7 @@ const CategoryController = {
         }
       }
       
-      const newCategory = await category.create({ name, imageUrl });
+      const newCategory = await category.create({ id: newId, name, imageUrl });
       res.status(201).json(newCategory);
     } catch (e) {
       res.status(400).json({ message: e.message });

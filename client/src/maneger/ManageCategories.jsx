@@ -38,18 +38,20 @@ export default function ManageCategories() {
     const categoryFolder = folderName || name;
     const formData = new FormData();
     formData.append("image", imageFile);
-    formData.append("categoryFolder", categoryFolder);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("userToken");
+      console.log("Token:", token ? "exists" : "missing");
       const uploadRes = await fetch(`http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      console.log("Status:", uploadRes.status);
       const uploadData = await uploadRes.json();
+      console.log("Response:", uploadData);
       if (!uploadRes.ok) {
-        alert("שגיאה בהעלאת תמונה");
+        alert("שגיאה בהעלאת תמונה: " + (uploadData.message || uploadRes.status));
         return;
       }
 
@@ -59,7 +61,7 @@ export default function ManageCategories() {
         setName("");
         setImageFile(null);
         setFolderName("");
-        loadCategories();
+        await loadCategories();
       } else {
         alert("שגיאה בהוספת קטגוריה");
       }

@@ -78,7 +78,7 @@ export default function EditProduct() {
       formData.append("categoryFolder", categoryFolder);
 
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("userToken");
         const uploadRes = await fetch(`http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },

@@ -9,7 +9,9 @@ const ProductsController = {
 
       if (categoryId) {
         const categoryNum = Number(categoryId);
-
+        if (isNaN(categoryNum)) {
+          return res.json({ products: [] });
+        }
         products = await product.find({ categoryId: categoryNum });
       } else {
         products = await product.find();
