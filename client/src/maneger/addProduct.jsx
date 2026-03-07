@@ -68,7 +68,7 @@ const AddProductForm = () => {
       return;
     }
 
-    const selectedCategory = categories.find(c => (c._id || c.id) == categoryId);
+    const selectedCategory = categories.find(c => c.id == categoryId);
     const categoryFolder = selectedCategory?.name || "other";
       
     const formData = new FormData();
@@ -188,7 +188,7 @@ const AddProductForm = () => {
             onChange={(e) => setCategoryId(e.target.value)}
           >
             {categories.map((cat) => (
-              <MenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
+              <MenuItem key={cat._id || cat.id} value={cat.id}>
                 {cat.name}
               </MenuItem>
             ))}

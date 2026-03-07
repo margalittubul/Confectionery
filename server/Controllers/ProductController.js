@@ -44,7 +44,13 @@ const ProductsController = {
   },
   add: async (req, res) => {
     try {
-      const { id, name, description, price, imageUrl, categoryId } = req.body;
+      let { id, name, description, price, imageUrl, categoryId } = req.body;
+      
+      if (!id) {
+        const lastProduct = await product.findOne().sort({ id: -1 });
+        id = lastProduct ? lastProduct.id + 1 : 1;
+      }
+      
       const newProduct = await product.create({
         id,
         name,

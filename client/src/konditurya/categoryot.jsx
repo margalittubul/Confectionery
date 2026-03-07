@@ -27,7 +27,7 @@ export default function Category() {
 
       {categories.map((categoryItem) => (
         <div key={categoryItem._id} className="category-item">
-          <p>{categoryItem.name} (ID: {categoryItem.id})</p>
+          <p>{categoryItem.name}</p>
           <Link to={`/SubCategory/${categoryItem.id}`}>
             <img
               src={

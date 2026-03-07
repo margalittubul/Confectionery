@@ -19,7 +19,6 @@ export default function SubCategory() {
   } = useSelector((state) => state.products);
 
   useEffect(() => {
-    console.log("Category ID from URL:", numericCategoryId);
     dispatch(fetchProducts(numericCategoryId));
   }, [dispatch, numericCategoryId]);
 
@@ -34,8 +33,6 @@ export default function SubCategory() {
 
   if (loading) return <div>טוען מוצרים...</div>;
   if (error) return <div>שגיאה: {error}</div>;
-
-  console.log("Products:", products.length);
 
   return (
     <>
