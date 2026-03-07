@@ -9,7 +9,7 @@ function SearchResults({ cakes }) {
           <Link to={`/cake/${cake.id}`} key={cake.id}>
             <div className="cake-item">
               <img
-                src={cake.imageUrl}
+                src={cake.imageUrl ? `/${cake.imageUrl}` : "/img/default.jpg"}
                 alt={cake.name}
                 className="animated-image"
               />
