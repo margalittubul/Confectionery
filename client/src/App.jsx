@@ -25,6 +25,7 @@ import Serch from "./serch/serch";
 import ClubJoin from "./navigate/ClubJoin";
 import Articles from "./navigate/articles";
 import Snifim from "./navigate/snifim";
+import ActiveCoupons from "./navigate/ActiveCoupons";
 
 import CakeChallenge from "./navigate/CakeChallenge";
 
@@ -87,6 +88,7 @@ function App() {
         { path: "/ClubJoin", element: <ClubJoin /> },
         { path: "/Articles", element: <Articles /> },
         { path: "/Snifim", element: <Snifim /> },
+        { path: "/active-coupons", element: <ActiveCoupons /> },
 
         { path: "/CakeChallenge", element: <CakeChallenge /> },
 

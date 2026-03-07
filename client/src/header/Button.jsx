@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 export default function Button() {
   return (
     <div className="buttons-container">
+      <Link to="/active-coupons" className="link-button">
+        הנחות
+      </Link>
       <Link to="/about" className="link-button">
         אודותינו
       </Link>

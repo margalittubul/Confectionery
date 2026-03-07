@@ -39,7 +39,11 @@ export default function Login() {
 
         localStorage.setItem("userToken", response.token);
 
-        navigate("/Picthur");
+        if (response.role === "admin") {
+          navigate("/manager");
+        } else {
+          navigate("/Picthur");
+        }
 
         window.dispatchEvent(new Event("user-logged-in"));
       } else {

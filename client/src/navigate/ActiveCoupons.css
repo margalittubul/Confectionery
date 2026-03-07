@@ -1,0 +1,76 @@
+.coupons-container {
+  padding: 40px 20px;
+}
+
+.coupons-title {
+  text-align: center;
+  color: #333;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 40px;
+}
+
+.coupons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.coupon-card {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 2px solid #f48fb1;
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.coupon-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.coupon-icon {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.coupon-code {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #c2185b;
+  margin-bottom: 10px;
+}
+
+.coupon-description {
+  font-size: 0.9em;
+  color: #333;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  min-height: 40px;
+}
+
+.coupon-discount {
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: #f48fb1;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 18px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.coupon-min {
+  font-size: 0.85em;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.coupon-valid {
+  font-size: 0.8em;
+  color: #666;
+  font-style: italic;
+}
