@@ -54,11 +54,11 @@ app.use("/coupons", couponRouter);
 const reactBuildPath = path.join(__dirname, "client/dist");
 if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
   app.use(express.static(reactBuildPath));
-  app.get("*", (req, res) => {
+  app.get("/*", (req, res) => {
     res.sendFile(path.join(reactBuildPath, "index.html"));
   });
 } else {
-  app.get("*", (req, res) => {
+  app.get("/*", (req, res) => {
     res.status(404).send("Not Found");
   });
 }
