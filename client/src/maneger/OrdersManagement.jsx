@@ -37,7 +37,7 @@ export default function OrdersManagement() {
     {
       label: "כל ההזמנות",
       icon: <ShoppingCart fontSize="large" />,
-      click: () => navigate("/Order"),
+      click: () => navigate("/AllOrders"),
     },
     {
       label: "הזמנות לפי לקוח",

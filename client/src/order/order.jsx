@@ -1,14 +1,16 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams, Link } from "react-router-dom";
 import { fetchOrders, updateOrderInList } from "../Redux/ordersSlice";
 import { advanceOrderStatus } from "../API/OrderController";
+import { getCustomerProfile } from "../API/CustomerController";
 import "./order.css";
 
 export default function Order() {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const customerId = searchParams.get("customerId");
+  const [myId, setMyId] = useState(null);
 
   const {
     list: allOrders,
@@ -20,12 +22,22 @@ export default function Order() {
 
   useEffect(() => {
     dispatch(fetchOrders());
+    const fetchMyId = async () => {
+      const profile = await getCustomerProfile();
+      if (profile) setMyId(profile._id);
+    };
+    fetchMyId();
   }, [dispatch]);
 
   const myOrder = useMemo(() => {
-    if (!customerId) return allOrders;
-    return allOrders.filter((order) => order.customerId === customerId);
-  }, [allOrders, customerId]);
+    if (customerId) {
+      return allOrders.filter((order) => order.customerId === customerId);
+    }
+    if (myId) {
+      return allOrders.filter((order) => order.customerId === myId);
+    }
+    return [];
+  }, [allOrders, customerId, myId]);
 
   const handleAdvance = async (orderId) => {
     try {

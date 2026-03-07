@@ -46,6 +46,7 @@ import AllUsersPage from "./maneger/AllUsersPage";
 import AddAdmin from "./maneger/AddAdmin";
 import ManageCategories from "./maneger/ManageCategories";
 import ManageCoupons from "./maneger/ManageCoupons";
+import AllOrders from "./maneger/AllOrders";
 
 import Profile from "./header/Profile";
 
@@ -114,6 +115,7 @@ function App() {
         { path: "/AddAdmin", element: <AddAdmin /> },
         { path: "/ManageCategories", element: <ManageCategories /> },
         { path: "/ManageCoupons", element: <ManageCoupons /> },
+        { path: "/AllOrders", element: <AllOrders /> },
 
         { path: "/profile/:username", element: <Profile /> },
       ],
