@@ -57,6 +57,10 @@ if (fs.existsSync(path.join(reactBuildPath, "index.html"))) {
   app.get("*", (req, res) => {
     res.sendFile(path.join(reactBuildPath, "index.html"));
   });
+} else {
+  app.get("*", (req, res) => {
+    res.status(404).send("Not Found");
+  });
 }
 
 app.listen(port, () =>
