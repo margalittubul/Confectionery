@@ -6,6 +6,7 @@ import { upload } from '../uploadConfig.js';
 const categoryRouter = express.Router();
 
 categoryRouter.get("/", CategoryController.getList);
+categoryRouter.get("/:id", CategoryController.getById);
 categoryRouter.post("/", authMiddleware, roleMiddleware('admin'), CategoryController.add);
 categoryRouter.post("/upload", authMiddleware, roleMiddleware('admin'), upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "לא הועלתה תמונה" });

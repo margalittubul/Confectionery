@@ -45,6 +45,7 @@ import EditProductForm from "./maneger/updateProduct";
 import AllUsersPage from "./maneger/AllUsersPage";
 import AddAdmin from "./maneger/AddAdmin";
 import ManageCategories from "./maneger/ManageCategories";
+import EditCategory from "./maneger/updateCategory";
 import ManageCoupons from "./maneger/ManageCoupons";
 import AllOrders from "./maneger/AllOrders";
 
@@ -114,6 +115,7 @@ function App() {
         { path: "/AllUsersPage", element: <AllUsersPage /> },
         { path: "/AddAdmin", element: <AddAdmin /> },
         { path: "/ManageCategories", element: <ManageCategories /> },
+        { path: "/EditCategory/:id", element: <EditCategory /> },
         { path: "/ManageCoupons", element: <ManageCoupons /> },
         { path: "/AllOrders", element: <AllOrders /> },
 

@@ -15,6 +15,15 @@ const CategoryController = {
       res.status(400).json({ message: e.message });
     }
   },
+  getById: async (req, res) => {
+    try {
+      const cat = await category.findById(req.params.id);
+      if (!cat) return res.status(404).json({ message: "Category not found" });
+      res.json(cat);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
   add: async (req, res) => {
     try {
       const { name, imageUrl, folderName } = req.body;

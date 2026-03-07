@@ -8,13 +8,17 @@ import {
   List,
   ListItem,
   ListItemText,
+  IconButton,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 import {
   getAllCategories,
   addCategory,
 } from "../API/CategoryController";
 
 export default function ManageCategories() {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -103,7 +107,11 @@ export default function ManageCategories() {
         </Box>
         <List>
           {categories.map((cat) => (
-            <ListItem key={cat._id}>
+            <ListItem key={cat._id} secondaryAction={
+              <IconButton edge="end" onClick={() => navigate(`/EditCategory/${cat._id}`)}>
+                <EditIcon />
+              </IconButton>
+            }>
               <ListItemText primary={cat.name} secondary={cat.imageUrl} />
             </ListItem>
           ))}
