@@ -42,6 +42,8 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.json());
 
+app.use("/img", express.static(path.join(__dirname, "../client/public/img")));
+
 app.use("/products", productRouter);
 app.use("/categories", categoryRouter);
 app.use("/customer", customerRouter);

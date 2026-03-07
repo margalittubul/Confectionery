@@ -17,7 +17,8 @@ import {
 export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [folderName, setFolderName] = useState("");
 
   useEffect(() => {
     loadCategories();
@@ -29,15 +30,41 @@ export default function ManageCategories() {
   };
 
   const handleAdd = async () => {
-    if (!name.trim()) return;
-    const result = await addCategory({ name, imageUrl });
-    if (result) {
-      alert("קטגוריה נוספה בהצלחה");
-      setName("");
-      setImageUrl("");
-      loadCategories();
-    } else {
-      alert("שגיאה בהוספת קטגוריה");
+    if (!name.trim() || !imageFile) {
+      alert("יש למלא שם ולהעלות תמונה");
+      return;
+    }
+    
+    const categoryFolder = folderName || name;
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("categoryFolder", categoryFolder);
+
+    try {
+      const token = localStorage.getItem("token");
+      const uploadRes = await fetch(`http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok) {
+        alert("שגיאה בהעלאת תמונה");
+        return;
+      }
+
+      const result = await addCategory({ name, imageUrl: uploadData.imageUrl, folderName: categoryFolder });
+      if (result) {
+        alert("קטגוריה נוספה בהצלחה");
+        setName("");
+        setImageFile(null);
+        setFolderName("");
+        loadCategories();
+      } else {
+        alert("שגיאה בהוספת קטגוריה");
+      }
+    } catch {
+      alert("שגיאה בהעלאת תמונה");
     }
   };
 
@@ -57,11 +84,17 @@ export default function ManageCategories() {
           />
           <TextField
             fullWidth
-            label="נתיב תמונה"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            label="שם תיקייה (אופציונלי)"
+            value={folderName}
+            onChange={(e) => setFolderName(e.target.value)}
             color="secondary"
+            helperText="אם לא מוזן, ייוצר לפי שם הקטגוריה"
           />
+          <Button variant="outlined" component="label" color="secondary">
+            בחר תמונה *
+            <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+          </Button>
+          {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
           <Button variant="contained" onClick={handleAdd} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
             הוסף
           </Button>

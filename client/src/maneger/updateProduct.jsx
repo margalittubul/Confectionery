@@ -30,6 +30,7 @@ export default function EditProduct() {
   } = useSelector((state) => state.products);
 
   const [product, setProduct] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -60,35 +61,49 @@ export default function EditProduct() {
     setSaving(true);
     setMessage("");
 
-    if (!product.name) {
-      setMessage("יש להזין שם מוצר");
+    if (!product.name || !product.description || !product.price || !product.categoryId) {
+      setMessage("יש למלא את כל השדות");
       setSaving(false);
       return;
     }
 
-    if (!product.description) {
-      setMessage("יש להזין תיאור");
-      setSaving(false);
-      return;
-    }
+    let finalImageUrl = product.imageUrl;
 
-    if (!product.price || isNaN(product.price) || Number(product.price) <= 0) {
-      setMessage("יש להזין מחיר חוקי");
-      setSaving(false);
-      return;
-    }
+    if (imageFile) {
+      const selectedCategory = categories.find(c => (c._id || c.id) == product.categoryId);
+      const categoryFolder = selectedCategory?.name || "other";
+      
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("categoryFolder", categoryFolder);
 
-    if (!product.categoryId) {
-      setMessage("יש לבחור קטגוריה");
-      setSaving(false);
-      return;
+      try {
+        const token = localStorage.getItem("token");
+        const uploadRes = await fetch(`http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok) {
+          finalImageUrl = uploadData.imageUrl;
+        } else {
+          setMessage("שגיאה בהעלאת תמונה");
+          setSaving(false);
+          return;
+        }
+      } catch {
+        setMessage("שגיאה בהעלאת תמונה");
+        setSaving(false);
+        return;
+      }
     }
 
     const updatedProduct = {
       name: product.name,
       description: product.description,
       price: Number(product.price),
-      imageUrl: product.imageUrl,
+      imageUrl: finalImageUrl,
       categoryId: product.categoryId,
     };
 
@@ -102,11 +117,12 @@ export default function EditProduct() {
 
       if (updateProductAsync.fulfilled.match(resultAction)) {
         setMessage("המוצר עודכן בהצלחה");
+        setImageFile(null);
       } else {
         setMessage("עדכון המוצר נכשל");
       }
     } catch (err) {
-      setMessage("שגיאה בעדכון המוצר", err);
+      setMessage("שגיאה בעדכון המוצר");
     } finally {
       setSaving(false);
     }
@@ -184,14 +200,6 @@ export default function EditProduct() {
         color="secondary"
       />
 
-      <TextField
-        label="תמונה"
-        name="imageUrl"
-        value={product.imageUrl || ""}
-        onChange={handleChange}
-        color="secondary"
-      />
-
       <FormControl required color="secondary">
         <InputLabel>קטגוריה</InputLabel>
         <Select
@@ -207,6 +215,12 @@ export default function EditProduct() {
           ))}
         </Select>
       </FormControl>
+
+      <Button variant="outlined" component="label" color="secondary">
+        העלה תמונה חדשה
+        <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+      </Button>
+      {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
 
       <Button type="submit" variant="contained" disabled={saving} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
         {saving ? "שומר..." : "שמור שינויים"}

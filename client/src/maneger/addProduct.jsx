@@ -30,7 +30,7 @@ const AddProductForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
@@ -62,17 +62,42 @@ const AddProductForm = () => {
       setLoading(false);
       return;
     }
+    if (!imageFile) {
+      setMessage("יש להעלות תמונה");
+      setLoading(false);
+      return;
+    }
 
-    const productData = {
-      ...(id && { id: parseInt(id) }),
-      name,
-      description,
-      price: parseFloat(price),
-      imageUrl,
-      categoryId: parseInt(categoryId),
-    };
+    const selectedCategory = categories.find(c => (c._id || c.id) == categoryId);
+    const categoryFolder = selectedCategory?.name || "other";
+      
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("categoryFolder", categoryFolder);
 
     try {
+      const token = localStorage.getItem("token");
+      const uploadRes = await fetch(`http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok) {
+        setMessage("שגיאה בהעלאת תמונה");
+        setLoading(false);
+        return;
+      }
+      
+      const productData = {
+        ...(id && { id: parseInt(id) }),
+        name,
+        description,
+        price: parseFloat(price),
+        imageUrl: uploadData.imageUrl,
+        categoryId: parseInt(categoryId),
+      };
+
       const resultAction = await dispatch(addProductAsync(productData));
       if (addProductAsync.fulfilled.match(resultAction)) {
         setMessage("המוצר נוסף בהצלחה!");
@@ -80,13 +105,13 @@ const AddProductForm = () => {
         setName("");
         setDescription("");
         setPrice("");
-        setImageUrl("");
+        setImageFile(null);
         setCategoryId("");
       } else {
         setMessage("הוספת המוצר נכשלה, נסי שוב.");
       }
     } catch {
-      setMessage("הוספת המוצר נכשלה, נסי שוב.");
+      setMessage("שגיאה בהעלאת תמונה");
     } finally {
       setLoading(false);
     }
@@ -145,13 +170,6 @@ const AddProductForm = () => {
         color="secondary"
       />
 
-      <TextField
-        label="כתובת תמונה"
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-        color="secondary"
-      />
-
       <FormControl required color="secondary">
         <InputLabel id="category-select-label">קטגוריה</InputLabel>
         {loadingCategories ? (
@@ -177,6 +195,12 @@ const AddProductForm = () => {
           </Select>
         )}
       </FormControl>
+
+      <Button variant="outlined" component="label" color="secondary">
+        בחר תמונה *
+        <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+      </Button>
+      {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
 
       <Button type="submit" variant="contained" disabled={loading} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
         {loading ? "מתווסף..." : "הוסף מוצר"}
