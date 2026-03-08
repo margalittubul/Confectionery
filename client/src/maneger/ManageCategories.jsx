@@ -134,7 +134,7 @@ export default function ManageCategories() {
                 </IconButton>
               }
             >
-              <ListItemText primary={cat.name} secondary={cat.imageUrl} />
+              <ListItemText primary={cat.name} />
             </ListItem>
           ))}
         </List>
