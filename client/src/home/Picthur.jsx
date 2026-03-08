@@ -49,14 +49,20 @@ export default function Picthur() {
       const coupons = await getAllCoupons();
       if (coupons) {
         const now = new Date();
-        const active = coupons.filter(
-          (c) =>
+        now.setHours(0, 0, 0, 0);
+        const active = coupons.filter((c) => {
+          const from = new Date(c.validFrom);
+          const until = new Date(c.validUntil);
+          from.setHours(0, 0, 0, 0);
+          until.setHours(23, 59, 59, 999);
+          return (
             c.isActive &&
-            new Date(c.validFrom) <= now &&
-            new Date(c.validUntil) >= now &&
+            from <= now &&
+            until >= now &&
             c.description &&
-            c.description.trim() !== "",
-        );
+            c.description.trim() !== ""
+          );
+        });
         setActiveCoupons(active);
       }
     };
