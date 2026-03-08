@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, deleteProductAsync } from "../Redux/productsSlice";
 import { fetchCategories } from "../Redux/categoriesSlice";
+import BackButton from "./BackButton";
 
 export default function ProductsList() {
   const navigate = useNavigate();
@@ -83,7 +84,16 @@ export default function ProductsList() {
   }
 
   return (
-    <Box sx={{ p: 4, direction: "rtl", maxWidth: 1400, margin: "0 auto" }}>
+    <Box
+      sx={{
+        p: 4,
+        direction: "rtl",
+        maxWidth: 1400,
+        margin: "0 auto",
+        position: "relative",
+      }}
+    >
+      <BackButton />
       <Paper sx={{ p: 3, bgcolor: "#fff0f5", borderRadius: 3 }}>
         <Typography
           variant="h4"

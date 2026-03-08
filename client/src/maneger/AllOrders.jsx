@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { fetchOrders, updateOrderInList } from "../Redux/ordersSlice";
 import { advanceOrderStatus } from "../API/OrderController";
 import "../order/order.css";
+import BackButton from "./BackButton";
 
 export default function AllOrders() {
   const dispatch = useDispatch();
@@ -34,7 +35,8 @@ export default function AllOrders() {
   if (error) return <div>שגיאה: {error}</div>;
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
+      <BackButton />
       <h2
         style={{ textAlign: "center", marginBottom: "20px", marginTop: "20px" }}
       >

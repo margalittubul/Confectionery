@@ -13,6 +13,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, addCategory } from "../API/CategoryController";
+import BackButton from "./BackButton";
 
 export default function ManageCategories() {
   const navigate = useNavigate();
@@ -81,7 +82,8 @@ export default function ManageCategories() {
   };
 
   return (
-    <Box sx={{ p: 4, direction: "rtl" }}>
+    <Box sx={{ p: 4, direction: "rtl", position: "relative" }}>
+      <BackButton />
       <Paper sx={{ p: 3, maxWidth: 600, mx: "auto" }}>
         <Typography variant="h5" mb={3}>
           ניהול קטגוריות

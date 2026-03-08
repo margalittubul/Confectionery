@@ -18,6 +18,7 @@ import {
 } from "../API/CouponController";
 import { getAllCategories } from "../API/CategoryController";
 import { ConfirmationNumber, List } from "@mui/icons-material";
+import BackButton from "./BackButton";
 
 export default function ManageCoupons() {
   const [coupons, setCoupons] = useState([]);
@@ -126,8 +127,15 @@ export default function ManageCoupons() {
 
   return (
     <Box
-      sx={{ display: "flex", justifyContent: "center", p: 4, direction: "rtl" }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        p: 4,
+        direction: "rtl",
+        position: "relative",
+      }}
     >
+      <BackButton />
       <Paper
         sx={{
           p: 4,

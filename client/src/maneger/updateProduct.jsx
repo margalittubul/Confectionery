@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../Redux/categoriesSlice";
 import { fetchProductById, updateProductAsync } from "../Redux/productsSlice";
+import BackButton from "./BackButton";
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -164,96 +165,99 @@ export default function EditProduct() {
   }
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        maxWidth: 500,
-        mx: "auto",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
-      <Typography variant="h5" textAlign="center">
-        עריכת מוצר
-      </Typography>
-
-      <TextField
-        label="שם"
-        name="name"
-        value={product.name || ""}
-        onChange={handleChange}
-        required
-        color="secondary"
-      />
-
-      <TextField
-        label="תיאור"
-        name="description"
-        value={product.description || ""}
-        onChange={handleChange}
-        multiline
-        rows={3}
-        required
-        color="secondary"
-      />
-
-      <TextField
-        label="מחיר"
-        name="price"
-        type="number"
-        value={product.price || ""}
-        onChange={handleChange}
-        required
-        color="secondary"
-      />
-
-      <FormControl required color="secondary">
-        <InputLabel>קטגוריה</InputLabel>
-        <Select
-          name="categoryId"
-          value={product.categoryId || ""}
-          onChange={handleChange}
-          label="קטגוריה"
-        >
-          {categories.map((cat) => (
-            <MenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
-              {cat.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <Button variant="outlined" component="label" color="secondary">
-        העלה תמונה חדשה
-        <input
-          type="file"
-          hidden
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files[0])}
-        />
-      </Button>
-      {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
-
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={saving}
-        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+    <Box sx={{ position: "relative" }}>
+      <BackButton />
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 500,
+          mx: "auto",
+          p: 2,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
       >
-        {saving ? "שומר..." : "שמור שינויים"}
-      </Button>
-
-      {message && (
-        <Typography
-          textAlign="center"
-          color={message.includes("בהצלחה") ? "success" : "error"}
-        >
-          {message}
+        <Typography variant="h5" textAlign="center">
+          עריכת מוצר
         </Typography>
-      )}
+
+        <TextField
+          label="שם"
+          name="name"
+          value={product.name || ""}
+          onChange={handleChange}
+          required
+          color="secondary"
+        />
+
+        <TextField
+          label="תיאור"
+          name="description"
+          value={product.description || ""}
+          onChange={handleChange}
+          multiline
+          rows={3}
+          required
+          color="secondary"
+        />
+
+        <TextField
+          label="מחיר"
+          name="price"
+          type="number"
+          value={product.price || ""}
+          onChange={handleChange}
+          required
+          color="secondary"
+        />
+
+        <FormControl required color="secondary">
+          <InputLabel>קטגוריה</InputLabel>
+          <Select
+            name="categoryId"
+            value={product.categoryId || ""}
+            onChange={handleChange}
+            label="קטגוריה"
+          >
+            {categories.map((cat) => (
+              <MenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
+                {cat.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Button variant="outlined" component="label" color="secondary">
+          העלה תמונה חדשה
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </Button>
+        {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
+
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={saving}
+          sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+        >
+          {saving ? "שומר..." : "שמור שינויים"}
+        </Button>
+
+        {message && (
+          <Typography
+            textAlign="center"
+            color={message.includes("בהצלחה") ? "success" : "error"}
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 }

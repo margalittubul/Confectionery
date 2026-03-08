@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../Redux/productsSlice";
+import BackButton from "./BackButton";
 
 export default function ProductsManagement() {
   const navigate = useNavigate();
@@ -52,8 +53,15 @@ export default function ProductsManagement() {
 
   return (
     <Box
-      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        direction: "rtl",
+        p: 4,
+        position: "relative",
+      }}
     >
+      <BackButton />
       <Paper
         sx={{
           p: 4,

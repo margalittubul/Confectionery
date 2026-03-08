@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { getCategoryById, updateCategory } from "../API/CategoryController";
+import BackButton from "./BackButton";
 
 export default function EditCategory() {
   const { id } = useParams();
@@ -111,58 +112,61 @@ export default function EditCategory() {
   }
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        maxWidth: 500,
-        mx: "auto",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
-      <Typography variant="h5" textAlign="center">
-        עריכת קטגוריה
-      </Typography>
-
-      <TextField
-        label="שם"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-        color="secondary"
-      />
-
-      <Button variant="outlined" component="label" color="secondary">
-        העלה תמונה חדשה
-        <input
-          type="file"
-          hidden
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files[0])}
-        />
-      </Button>
-      {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
-
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={saving}
-        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+    <Box sx={{ position: "relative" }}>
+      <BackButton />
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 500,
+          mx: "auto",
+          p: 2,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
       >
-        {saving ? "שומר..." : "שמור שינויים"}
-      </Button>
-
-      {message && (
-        <Typography
-          textAlign="center"
-          color={message.includes("בהצלחה") ? "success" : "error"}
-        >
-          {message}
+        <Typography variant="h5" textAlign="center">
+          עריכת קטגוריה
         </Typography>
-      )}
+
+        <TextField
+          label="שם"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          color="secondary"
+        />
+
+        <Button variant="outlined" component="label" color="secondary">
+          העלה תמונה חדשה
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </Button>
+        {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
+
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={saving}
+          sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+        >
+          {saving ? "שומר..." : "שמור שינויים"}
+        </Button>
+
+        {message && (
+          <Typography
+            textAlign="center"
+            color={message.includes("בהצלחה") ? "success" : "error"}
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 }

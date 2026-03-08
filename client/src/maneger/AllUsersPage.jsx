@@ -12,6 +12,7 @@ import {
   Paper,
 } from "@mui/material";
 import { getAllCustomers } from "../API/CustomerController";
+import BackButton from "./BackButton";
 
 export default function AllUsersPage() {
   const [users, setUsers] = useState([]);
@@ -33,7 +34,11 @@ export default function AllUsersPage() {
   }, []);
 
   return (
-    <Box sx={{ maxWidth: "90%", mx: "auto", mt: 4 }} dir="rtl">
+    <Box
+      sx={{ maxWidth: "90%", mx: "auto", mt: 4, position: "relative" }}
+      dir="rtl"
+    >
+      <BackButton />
       <Typography variant="h4" gutterBottom align="center">
         כל המשתמשים במערכת
       </Typography>

@@ -14,6 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../Redux/categoriesSlice";
 import { addProductAsync } from "../Redux/productsSlice";
+import BackButton from "./BackButton";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
@@ -121,112 +122,115 @@ const AddProductForm = () => {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        maxWidth: 400,
-        mx: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        p: 2,
-      }}
-    >
-      <Typography variant="h5" component="h2" textAlign="center">
-        הוספת מוצר חדש
-      </Typography>
-
-      <TextField
-        label="ID (אופציונלי)"
-        type="number"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-        color="secondary"
-      />
-
-      <TextField
-        label="שם המוצר"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-        color="secondary"
-      />
-
-      <TextField
-        label="תיאור"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        multiline
-        rows={3}
-        required
-        color="secondary"
-      />
-
-      <TextField
-        label="מחיר"
-        type="number"
-        inputProps={{ step: "0.01" }}
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        required
-        color="secondary"
-      />
-
-      <FormControl required color="secondary">
-        <InputLabel id="category-select-label">קטגוריה</InputLabel>
-        {loadingCategories ? (
-          <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
-            <CircularProgress size={24} />
-          </Box>
-        ) : categoriesError ? (
-          <Typography color="error" textAlign="center">
-            שגיאה בטעינת קטגוריות
-          </Typography>
-        ) : (
-          <Select
-            labelId="category-select-label"
-            value={categoryId}
-            label="קטגוריה"
-            onChange={(e) => setCategoryId(e.target.value)}
-          >
-            {categories.map((cat) => (
-              <MenuItem key={cat._id || cat.id} value={cat.id}>
-                {cat.name}
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-      </FormControl>
-
-      <Button variant="outlined" component="label" color="secondary">
-        בחר תמונה *
-        <input
-          type="file"
-          hidden
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files[0])}
-        />
-      </Button>
-      {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
-
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={loading}
-        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+    <Box sx={{ position: "relative" }}>
+      <BackButton />
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 400,
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          p: 2,
+        }}
       >
-        {loading ? "מתווסף..." : "הוסף מוצר"}
-      </Button>
-
-      {message && (
-        <Typography
-          color={message.includes("הצלחה") ? "green" : "error"}
-          textAlign="center"
-        >
-          {message}
+        <Typography variant="h5" component="h2" textAlign="center">
+          הוספת מוצר חדש
         </Typography>
-      )}
+
+        <TextField
+          label="ID (אופציונלי)"
+          type="number"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          color="secondary"
+        />
+
+        <TextField
+          label="שם המוצר"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          color="secondary"
+        />
+
+        <TextField
+          label="תיאור"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          multiline
+          rows={3}
+          required
+          color="secondary"
+        />
+
+        <TextField
+          label="מחיר"
+          type="number"
+          inputProps={{ step: "0.01" }}
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+          color="secondary"
+        />
+
+        <FormControl required color="secondary">
+          <InputLabel id="category-select-label">קטגוריה</InputLabel>
+          {loadingCategories ? (
+            <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
+              <CircularProgress size={24} />
+            </Box>
+          ) : categoriesError ? (
+            <Typography color="error" textAlign="center">
+              שגיאה בטעינת קטגוריות
+            </Typography>
+          ) : (
+            <Select
+              labelId="category-select-label"
+              value={categoryId}
+              label="קטגוריה"
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              {categories.map((cat) => (
+                <MenuItem key={cat._id || cat.id} value={cat.id}>
+                  {cat.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        </FormControl>
+
+        <Button variant="outlined" component="label" color="secondary">
+          בחר תמונה *
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </Button>
+        {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
+
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={loading}
+          sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+        >
+          {loading ? "מתווסף..." : "הוסף מוצר"}
+        </Button>
+
+        {message && (
+          <Typography
+            color={message.includes("הצלחה") ? "green" : "error"}
+            textAlign="center"
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };

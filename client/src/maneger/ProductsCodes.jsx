@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../Redux/productsSlice";
+import BackButton from "./BackButton";
 
 export default function ProductsCodes() {
   const dispatch = useDispatch();
@@ -31,7 +32,16 @@ export default function ProductsCodes() {
   );
 
   return (
-    <Box sx={{ p: 4, direction: "rtl", maxWidth: 1000, margin: "0 auto" }}>
+    <Box
+      sx={{
+        p: 4,
+        direction: "rtl",
+        maxWidth: 1000,
+        margin: "0 auto",
+        position: "relative",
+      }}
+    >
+      <BackButton />
       <Paper sx={{ p: 3, bgcolor: "#fff0f5", borderRadius: 3 }}>
         <Typography
           variant="h4"

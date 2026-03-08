@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TextField, Box, Stack, Button, Typography } from "@mui/material";
 import { addCustomer } from "../API/CustomerController";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 export default function AddAdmin() {
   const [form, setForm] = useState({
@@ -60,72 +61,75 @@ export default function AddAdmin() {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      sx={{ mt: 5 }}
-    >
-      <Typography variant="h5" gutterBottom>
-        יצירת מנהל חדש
-      </Typography>
-
-      <TextField
-        name="name"
-        label="שם"
-        value={form.name}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-        focused
-        color="secondary"
-      />
-      <TextField
-        name="email"
-        label="אימייל"
-        value={form.email}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-        focused
-        color="secondary"
-      />
-      <TextField
-        name="city"
-        label="עיר"
-        value={form.city}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-        focused
-        color="secondary"
-      />
-      <TextField
-        name="password"
-        label="סיסמה"
-        type="password"
-        value={form.password}
-        onChange={handleChange}
-        sx={{ mb: 3 }}
-        focused
-        color="secondary"
-      />
-
-      <Stack direction="row" justifyContent="center">
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
-        >
-          צור מנהל
-        </Button>
-      </Stack>
-
-      {message && (
-        <Typography
-          sx={{ mt: 2 }}
-          color={message.includes("") ? "green" : "red"}
-        >
-          {message}
+    <Box sx={{ position: "relative" }}>
+      <BackButton />
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        sx={{ mt: 5 }}
+      >
+        <Typography variant="h5" gutterBottom>
+          יצירת מנהל חדש
         </Typography>
-      )}
+
+        <TextField
+          name="name"
+          label="שם"
+          value={form.name}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+          focused
+          color="secondary"
+        />
+        <TextField
+          name="email"
+          label="אימייל"
+          value={form.email}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+          focused
+          color="secondary"
+        />
+        <TextField
+          name="city"
+          label="עיר"
+          value={form.city}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+          focused
+          color="secondary"
+        />
+        <TextField
+          name="password"
+          label="סיסמה"
+          type="password"
+          value={form.password}
+          onChange={handleChange}
+          sx={{ mb: 3 }}
+          focused
+          color="secondary"
+        />
+
+        <Stack direction="row" justifyContent="center">
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+          >
+            צור מנהל
+          </Button>
+        </Stack>
+
+        {message && (
+          <Typography
+            sx={{ mt: 2 }}
+            color={message.includes("") ? "green" : "red"}
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 }

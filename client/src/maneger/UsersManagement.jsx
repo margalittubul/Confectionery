@@ -1,6 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { PersonSearch, PersonAdd } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 export default function UsersManagement() {
   const navigate = useNavigate();
@@ -20,8 +21,15 @@ export default function UsersManagement() {
 
   return (
     <Box
-      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        direction: "rtl",
+        p: 4,
+        position: "relative",
+      }}
     >
+      <BackButton />
       <Paper
         sx={{
           p: 4,
