@@ -75,7 +75,7 @@ const BuyingController = {
   },
   removeProduct: async (req, res) => {
     try {
-      const customerId = req.user.id; 
+      const customerId = req.user.id;
       const productId = Number(req.params.productId);
 
       const cart = await Buying.findOne({ customerId });
@@ -135,7 +135,8 @@ const BuyingController = {
       if (!cart) return res.status(404).json({ message: "Cart not found" });
 
       const product = cart.products.find((p) => p.productId === numProductId);
-      if (!product) return res.status(404).json({ message: "Product not found" });
+      if (!product)
+        return res.status(404).json({ message: "Product not found" });
 
       product.quantity = quantity;
       await cart.save();

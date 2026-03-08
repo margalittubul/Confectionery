@@ -9,7 +9,7 @@ export const sendOrderStatusEmail = async (customerEmail, orderData) => {
     to: customerEmail,
     from: {
       email: process.env.EMAIL_USER,
-      name: "מתוק מהבית"
+      name: "מתוק מהבית",
     },
     replyTo: process.env.EMAIL_USER,
     subject: `עדכון הזמנה #${orderData.orderId.toString().slice(-6)}`,
@@ -39,7 +39,10 @@ export const sendOrderStatusEmail = async (customerEmail, orderData) => {
     console.log("EmailService: Email sent successfully");
     return result;
   } catch (error) {
-    console.error("EmailService: Failed to send email", error.response?.body || error);
+    console.error(
+      "EmailService: Failed to send email",
+      error.response?.body || error,
+    );
     throw error;
   }
 };

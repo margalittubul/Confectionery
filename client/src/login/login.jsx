@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addCustomer } from "../API/CustomerController";
 
-import { TextField, Box, Stack, Button, IconButton, InputAdornment } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Stack,
+  Button,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useDispatch } from "react-redux";
@@ -140,13 +147,13 @@ export default function Signin() {
           <Button
             variant="contained"
             onClick={handleRegister}
-            sx={{ 
-              backgroundColor: "#f9cfcf", 
+            sx={{
+              backgroundColor: "#f9cfcf",
               color: "black",
               px: 3,
-              '&:hover': {
-                backgroundColor: "#f7bfbf"
-              }
+              "&:hover": {
+                backgroundColor: "#f7bfbf",
+              },
             }}
           >
             הרשמה

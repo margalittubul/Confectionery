@@ -31,7 +31,7 @@ export const getAllCoupons = async () => {
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
-    
+
     const response = await fetch(API_URL, { headers });
 
     if (!response.ok) {

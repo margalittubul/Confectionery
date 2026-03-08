@@ -50,11 +50,14 @@ export default function EditCategory() {
 
       try {
         const token = localStorage.getItem("userToken");
-        const uploadRes = await fetch(`http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        });
+        const uploadRes = await fetch(
+          `http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`,
+          {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+          },
+        );
         const uploadData = await uploadRes.json();
         if (uploadRes.ok) {
           finalImageUrl = uploadData.imageUrl;
@@ -134,11 +137,21 @@ export default function EditCategory() {
 
       <Button variant="outlined" component="label" color="secondary">
         העלה תמונה חדשה
-        <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+        <input
+          type="file"
+          hidden
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files[0])}
+        />
       </Button>
       {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
 
-      <Button type="submit" variant="contained" disabled={saving} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={saving}
+        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+      >
         {saving ? "שומר..." : "שמור שינויים"}
       </Button>
 

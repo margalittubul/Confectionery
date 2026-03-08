@@ -47,7 +47,9 @@ export default function OrdersManagement() {
   ];
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}>
+    <Box
+      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
+    >
       <Paper
         sx={{
           p: 4,
@@ -101,8 +103,14 @@ export default function OrdersManagement() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} sx={{ color: "#f48fb1" }}>ביטול</Button>
-          <Button onClick={handle} variant="contained" sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+          <Button onClick={() => setOpen(false)} sx={{ color: "#f48fb1" }}>
+            ביטול
+          </Button>
+          <Button
+            onClick={handle}
+            variant="contained"
+            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+          >
             אישור
           </Button>
         </DialogActions>

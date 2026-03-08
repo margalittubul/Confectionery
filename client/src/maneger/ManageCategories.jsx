@@ -12,10 +12,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import {
-  getAllCategories,
-  addCategory,
-} from "../API/CategoryController";
+import { getAllCategories, addCategory } from "../API/CategoryController";
 
 export default function ManageCategories() {
   const navigate = useNavigate();
@@ -38,7 +35,7 @@ export default function ManageCategories() {
       alert("יש למלא שם ולהעלות תמונה");
       return;
     }
-    
+
     const categoryFolder = folderName || name;
     const formData = new FormData();
     formData.append("image", imageFile);
@@ -46,20 +43,29 @@ export default function ManageCategories() {
     try {
       const token = localStorage.getItem("userToken");
       console.log("Token:", token ? "exists" : "missing");
-      const uploadRes = await fetch(`http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const uploadRes = await fetch(
+        `http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      );
       console.log("Status:", uploadRes.status);
       const uploadData = await uploadRes.json();
       console.log("Response:", uploadData);
       if (!uploadRes.ok) {
-        alert("שגיאה בהעלאת תמונה: " + (uploadData.message || uploadRes.status));
+        alert(
+          "שגיאה בהעלאת תמונה: " + (uploadData.message || uploadRes.status),
+        );
         return;
       }
 
-      const result = await addCategory({ name, imageUrl: uploadData.imageUrl, folderName: categoryFolder });
+      const result = await addCategory({
+        name,
+        imageUrl: uploadData.imageUrl,
+        folderName: categoryFolder,
+      });
       if (result) {
         alert("קטגוריה נוספה בהצלחה");
         setName("");
@@ -98,20 +104,37 @@ export default function ManageCategories() {
           />
           <Button variant="outlined" component="label" color="secondary">
             בחר תמונה *
-            <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files[0])}
+            />
           </Button>
-          {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
-          <Button variant="contained" onClick={handleAdd} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+          {imageFile && (
+            <Typography variant="body2">{imageFile.name}</Typography>
+          )}
+          <Button
+            variant="contained"
+            onClick={handleAdd}
+            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+          >
             הוסף
           </Button>
         </Box>
         <List>
           {categories.map((cat) => (
-            <ListItem key={cat._id} secondaryAction={
-              <IconButton edge="end" onClick={() => navigate(`/EditCategory/${cat._id}`)}>
-                <EditIcon />
-              </IconButton>
-            }>
+            <ListItem
+              key={cat._id}
+              secondaryAction={
+                <IconButton
+                  edge="end"
+                  onClick={() => navigate(`/EditCategory/${cat._id}`)}
+                >
+                  <EditIcon />
+                </IconButton>
+              }
+            >
               <ListItemText primary={cat.name} secondary={cat.imageUrl} />
             </ListItem>
           ))}

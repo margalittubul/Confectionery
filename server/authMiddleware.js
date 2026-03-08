@@ -22,11 +22,9 @@ const roleMiddleware = (role) => (req, res, next) => {
     return res.status(403).json({ message: "Access denied: No user found" });
   }
   if (req.user.role !== role) {
-    return res
-      .status(403)
-      .json({
-        message: `Access denied: Only ${role}s can perform this action`,
-      });
+    return res.status(403).json({
+      message: `Access denied: Only ${role}s can perform this action`,
+    });
   }
   next();
 };

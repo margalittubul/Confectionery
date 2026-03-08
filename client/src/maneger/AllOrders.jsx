@@ -35,7 +35,11 @@ export default function AllOrders() {
 
   return (
     <div>
-      <h2 style={{ textAlign: "center", marginBottom: "20px", marginTop: "20px" }}>כל ההזמנות</h2>
+      <h2
+        style={{ textAlign: "center", marginBottom: "20px", marginTop: "20px" }}
+      >
+        כל ההזמנות
+      </h2>
       <div className="orders-container">
         {allOrders.length === 0 ? (
           <p>אין הזמנות להצגה</p>
@@ -50,9 +54,10 @@ export default function AllOrders() {
               <Link to={`/order-details/${order._id}`} className="order-link">
                 <button className="details-btn">פרטי הזמנה</button>
               </Link>
-              {(order.status === "אושרה הזמנה" || order.status === "בתהליך...") && (
-                <button 
-                  onClick={() => handleAdvance(order._id)} 
+              {(order.status === "אושרה הזמנה" ||
+                order.status === "בתהליך...") && (
+                <button
+                  onClick={() => handleAdvance(order._id)}
                   className="advance-btn"
                 >
                   {order.status === "אושרה הזמנה" ? "התחל בתהליך" : "סמן כנשלח"}

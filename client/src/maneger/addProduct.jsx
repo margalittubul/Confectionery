@@ -68,27 +68,30 @@ const AddProductForm = () => {
       return;
     }
 
-    const selectedCategory = categories.find(c => c.id == categoryId);
+    const selectedCategory = categories.find((c) => c.id == categoryId);
     const categoryFolder = selectedCategory?.name || "other";
-      
+
     const formData = new FormData();
     formData.append("image", imageFile);
     formData.append("categoryFolder", categoryFolder);
 
     try {
       const token = localStorage.getItem("userToken");
-      const uploadRes = await fetch(`http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const uploadRes = await fetch(
+        `http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      );
       const uploadData = await uploadRes.json();
       if (!uploadRes.ok) {
         setMessage("שגיאה בהעלאת תמונה");
         setLoading(false);
         return;
       }
-      
+
       const productData = {
         ...(id && { id: parseInt(id) }),
         name,
@@ -198,11 +201,21 @@ const AddProductForm = () => {
 
       <Button variant="outlined" component="label" color="secondary">
         בחר תמונה *
-        <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+        <input
+          type="file"
+          hidden
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files[0])}
+        />
       </Button>
       {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
 
-      <Button type="submit" variant="contained" disabled={loading} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={loading}
+        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+      >
         {loading ? "מתווסף..." : "הוסף מוצר"}
       </Button>
 

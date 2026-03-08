@@ -91,20 +91,20 @@ const OrderController = {
     try {
       const order = await Order.findById(id);
       if (!order) return res.status(404).json({ message: "Order not found" });
-      
+
       // בדוק אם הסטטוס באמת השתנה
       const statusChanged = order.status !== status;
-      
+
       order.status = status;
       const updated = await order.save();
-      
+
       console.log("Order updated successfully, status changed:", statusChanged);
-      
+
       // שלח מייל רק אם הסטטוס באמת השתנה
       if (statusChanged) {
         const customer = await Customer.findById(updated.customerId);
         console.log("Customer found:", customer?.email);
-        
+
         if (customer?.email) {
           console.log("Starting to send email in background...");
           sendOrderStatusEmail(customer.email, {
@@ -112,18 +112,20 @@ const OrderController = {
             status: updated.status,
             orderDate: updated.orderDate,
             price: updated.price,
-          }).then(() => {
-            console.log("Email sent successfully!");
-          }).catch(emailErr => {
-            console.error("Failed to send email:", emailErr);
-          });
+          })
+            .then(() => {
+              console.log("Email sent successfully!");
+            })
+            .catch((emailErr) => {
+              console.error("Failed to send email:", emailErr);
+            });
         } else {
           console.log("No customer email found, skipping email");
         }
       } else {
         console.log("Status unchanged, skipping email");
       }
-      
+
       res.json(updated);
     } catch (err) {
       console.error("Error in updateOrderStatus:", err);
@@ -136,25 +138,25 @@ const OrderController = {
     try {
       const order = await Order.findById(id);
       if (!order) return res.status(404).json({ message: "Order not found" });
-      
+
       console.log("Current status:", order.status);
-      
+
       let newStatus;
       if (order.status === "אושרה הזמנה") newStatus = "בתהליך...";
       else if (order.status === "בתהליך...") newStatus = "נשלח";
       else if (order.status === "נשלח") newStatus = "הגיע ליעד, בתאבון!!!";
       else return res.status(400).json({ message: "Cannot advance" });
-      
+
       console.log("New status:", newStatus);
-      
+
       order.status = newStatus;
       await order.save();
-      
+
       console.log("Order saved, fetching customer...");
-      
+
       const customer = await Customer.findById(order.customerId);
       console.log("Customer email:", customer?.email);
-      
+
       if (customer?.email) {
         console.log("Sending email in background...");
         sendOrderStatusEmail(customer.email, {
@@ -162,15 +164,17 @@ const OrderController = {
           status: order.status,
           orderDate: order.orderDate,
           price: order.price,
-        }).then(() => {
-          console.log("Email sent successfully!");
-        }).catch(emailErr => {
-          console.error("Failed to send email:", emailErr);
-        });
+        })
+          .then(() => {
+            console.log("Email sent successfully!");
+          })
+          .catch((emailErr) => {
+            console.error("Failed to send email:", emailErr);
+          });
       } else {
         console.log("No customer email, skipping email");
       }
-      
+
       res.json(order);
     } catch (err) {
       console.error("Error in advanceStatus:", err);
@@ -181,11 +185,7 @@ const OrderController = {
     const { id } = req.params;
     const { price } = req.body;
     try {
-      const order = await Order.findByIdAndUpdate(
-        id,
-        { price },
-        { new: true }
-      );
+      const order = await Order.findByIdAndUpdate(id, { price }, { new: true });
       if (!order) return res.status(404).json({ message: "Order not found" });
       res.json(order);
     } catch (err) {

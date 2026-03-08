@@ -185,9 +185,8 @@ export const markFirstPurchaseUsed = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    
+
     if (!response.ok) {
-      const errorData = await response.json();
       throw new Error("Failed to mark first purchase");
     }
 
@@ -208,9 +207,8 @@ export const markBirthdayDiscountUsed = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    
+
     if (!response.ok) {
-      const errorData = await response.json();
       throw new Error("Failed to mark birthday discount");
     }
 

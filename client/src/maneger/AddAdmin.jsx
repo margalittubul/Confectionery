@@ -109,7 +109,11 @@ export default function AddAdmin() {
       />
 
       <Stack direction="row" justifyContent="center">
-        <Button variant="contained" onClick={handleSubmit} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+        >
           צור מנהל
         </Button>
       </Stack>

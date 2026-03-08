@@ -80,9 +80,6 @@ export default function AllUsersPage() {
                   <TableCell sx={{ textAlign: "right" }}>
                     {user.address}
                   </TableCell>
-                  {/* <TableCell sx={{ textAlign: "right" }}>
-                    {user.password}
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

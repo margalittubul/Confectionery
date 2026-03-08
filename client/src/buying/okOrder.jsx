@@ -18,7 +18,7 @@ export default function OkOrder() {
         const ord = await getOrderById(orderId);
         if (!ord) throw new Error("Failed to fetch user cart");
         if (!isMounted) return;
-        
+
         setOrder(ord || []);
 
         // שלח מייל רק אם הסטטוס עדיין לא "אושרה הזמנה"
@@ -37,7 +37,9 @@ export default function OkOrder() {
     };
 
     fetchOrder();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [orderId, navigate]);
 
   if (error) return <div>שגיאה: {error}</div>;
@@ -45,8 +47,8 @@ export default function OkOrder() {
   return (
     <>
       <h2 className="main-title">ההזמנה אושרה</h2>
-      <p>בסך: {order.price} ש"ח</p>
-      <p>בתאריך: {new Date(order.orderDate).toLocaleDateString('he-IL')}</p>
+      <p>בסך: {order.price} ש&quot;ח</p>
+      <p>בתאריך: {new Date(order.orderDate).toLocaleDateString("he-IL")}</p>
       <p>תגיע תוך שעתיים ממועד ההזמנה</p>
       <p>בתאבון</p>
       <p>🍰😘🍰</p>

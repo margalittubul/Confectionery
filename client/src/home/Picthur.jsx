@@ -46,11 +46,13 @@ export default function Picthur() {
       const coupons = await getAllCoupons();
       if (coupons) {
         const now = new Date();
-        const active = coupons.filter(c => 
-          c.isActive && 
-          new Date(c.validFrom) <= now && 
-          new Date(c.validUntil) >= now &&
-          c.description && c.description.trim() !== ""
+        const active = coupons.filter(
+          (c) =>
+            c.isActive &&
+            new Date(c.validFrom) <= now &&
+            new Date(c.validUntil) >= now &&
+            c.description &&
+            c.description.trim() !== "",
         );
         setActiveCoupons(active);
       }
@@ -61,7 +63,7 @@ export default function Picthur() {
   useEffect(() => {
     const items = [];
     imageSets.forEach((set, i) => {
-      items.push({ type: 'image', data: set, index: i });
+      items.push({ type: "image", data: set, index: i });
     });
     setDisplayItems(items);
   }, []);
@@ -74,10 +76,10 @@ export default function Picthur() {
           return randomIndex;
         }),
       );
-      
+
       // החלף בין תמונות לקופונים והזז את המיקום
       if (activeCoupons.length > 0) {
-        setShowCoupon(prev => !prev);
+        setShowCoupon((prev) => !prev);
         setCouponPosition(Math.floor(Math.random() * 4)); // מיקום אקראי 0-3
         setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length)); // קופון אקראי
       }
@@ -94,31 +96,61 @@ export default function Picthur() {
       <div className="four-images-gallery">
         {displayItems.map((item, index) => {
           // אם יש קופונים וזה המיקום של הקופון וצריך להציג קופון
-          const shouldShowCoupon = activeCoupons.length > 0 && index === couponPosition && showCoupon;
-          
+          const shouldShowCoupon =
+            activeCoupons.length > 0 && index === couponPosition && showCoupon;
+
           return shouldShowCoupon ? (
-            <div 
-              key={`coupon-${index}`} 
+            <div
+              key={`coupon-${index}`}
               className={`four-image active-${index}`}
               style={{
-                background: 'linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '15px',
-                color: '#c2185b',
-                textAlign: 'center',
-                borderRadius: '10px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                border: '2px solid #f48fb1',
-                boxSizing: 'border-box'
-              }}>
-              <div style={{ fontSize: '2em', marginBottom: '8px' }}>🎫</div>
-              <div style={{ fontSize: '1.4em', fontWeight: 'bold', marginBottom: '8px' }}>{activeCoupons[currentCouponIndex].code}</div>
-              <div style={{ fontSize: '0.9em', marginBottom: '10px', lineHeight: '1.3' }}>{activeCoupons[currentCouponIndex].description}</div>
-              <div style={{ fontSize: '1.2em', fontWeight: 'bold', backgroundColor: '#f48fb1', color: '#fff', padding: '6px 12px', borderRadius: '15px' }}>
-                {activeCoupons[currentCouponIndex].discountType === 'fixed' ? `${activeCoupons[currentCouponIndex].discountValue}₪` : `${activeCoupons[currentCouponIndex].discountValue}%`} הנחה
+                background: "linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "15px",
+                color: "#c2185b",
+                textAlign: "center",
+                borderRadius: "10px",
+                boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                border: "2px solid #f48fb1",
+                boxSizing: "border-box",
+              }}
+            >
+              <div style={{ fontSize: "2em", marginBottom: "8px" }}>🎫</div>
+              <div
+                style={{
+                  fontSize: "1.4em",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                }}
+              >
+                {activeCoupons[currentCouponIndex].code}
+              </div>
+              <div
+                style={{
+                  fontSize: "0.9em",
+                  marginBottom: "10px",
+                  lineHeight: "1.3",
+                }}
+              >
+                {activeCoupons[currentCouponIndex].description}
+              </div>
+              <div
+                style={{
+                  fontSize: "1.2em",
+                  fontWeight: "bold",
+                  backgroundColor: "#f48fb1",
+                  color: "#fff",
+                  padding: "6px 12px",
+                  borderRadius: "15px",
+                }}
+              >
+                {activeCoupons[currentCouponIndex].discountType === "fixed"
+                  ? `${activeCoupons[currentCouponIndex].discountValue}₪`
+                  : `${activeCoupons[currentCouponIndex].discountValue}%`}{" "}
+                הנחה
               </div>
             </div>
           ) : (

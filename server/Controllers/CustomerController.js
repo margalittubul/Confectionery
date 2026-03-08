@@ -107,18 +107,18 @@ const CustomerController = {
   joinClub: async (req, res) => {
     try {
       const { birth_date } = req.body;
-      
+
       const existingUser = await Customer.findById(req.user.id);
       if (existingUser.is_club_member) {
         return res.status(400).json({ message: "כבר רשום למועדון" });
       }
-      
+
       const user = await Customer.findByIdAndUpdate(
         req.user.id,
         { is_club_member: true, birth_date },
-        { new: true }
+        { new: true },
       );
-      
+
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
@@ -133,7 +133,7 @@ const CustomerController = {
       const user = await Customer.findByIdAndUpdate(
         req.user.id,
         { first_club_purchase_used: true },
-        { new: true }
+        { new: true },
       );
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
@@ -147,17 +147,17 @@ const CustomerController = {
   markBirthdayDiscountUsed: async (req, res) => {
     try {
       const currentYear = new Date().getFullYear();
-      
+
       const user = await Customer.findByIdAndUpdate(
         req.user.id,
         { $set: { birthday_discount_used_year: currentYear } },
-        { new: true, runValidators: false }
+        { new: true, runValidators: false },
       );
-      
+
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
-      
+
       res.json(user);
     } catch (e) {
       console.error("Error marking birthday discount:", e);

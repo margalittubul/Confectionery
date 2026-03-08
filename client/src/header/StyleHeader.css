@@ -69,11 +69,11 @@
     flex-direction: column;
     justify-content: center;
   }
-  
+
   .desktop-buttons {
     display: none !important;
   }
-  
+
   .mobile-buttons {
     display: flex !important;
   }
@@ -116,14 +116,14 @@
     justify-content: center;
     margin-bottom: 10px;
   }
-  
+
   .logo-container {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
   }
-  
+
   .logo-image {
     margin: 0 auto;
   }

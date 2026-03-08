@@ -11,7 +11,10 @@ export default function ActiveCoupons() {
       if (data) {
         const now = new Date();
         const active = data.filter(
-          (c) => c.isActive && new Date(c.validFrom) <= now && new Date(c.validUntil) >= now
+          (c) =>
+            c.isActive &&
+            new Date(c.validFrom) <= now &&
+            new Date(c.validUntil) >= now,
         );
         setCoupons(active);
       }
@@ -29,12 +32,19 @@ export default function ActiveCoupons() {
             <div className="coupon-code">{coupon.code}</div>
             <div className="coupon-description">{coupon.description}</div>
             <div className="coupon-discount">
-              {coupon.discountType === "fixed" ? `${coupon.discountValue}₪` : `${coupon.discountValue}%`} הנחה
+              {coupon.discountType === "fixed"
+                ? `${coupon.discountValue}₪`
+                : `${coupon.discountValue}%`}{" "}
+              הנחה
             </div>
             {coupon.minProductPrice > 0 && (
-              <div className="coupon-min">מינימום: {coupon.minProductPrice}₪</div>
+              <div className="coupon-min">
+                מינימום: {coupon.minProductPrice}₪
+              </div>
             )}
-            <div className="coupon-valid">תוקף עד: {new Date(coupon.validUntil).toLocaleDateString("he-IL")}</div>
+            <div className="coupon-valid">
+              תוקף עד: {new Date(coupon.validUntil).toLocaleDateString("he-IL")}
+            </div>
           </div>
         ))}
       </div>

@@ -4,7 +4,6 @@ import {
   setCart,
   setProductsDetails,
   setTotalPrice,
-  setDelivery,
   setOrderCreated,
   setLoading,
   updateQty,
@@ -28,7 +27,6 @@ const Buying = () => {
   const {
     items: cartItems,
     productsDetails,
-    delivery,
     orderCreated,
     loading,
   } = useSelector((state) => state.cart);
@@ -58,6 +56,7 @@ const Buying = () => {
   useEffect(() => {
     dispatch(setOrderCreated(null));
     fetchCartAndProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const baseTotal = cartItems.reduce((sum, item) => {

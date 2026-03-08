@@ -95,35 +95,35 @@
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
-  
+
   .footer-title {
     font-size: 18px;
   }
-  
+
   .footer-title::after {
-    content: ' ▼';
+    content: " ▼";
     font-size: 0.8em;
   }
-  
+
   .footer-links {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
   }
-  
+
   .footer-links.open {
     max-height: 500px;
   }
-  
+
   .footer-grid a {
     font-size: 16px;
   }
-  
+
   .li {
     width: 80px;
     height: 80px;

@@ -9,12 +9,16 @@ const __dirname = path.dirname(__filename);
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const categoryFolder = req.query.categoryFolder || "other";
-    const uploadPath = path.join(__dirname, "../client/public/img", categoryFolder);
-    
+    const uploadPath = path.join(
+      __dirname,
+      "../client/public/img",
+      categoryFolder,
+    );
+
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
-    
+
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -24,7 +28,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
+  if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
     cb(new Error("רק קבצי תמונה מותרים"), false);

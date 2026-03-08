@@ -69,17 +69,19 @@ export default function Order() {
             <Link to={`/order-details/${order._id}`} className="order-link">
               <button className="details-btn">פרטי הזמנה</button>
             </Link>
-            {userRole === "admin" && (order.status === "אושרה הזמנה" || order.status === "בתהליך...") && (
-              <button 
-                onClick={() => handleAdvance(order._id)} 
-                className="advance-btn"
-              >
-                {order.status === "אושרה הזמנה" ? "התחל בתהליך" : "סמן כנשלח"}
-              </button>
-            )}
+            {userRole === "admin" &&
+              (order.status === "אושרה הזמנה" ||
+                order.status === "בתהליך...") && (
+                <button
+                  onClick={() => handleAdvance(order._id)}
+                  className="advance-btn"
+                >
+                  {order.status === "אושרה הזמנה" ? "התחל בתהליך" : "סמן כנשלח"}
+                </button>
+              )}
             {userRole !== "admin" && order.status === "נשלח" && (
-              <button 
-                onClick={() => handleAdvance(order._id)} 
+              <button
+                onClick={() => handleAdvance(order._id)}
                 className="advance-btn"
               >
                 אשר קבלת הזמנה

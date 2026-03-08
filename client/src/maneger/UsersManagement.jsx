@@ -1,8 +1,4 @@
-import {
-  Box,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { PersonSearch, PersonAdd } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +19,9 @@ export default function UsersManagement() {
   ];
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}>
+    <Box
+      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
+    >
       <Paper
         sx={{
           p: 4,

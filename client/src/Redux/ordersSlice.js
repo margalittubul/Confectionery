@@ -24,7 +24,9 @@ const ordersSlice = createSlice({
   },
   reducers: {
     updateOrderInList: (state, action) => {
-      const index = state.list.findIndex(order => order._id === action.payload._id);
+      const index = state.list.findIndex(
+        (order) => order._id === action.payload._id,
+      );
       if (index !== -1) {
         state.list[index] = action.payload;
       }

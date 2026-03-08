@@ -10,7 +10,13 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { ShoppingCart, PersonSearch, AddCircle, Category, List, LocalOffer } from "@mui/icons-material";
+import {
+  ShoppingCart,
+  PersonSearch,
+  Category,
+  List,
+  LocalOffer,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCustomerByEmail } from "../API/CustomerController";
 
@@ -119,8 +125,14 @@ export default function Manager() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(null)} sx={{ color: "#f48fb1" }}>ביטול</Button>
-          <Button onClick={handle} variant="contained" sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+          <Button onClick={() => setOpen(null)} sx={{ color: "#f48fb1" }}>
+            ביטול
+          </Button>
+          <Button
+            onClick={handle}
+            variant="contained"
+            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+          >
             אישור
           </Button>
         </DialogActions>

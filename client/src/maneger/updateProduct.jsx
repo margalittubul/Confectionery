@@ -61,7 +61,12 @@ export default function EditProduct() {
     setSaving(true);
     setMessage("");
 
-    if (!product.name || !product.description || !product.price || !product.categoryId) {
+    if (
+      !product.name ||
+      !product.description ||
+      !product.price ||
+      !product.categoryId
+    ) {
       setMessage("יש למלא את כל השדות");
       setSaving(false);
       return;
@@ -70,20 +75,25 @@ export default function EditProduct() {
     let finalImageUrl = product.imageUrl;
 
     if (imageFile) {
-      const selectedCategory = categories.find(c => (c._id || c.id) == product.categoryId);
+      const selectedCategory = categories.find(
+        (c) => (c._id || c.id) == product.categoryId,
+      );
       const categoryFolder = selectedCategory?.name || "other";
-      
+
       const formData = new FormData();
       formData.append("image", imageFile);
       formData.append("categoryFolder", categoryFolder);
 
       try {
         const token = localStorage.getItem("userToken");
-        const uploadRes = await fetch(`http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        });
+        const uploadRes = await fetch(
+          `http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`,
+          {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+          },
+        );
         const uploadData = await uploadRes.json();
         if (uploadRes.ok) {
           finalImageUrl = uploadData.imageUrl;
@@ -122,7 +132,7 @@ export default function EditProduct() {
         setMessage("עדכון המוצר נכשל");
       }
     } catch (err) {
-      setMessage("שגיאה בעדכון המוצר");
+      setMessage("שגיאה בעדכון המוצר", err);
     } finally {
       setSaving(false);
     }
@@ -218,11 +228,21 @@ export default function EditProduct() {
 
       <Button variant="outlined" component="label" color="secondary">
         העלה תמונה חדשה
-        <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+        <input
+          type="file"
+          hidden
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files[0])}
+        />
       </Button>
       {imageFile && <Typography variant="body2">{imageFile.name}</Typography>}
 
-      <Button type="submit" variant="contained" disabled={saving} sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}>
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={saving}
+        sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
+      >
         {saving ? "שומר..." : "שמור שינויים"}
       </Button>
 

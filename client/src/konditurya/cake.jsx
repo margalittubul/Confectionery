@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate  } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -31,10 +31,11 @@ export default function Cake() {
   const handleAddToCart = () => {
     if (!cake) return;
     if (!user.token) {
-      alert("עליך להתחבר כדי להוסיף מוצרים לסל");
+      alert("עליך להירשם כדי להוסיף מוצרים לסל");
+      navigate("/Singin");
       return;
     }
-     dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
+    dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
       .unwrap()
       .then(() => {
         alert("המוצר נוסף לסל בהצלחה!");

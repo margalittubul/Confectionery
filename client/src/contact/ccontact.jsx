@@ -5,7 +5,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -31,16 +31,16 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     const subject = `הודעה מ-${formData.name}`;
     const body = `שם: ${formData.name}\nאימייל: ${formData.email}\n\nהודעה:\n${formData.message}`;
-    
+
     window.location.href = `mailto:m0534102962@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
+
     setFormData({ name: "", email: "", message: "" });
     setErrors({});
   };
@@ -66,34 +66,36 @@ export default function Contact() {
           <h2>שלחו לנו הודעה</h2>
           <br />
           <form onSubmit={handleSubmit}>
-            <input 
-              type="text" 
+            <input
+              type="text"
               name="name"
-              placeholder="שם מלא" 
+              placeholder="שם מלא"
               value={formData.name}
               onChange={handleChange}
-              required 
+              required
             />
             {errors.name && <p className="error-message">{errors.name}</p>}
             <br />
-            <input 
-              type="email" 
+            <input
+              type="email"
               name="email"
-              placeholder="אימייל" 
+              placeholder="אימייל"
               value={formData.email}
               onChange={handleChange}
-              required 
+              required
             />
             {errors.email && <p className="error-message">{errors.email}</p>}
             <br />
-            <textarea 
+            <textarea
               name="message"
-              placeholder="הודעה" 
+              placeholder="הודעה"
               value={formData.message}
               onChange={handleChange}
               required
             ></textarea>
-            {errors.message && <p className="error-message">{errors.message}</p>}
+            {errors.message && (
+              <p className="error-message">{errors.message}</p>
+            )}
             <br />
             <button type="submit">שלח הודעה</button>
           </form>

@@ -9,28 +9,16 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
 } from "@mui/material";
-import { Add, Delete, Edit, List } from "@mui/icons-material";
+import { Add, Edit, List } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchProducts, deleteProductAsync } from "../Redux/productsSlice";
+import { fetchProducts } from "../Redux/productsSlice";
 
 export default function ProductsManagement() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items: products } = useSelector((state) => state.products);
-  const [showCodes, setShowCodes] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [deleteDialog, setDeleteDialog] = useState(false);
-  const [deleteId, setDeleteId] = useState("");
   const [editDialog, setEditDialog] = useState(false);
   const [editId, setEditId] = useState("");
 
@@ -38,24 +26,11 @@ export default function ProductsManagement() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const handleDelete = async () => {
-    if (deleteId) {
-      await dispatch(deleteProductAsync(deleteId));
-      setDeleteDialog(false);
-      setDeleteId("");
-    }
-  };
-
   const handleEdit = () => {
     if (editId) {
       navigate(`/EditProductForm/${editId}`);
     }
   };
-
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.id.toString().includes(searchTerm)
-  );
 
   const actions = [
     {
@@ -76,7 +51,9 @@ export default function ProductsManagement() {
   ];
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}>
+    <Box
+      sx={{ display: "flex", justifyContent: "center", direction: "rtl", p: 4 }}
+    >
       <Paper
         sx={{
           p: 4,
@@ -118,7 +95,12 @@ export default function ProductsManagement() {
       </Paper>
 
       {/* דיאלוג עדכון מוצר */}
-      <Dialog open={editDialog} onClose={() => setEditDialog(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={editDialog}
+        onClose={() => setEditDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle sx={{ textAlign: "right" }}>עדכון מוצר</DialogTitle>
         <DialogContent>
           <TextField
@@ -131,7 +113,10 @@ export default function ProductsManagement() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setEditDialog(false)} sx={{ color: "#f48fb1" }}>
+          <Button
+            onClick={() => setEditDialog(false)}
+            sx={{ color: "#f48fb1" }}
+          >
             ביטול
           </Button>
           <Button

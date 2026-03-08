@@ -28,7 +28,7 @@ export default function SubCategory() {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) return <div>טוען מוצרים...</div>;
@@ -60,12 +60,18 @@ export default function SubCategory() {
           </div>
         ))}
       </div>
-      
+
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '30px 0' }}>
-          <Pagination 
-            count={totalPages} 
-            page={page} 
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "30px 0",
+          }}
+        >
+          <Pagination
+            count={totalPages}
+            page={page}
             onChange={handlePageChange}
             color="secondary"
             size="large"

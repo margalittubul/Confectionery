@@ -20,7 +20,7 @@ export default function ClubJoin() {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -45,10 +45,21 @@ export default function ClubJoin() {
       return;
     }
 
-    const monthIndex = [
-      "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-      "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
-    ].indexOf(month) + 1;
+    const monthIndex =
+      [
+        "ינואר",
+        "פברואר",
+        "מרץ",
+        "אפריל",
+        "מאי",
+        "יוני",
+        "יולי",
+        "אוגוסט",
+        "ספטמבר",
+        "אוקטובר",
+        "נובמבר",
+        "דצמבר",
+      ].indexOf(month) + 1;
 
     const birthDate = new Date(year, monthIndex - 1, day);
 
@@ -136,7 +147,12 @@ export default function ClubJoin() {
           </div>
 
           <FormControlLabel
-            control={<Checkbox checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />}
+            control={
+              <Checkbox
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+            }
             label="אני מאשר/ת הצטרפות למועדון"
             sx={{ alignSelf: "start" }}
           />

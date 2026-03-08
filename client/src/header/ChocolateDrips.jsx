@@ -20,13 +20,12 @@ export default function CakeRain() {
       }));
       setDrops((prev) => [...prev, ...newDrops]);
 
-      // הסרת עוגות ישנות אחרי 3 שניות
       setTimeout(() => {
         setDrops((prev) =>
           prev.filter((drop) => !newDrops.find((d) => d.id === drop.id)),
         );
       }, 3000);
-    }, 500); // כל חצי שנייה
+    }, 500);
 
     return () => clearInterval(interval);
   }, []);

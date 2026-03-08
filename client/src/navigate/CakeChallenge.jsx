@@ -35,6 +35,18 @@ export default function CakeChallenge() {
 
   const currentStep = steps[stepIndex];
 
+  const handleSelect = (choice) => {
+    const newSelections = { ...selections, [currentStep]: choice };
+    setSelections(newSelections);
+
+    if (stepIndex === steps.length - 1) {
+      setIsFinished(true);
+    } else {
+      setStepIndex(stepIndex + 1);
+      setTimer(5);
+    }
+  };
+
   useEffect(() => {
     if (isFinished) return;
 
@@ -49,22 +61,11 @@ export default function CakeChallenge() {
     }, 1000);
 
     return () => clearInterval(countdown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepIndex, isFinished]);
 
   function randomChoice(array) {
     return array[Math.floor(Math.random() * array.length)];
-  }
-
-  function handleSelect(choice) {
-    const newSelections = { ...selections, [currentStep]: choice };
-    setSelections(newSelections);
-
-    if (stepIndex === steps.length - 1) {
-      setIsFinished(true);
-    } else {
-      setStepIndex(stepIndex + 1);
-      setTimer(5);
-    }
   }
 
   function restartGame() {

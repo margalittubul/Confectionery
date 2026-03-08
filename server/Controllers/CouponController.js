@@ -33,11 +33,9 @@ const CouponController = {
 
   update: async (req, res) => {
     try {
-      const coupon = await Coupon.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-      );
+      const coupon = await Coupon.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
       if (!coupon) {
         return res.status(404).json({ message: "קופון לא נמצא" });
       }
@@ -65,7 +63,7 @@ const CouponController = {
       const userId = req.user?.id;
 
       const coupon = await Coupon.findOne({ code, isActive: true });
-      
+
       if (!coupon) {
         return res.status(404).json({ message: "קופון לא תקין" });
       }
@@ -79,20 +77,30 @@ const CouponController = {
         const Customer = (await import("../Models/Customer.js")).default;
         const user = await Customer.findById(userId);
         if (!user || !user.is_club_member) {
-          return res.status(403).json({ message: "קופון זמין רק לחברי מועדון" });
+          return res
+            .status(403)
+            .json({ message: "קופון זמין רק לחברי מועדון" });
         }
       }
 
-      if (coupon.category && categoryId && coupon.category.toString() !== categoryId) {
+      if (
+        coupon.category &&
+        categoryId &&
+        coupon.category.toString() !== categoryId
+      ) {
         return res.status(400).json({ message: "קופון לא תקף לקטגוריה זו" });
       }
 
       if (orderPrice < coupon.minProductPrice) {
-        return res.status(400).json({ message: `מחיר מינימלי: ${coupon.minProductPrice}₪` });
+        return res
+          .status(400)
+          .json({ message: `מחיר מינימלי: ${coupon.minProductPrice}₪` });
       }
 
       if (coupon.maxProductPrice && orderPrice > coupon.maxProductPrice) {
-        return res.status(400).json({ message: `מחיר מקסימלי: ${coupon.maxProductPrice}₪` });
+        return res
+          .status(400)
+          .json({ message: `מחיר מקסימלי: ${coupon.maxProductPrice}₪` });
       }
 
       let discount = 0;
@@ -106,7 +114,7 @@ const CouponController = {
         valid: true,
         discount,
         message: `הנחה של ${discount}₪`,
-        coupon
+        coupon,
       });
     } catch (e) {
       res.status(400).json({ message: e.message });

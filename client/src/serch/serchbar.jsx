@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 function SearchBar({ query, setQuery, onSearch }) {
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSearch();
     }
   };

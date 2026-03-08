@@ -27,7 +27,14 @@ export default function Root() {
               <Button></Button>
             </div>
             <div className="mobile-buttons">
-              <div style={{display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center'}}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                  justifyContent: "center",
+                }}
+              >
                 <Button></Button>
                 <Button2></Button2>
               </div>

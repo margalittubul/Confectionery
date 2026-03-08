@@ -23,9 +23,10 @@ function Serch() {
   }, [dispatch, products.length]);
 
   const handleSearch = () => {
-    const results = products.filter((cake) =>
-      cake.name.toLowerCase().includes(query.toLowerCase()) ||
-      cake.description.toLowerCase().includes(query.toLowerCase()),
+    const results = products.filter(
+      (cake) =>
+        cake.name.toLowerCase().includes(query.toLowerCase()) ||
+        cake.description.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredCakes(results);
   };
