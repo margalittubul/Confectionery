@@ -2,20 +2,18 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCart,
+  removeFromCart,
+  updateQty,
   setProductsDetails,
-  setTotalPrice,
   setOrderCreated,
   setLoading,
-  updateQty,
 } from "../Redux/cartSlice";
 
 import {
   getBuyingById,
-  calculateTotalBuyingPrice,
   removeProductFromBuying,
   updateProductQuantity,
 } from "../API/BuyingController";
-
 import { getProductById } from "../API/ProductsController";
 import { addOrder } from "../API/OrderController";
 import { useNavigate } from "react-router-dom";
@@ -35,17 +33,14 @@ const Buying = () => {
     dispatch(setLoading(true));
     try {
       const cart = await getBuyingById();
-      if (!cart) throw new Error("Cart not found");
+      if (cart && cart.products) {
+        dispatch(setCart(cart.products));
 
-      dispatch(setCart(cart.products || []));
-
-      const details = await Promise.all(
-        cart.products.map((item) => getProductById(item.productId)),
-      );
-      dispatch(setProductsDetails(details));
-
-      const total = await calculateTotalBuyingPrice();
-      dispatch(setTotalPrice(total?.totalPrice ?? 0));
+        const details = await Promise.all(
+          cart.products.map((item) => getProductById(item.productId)),
+        );
+        dispatch(setProductsDetails(details));
+      }
     } catch (err) {
       console.error("Error loading cart:", err);
     } finally {
@@ -84,13 +79,12 @@ const Buying = () => {
   };
 
   const removeItem = async (productId) => {
+    console.log("🗑️ מנסה להסיר מוצר:", productId);
     try {
       const result = await removeProductFromBuying(productId);
-      if (result) {
-        fetchCartAndProducts();
-      } else {
-        alert("לא ניתן להסיר את המוצר");
-      }
+      console.log("✅ הוסר מהשרת:", result);
+      dispatch(removeFromCart(productId));
+      console.log("✅ הוסר מ-Redux");
     } catch (err) {
       console.error("שגיאה בהסרת מוצר:", err);
       alert("שגיאה בהסרת מוצר");
@@ -130,8 +124,10 @@ const Buying = () => {
         {cartItems.length === 0 ? (
           <p style={{ textAlign: "center", marginTop: "2rem" }}>הסל ריק</p>
         ) : (
-          cartItems.map((item, index) => {
-            const product = productsDetails[index];
+          cartItems.map((item) => {
+            const product = productsDetails.find(
+              (p) => p.id === item.productId,
+            );
             if (!product) return null;
             return (
               <div className="cart-item" key={item.productId}>

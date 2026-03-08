@@ -7,29 +7,31 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { getCategoryById, updateCategory } from "../API/CategoryController";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategoryById, editCategory } from "../Redux/categoriesSlice";
 import BackButton from "./BackButton";
 
 export default function EditCategory() {
   const { id } = useParams();
-  const [category, setCategory] = useState(null);
+  const dispatch = useDispatch();
+  const { selectedCategory, loading } = useSelector(
+    (state) => state.categories,
+  );
+
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const loadCategory = async () => {
-      const data = await getCategoryById(id);
-      if (data) {
-        setCategory(data);
-        setName(data.name);
-      }
-      setLoading(false);
-    };
-    loadCategory();
-  }, [id]);
+    dispatch(fetchCategoryById(id));
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setName(selectedCategory.name);
+    }
+  }, [selectedCategory]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,10 +44,10 @@ export default function EditCategory() {
       return;
     }
 
-    let finalImageUrl = category.imageUrl;
+    let finalImageUrl = selectedCategory.imageUrl;
 
     if (imageFile) {
-      const categoryFolder = category.name;
+      const categoryFolder = selectedCategory.name;
       const formData = new FormData();
       formData.append("image", imageFile);
 
@@ -80,13 +82,15 @@ export default function EditCategory() {
     };
 
     try {
-      const result = await updateCategory(id, updatedCategory);
-      if (result) {
-        setMessage("הקטגוריה עודכנה בהצלחה");
-        setImageFile(null);
-      } else {
-        setMessage("עדכון הקטגוריה נכשל");
-      }
+      await dispatch(
+        editCategory({
+          id,
+          categoryData: updatedCategory,
+        }),
+      ).unwrap();
+
+      setMessage("הקטגוריה עודכנה בהצלחה");
+      setImageFile(null);
     } catch {
       setMessage("שגיאה בעדכון הקטגוריה");
     } finally {
@@ -103,7 +107,7 @@ export default function EditCategory() {
     );
   }
 
-  if (!category) {
+  if (!selectedCategory) {
     return (
       <Typography color="error" textAlign="center">
         לא ניתן לטעון את פרטי הקטגוריה
