@@ -1,10 +1,4 @@
 import category from "../Models/Category.js";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const CategoryController = {
   getList: async (req, res) => {
@@ -26,21 +20,10 @@ const CategoryController = {
   },
   add: async (req, res) => {
     try {
-      const { name, imageUrl, folderName } = req.body;
+      const { name, imageUrl } = req.body;
 
       const lastCategory = await category.findOne().sort({ id: -1 });
       const newId = lastCategory ? lastCategory.id + 1 : 1;
-
-      if (folderName) {
-        const folderPath = path.join(
-          __dirname,
-          "../../client/public/img",
-          folderName,
-        );
-        if (!fs.existsSync(folderPath)) {
-          fs.mkdirSync(folderPath, { recursive: true });
-        }
-      }
 
       const newCategory = await category.create({ id: newId, name, imageUrl });
       res.status(201).json(newCategory);

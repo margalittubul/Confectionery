@@ -20,7 +20,8 @@ productRouter.post(
   upload.single("image"),
   (req, res) => {
     if (!req.file) return res.status(400).json({ message: "לא הועלתה תמונה" });
-    const imageUrl = `img/${req.query.categoryFolder}/${req.file.filename}`;
+    const base64 = req.file.buffer.toString('base64');
+    const imageUrl = `data:${req.file.mimetype};base64,${base64}`;
     res.json({ imageUrl });
   },
 );
