@@ -38,8 +38,8 @@ app.use(
   }),
 );
 
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(express.json({ limit: '10mb' }));
+app.use(bodyParser.json());
+app.use(express.json());
 
 app.use("/img", express.static(path.join(__dirname, "../client/public/img")));
 app.use("/img", express.static(path.join(__dirname, "uploads")));
