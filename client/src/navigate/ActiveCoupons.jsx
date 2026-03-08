@@ -22,11 +22,13 @@ export default function ActiveCoupons() {
     fetchCoupons();
   }, []);
 
+  console.log("Rendering coupons:", coupons.length, coupons);
+  
   return (
     <div className="coupons-container">
       <h1 className="coupons-title">הנחות פעילות</h1>
       <div className="coupons-grid">
-        {coupons.map((coupon) => (
+        {coupons.map((coupon, index) => (
           <div key={coupon._id} className="coupon-card">
             <div className="coupon-icon">🎫</div>
             <div className="coupon-code">{coupon.code}</div>
