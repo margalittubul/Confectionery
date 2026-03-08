@@ -8,14 +8,20 @@ export default function ActiveCoupons() {
   useEffect(() => {
     const fetchCoupons = async () => {
       const data = await getAllCoupons();
+      console.log("All coupons:", data);
       if (data) {
         const now = new Date();
+        console.log("Now:", now);
+        data.forEach(c => {
+          console.log(`${c.code}: isActive=${c.isActive}, validFrom=${c.validFrom}, validUntil=${c.validUntil}`);
+        });
         const active = data.filter(
           (c) =>
             c.isActive &&
             new Date(c.validFrom) <= now &&
             new Date(c.validUntil) >= now,
         );
+        console.log("Active coupons:", active);
         setCoupons(active);
       }
     };
