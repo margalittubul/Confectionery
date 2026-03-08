@@ -77,11 +77,10 @@ export default function Picthur() {
         }),
       );
 
-      // החלף בין תמונות לקופונים והזז את המיקום
       if (activeCoupons.length > 0) {
         setShowCoupon((prev) => !prev);
-        setCouponPosition(Math.floor(Math.random() * 4)); // מיקום אקראי 0-3
-        setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length)); // קופון אקראי
+        setCouponPosition(Math.floor(Math.random() * 4));
+        setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length)); 
       }
     }, 3000);
 
@@ -95,7 +94,6 @@ export default function Picthur() {
 
       <div className="four-images-gallery">
         {displayItems.map((item, index) => {
-          // אם יש קופונים וזה המיקום של הקופון וצריך להציג קופון
           const shouldShowCoupon =
             activeCoupons.length > 0 && index === couponPosition && showCoupon;
 

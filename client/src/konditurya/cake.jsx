@@ -32,7 +32,7 @@ export default function Cake() {
     if (!cake) return;
     if (!user.token) {
       alert("עליך להירשם כדי להוסיף מוצרים לסל");
-      navigate("/Singin");
+      navigate("/Login");
       return;
     }
     dispatch(addProductToBuying({ productId: cake.id, quantity: 1 }))
