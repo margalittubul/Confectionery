@@ -31,7 +31,9 @@ export default function Category() {
           <Link to={`/SubCategory/${categoryItem.id}`}>
             <img
               src={
-                categoryItem.imageUrl
+                categoryItem.imageUrl?.startsWith('http')
+                  ? categoryItem.imageUrl
+                  : categoryItem.imageUrl
                   ? categoryItem.imageUrl
                   : "/img/default.jpg"
               }

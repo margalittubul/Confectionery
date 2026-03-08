@@ -56,7 +56,7 @@ export default function Cake() {
     <div className="StyleCake">
       <h2 className="main-title">{cake.name}</h2>
       <img
-        src={`/${cake.imageUrl}`}
+        src={cake.imageUrl?.startsWith('http') ? cake.imageUrl : `/${cake.imageUrl}`}
         alt={cake.name}
         className="animated-image"
       />

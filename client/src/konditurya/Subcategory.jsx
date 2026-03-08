@@ -52,7 +52,7 @@ export default function SubCategory() {
             <p className="title">{cake.name}</p>
             <Link to={`/cake/${cake.id}`}>
               <img
-                src={cake.imageUrl ? `/${cake.imageUrl}` : "/img/default.jpg"}
+                src={cake.imageUrl?.startsWith('http') ? cake.imageUrl : cake.imageUrl ? `/${cake.imageUrl}` : "/img/default.jpg"}
                 className="animated-image"
                 alt={cake.name || "cake"}
               />
