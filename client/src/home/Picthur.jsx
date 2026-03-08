@@ -103,51 +103,16 @@ export default function Picthur() {
           return shouldShowCoupon ? (
             <div
               key={`coupon-${index}`}
-              className={`four-image active-${index}`}
-              style={{
-                background: "linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "15px",
-                color: "#c2185b",
-                textAlign: "center",
-                borderRadius: "10px",
-                boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-                border: "2px solid #f48fb1",
-                boxSizing: "border-box",
-              }}
+              className={`four-image coupon-card active-${index}`}
             >
-              <div style={{ fontSize: "2em", marginBottom: "8px" }}>🎫</div>
-              <div
-                style={{
-                  fontSize: "1.4em",
-                  fontWeight: "bold",
-                  marginBottom: "8px",
-                }}
-              >
+              <div className="coupon-emoji">🎫</div>
+              <div className="coupon-code">
                 {activeCoupons[currentCouponIndex].code}
               </div>
-              <div
-                style={{
-                  fontSize: "0.9em",
-                  marginBottom: "10px",
-                  lineHeight: "1.3",
-                }}
-              >
+              <div className="coupon-description">
                 {activeCoupons[currentCouponIndex].description}
               </div>
-              <div
-                style={{
-                  fontSize: "1.2em",
-                  fontWeight: "bold",
-                  backgroundColor: "#f48fb1",
-                  color: "#fff",
-                  padding: "6px 12px",
-                  borderRadius: "15px",
-                }}
-              >
+              <div className="coupon-discount">
                 {activeCoupons[currentCouponIndex].discountType === "fixed"
                   ? `${activeCoupons[currentCouponIndex].discountValue}₪`
                   : `${activeCoupons[currentCouponIndex].discountValue}%`}{" "}

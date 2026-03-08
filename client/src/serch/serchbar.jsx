@@ -15,7 +15,7 @@ function SearchBar({ query, setQuery, onSearch }) {
         placeholder="חפש עוגה..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         className="search-bar-container input"
       />
       <button onClick={onSearch} className="search-bar-container button">
