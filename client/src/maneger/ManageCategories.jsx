@@ -42,7 +42,7 @@ export default function ManageCategories() {
       const token = localStorage.getItem("userToken");
       console.log("Token:", token ? "exists" : "missing");
       const uploadRes = await fetch(
-        `http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`,
+        `https://confectionery-server-59ew.onrender.com/categories/upload?categoryFolder=${categoryFolder}`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },

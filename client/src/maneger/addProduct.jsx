@@ -79,7 +79,7 @@ const AddProductForm = () => {
     try {
       const token = localStorage.getItem("userToken");
       const uploadRes = await fetch(
-        `http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`,
+        `https://confectionery-server-59ew.onrender.com/products/upload?categoryFolder=${categoryFolder}`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },

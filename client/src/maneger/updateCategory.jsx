@@ -54,7 +54,7 @@ export default function EditCategory() {
       try {
         const token = localStorage.getItem("userToken");
         const uploadRes = await fetch(
-          `http://localhost:3000/categories/upload?categoryFolder=${categoryFolder}`,
+          `https://confectionery-server-59ew.onrender.com/categories/upload?categoryFolder=${categoryFolder}`,
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },

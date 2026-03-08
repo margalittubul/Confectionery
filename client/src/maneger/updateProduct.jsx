@@ -87,8 +87,8 @@ export default function EditProduct() {
 
       try {
         const token = localStorage.getItem("userToken");
-        const uploadRes = await fetch(
-          `http://localhost:3000/products/upload?categoryFolder=${categoryFolder}`,
+      const uploadRes = await fetch(
+        `https://confectionery-server-59ew.onrender.com/products/upload?categoryFolder=${categoryFolder}`,
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
