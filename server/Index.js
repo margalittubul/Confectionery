@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import connectDB from "./database.js";
+
+dotenv.config();
 
 import productRouter from "./Routers/ProductRouter.js";
 import categoryRouter from "./Routers/CategoryRouter.js";
