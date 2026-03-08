@@ -8,33 +8,27 @@ export default function ActiveCoupons() {
   useEffect(() => {
     const fetchCoupons = async () => {
       const data = await getAllCoupons();
-      console.log("All coupons:", data);
       if (data) {
         const now = new Date();
-        console.log("Now:", now);
-        data.forEach(c => {
-          console.log(`${c.code}: isActive=${c.isActive}, validFrom=${c.validFrom}, validUntil=${c.validUntil}`);
+        now.setHours(0, 0, 0, 0);
+        const active = data.filter((c) => {
+          const from = new Date(c.validFrom);
+          const until = new Date(c.validUntil);
+          from.setHours(0, 0, 0, 0);
+          until.setHours(23, 59, 59, 999);
+          return c.isActive && from <= now && until >= now;
         });
-        const active = data.filter(
-          (c) =>
-            c.isActive &&
-            new Date(c.validFrom) <= now &&
-            new Date(c.validUntil) >= now,
-        );
-        console.log("Active coupons:", active);
         setCoupons(active);
       }
     };
     fetchCoupons();
   }, []);
 
-  console.log("Rendering coupons:", coupons.length, coupons);
-  
   return (
     <div className="coupons-container">
       <h1 className="coupons-title">הנחות פעילות</h1>
       <div className="coupons-grid">
-        {coupons.map((coupon, index) => (
+        {coupons.map((coupon) => (
           <div key={coupon._id} className="coupon-card">
             <div className="coupon-icon">🎫</div>
             <div className="coupon-code">{coupon.code}</div>
