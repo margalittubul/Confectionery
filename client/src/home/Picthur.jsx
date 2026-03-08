@@ -23,16 +23,19 @@ import img11 from "/img/38.jpg";
 import img12 from "/img/39.jpg";
 import img13 from "/img/40.jpg";
 import img14 from "/img/41.jpg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getAllCoupons } from "../API/CouponController";
 
 export default function Picthur() {
-  const imageSets = [
-    [img1, img2, img3],
-    [img4, img87, img15],
-    [img25, img50, img65],
-    [img76, img49, img23],
-  ];
+  const imageSets = useMemo(
+    () => [
+      [img1, img2, img3],
+      [img4, img87, img15],
+      [img25, img50, img65],
+      [img76, img49, img23],
+    ],
+    [],
+  );
 
   const [currentIndices, setCurrentIndices] = useState([0, 0, 0, 0]);
   const [activeCoupons, setActiveCoupons] = useState([]);
@@ -66,7 +69,7 @@ export default function Picthur() {
       items.push({ type: "image", data: set, index: i });
     });
     setDisplayItems(items);
-  }, []);
+  }, [imageSets]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -80,7 +83,7 @@ export default function Picthur() {
       if (activeCoupons.length > 0) {
         setShowCoupon((prev) => !prev);
         setCouponPosition(Math.floor(Math.random() * 4));
-        setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length)); 
+        setCurrentCouponIndex(Math.floor(Math.random() * activeCoupons.length));
       }
     }, 3000);
 
