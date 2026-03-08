@@ -1,32 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-import { getProductById } from "../API/ProductsController.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToBuying } from "../Redux/cartSlice.js";
+import { fetchProductById } from "../Redux/productsSlice.js";
 
 export default function Cake() {
-  const [cake, setCake] = useState(null);
-  const [error, setError] = useState(null);
   const { cakeId } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
+  const {
+    items: products,
+    selectedProduct,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
+
+  // חיפוש המוצר ב-Redux
+  const cake = products.find((p) => p.id === Number(cakeId)) || selectedProduct;
+
   useEffect(() => {
-    async function fetchCake() {
-      try {
-        const data = await getProductById(cakeId);
-        setCake(data);
-      } catch (err) {
-        setError(err.message);
-      }
+    if (!cake && !loading) {
+      dispatch(fetchProductById(cakeId));
     }
-    fetchCake();
-  }, [cakeId]);
+  }, [cakeId, dispatch, loading]);
 
   const handleAddToCart = () => {
     if (!cake) return;
@@ -46,6 +48,7 @@ export default function Cake() {
       });
   };
 
+  if (loading) return <div>טוען פרטי עוגה...</div>;
   if (error) return <div>שגיאה: {error}</div>;
   if (!cake) return <div>טוען פרטי עוגה...</div>;
 

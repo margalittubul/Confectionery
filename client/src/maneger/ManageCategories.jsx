@@ -12,24 +12,21 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories, addCategory } from "../API/CategoryController";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, createCategory } from "../Redux/categoriesSlice";
 import BackButton from "./BackButton";
 
 export default function ManageCategories() {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const { items: categories } = useSelector((state) => state.categories);
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [folderName, setFolderName] = useState("");
 
   useEffect(() => {
-    loadCategories();
-  }, []);
-
-  const loadCategories = async () => {
-    const data = await getAllCategories();
-    if (data?.categories) setCategories(data.categories);
-  };
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const handleAdd = async () => {
     if (!name.trim() || !imageFile) {
@@ -62,19 +59,19 @@ export default function ManageCategories() {
         return;
       }
 
-      const result = await addCategory({
-        name,
-        imageUrl: uploadData.imageUrl,
-        folderName: categoryFolder,
-      });
+      const result = await dispatch(
+        createCategory({
+          name,
+          imageUrl: uploadData.imageUrl,
+          folderName: categoryFolder,
+        }),
+      ).unwrap();
+
       if (result) {
         alert("קטגוריה נוספה בהצלחה");
         setName("");
         setImageFile(null);
         setFolderName("");
-        await loadCategories();
-      } else {
-        alert("שגיאה בהוספת קטגוריה");
       }
     } catch {
       alert("שגיאה בהעלאת תמונה");
