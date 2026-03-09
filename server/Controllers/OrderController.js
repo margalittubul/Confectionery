@@ -73,8 +73,6 @@ const OrderController = {
     const { id } = req.params;
     const { status } = req.body;
 
-    console.log("Updating order status:", { id, status });
-
     if (
       ![
         "הוזמן",
@@ -92,21 +90,15 @@ const OrderController = {
       const order = await Order.findById(id);
       if (!order) return res.status(404).json({ message: "Order not found" });
 
-      // בדוק אם הסטטוס באמת השתנה
       const statusChanged = order.status !== status;
 
       order.status = status;
       const updated = await order.save();
 
-      console.log("Order updated successfully, status changed:", statusChanged);
-
-      // שלח מייל רק אם הסטטוס באמת השתנה
       if (statusChanged) {
         const customer = await Customer.findById(updated.customerId);
-        console.log("Customer found:", customer?.email);
 
         if (customer?.email) {
-          console.log("Starting to send email in background...");
           sendOrderStatusEmail(customer.email, {
             orderId: updated._id,
             status: updated.status,
@@ -134,12 +126,9 @@ const OrderController = {
   },
   advanceStatus: async (req, res) => {
     const { id } = req.params;
-    console.log("advanceStatus called for order:", id);
     try {
       const order = await Order.findById(id);
       if (!order) return res.status(404).json({ message: "Order not found" });
-
-      console.log("Current status:", order.status);
 
       let newStatus;
       if (order.status === "אושרה הזמנה") newStatus = "בתהליך...";
@@ -147,18 +136,12 @@ const OrderController = {
       else if (order.status === "נשלח") newStatus = "הגיע ליעד, בתאבון!!!";
       else return res.status(400).json({ message: "Cannot advance" });
 
-      console.log("New status:", newStatus);
-
       order.status = newStatus;
       await order.save();
 
-      console.log("Order saved, fetching customer...");
-
       const customer = await Customer.findById(order.customerId);
-      console.log("Customer email:", customer?.email);
 
       if (customer?.email) {
-        console.log("Sending email in background...");
         sendOrderStatusEmail(customer.email, {
           orderId: order._id,
           status: order.status,
