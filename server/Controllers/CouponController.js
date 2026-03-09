@@ -59,7 +59,7 @@ const CouponController = {
 
   validateCoupon: async (req, res) => {
     try {
-      const { code, orderPrice, categoryId } = req.body;
+      const { code, products } = req.body;
       const userId = req.user?.id;
 
       const coupon = await Coupon.findOne({ code, isActive: true });
@@ -83,21 +83,24 @@ const CouponController = {
         }
       }
 
-      if (
-        coupon.category &&
-        categoryId &&
-        coupon.category.toString() !== categoryId
-      ) {
-        return res.status(400).json({ message: "קופון לא תקף לקטגוריה זו" });
+      let relevantPrice = 0;
+      for (const product of products) {
+        if (!coupon.category || product.categoryId?.toString() === coupon.category.toString()) {
+          relevantPrice += product.price;
+        }
       }
 
-      if (orderPrice < coupon.minProductPrice) {
+      if (relevantPrice === 0) {
+        return res.status(400).json({ message: "אין מוצרים מתאימים לקופון זה" });
+      }
+
+      if (relevantPrice < coupon.minProductPrice) {
         return res
           .status(400)
           .json({ message: `מחיר מינימלי: ${coupon.minProductPrice}₪` });
       }
 
-      if (coupon.maxProductPrice && orderPrice > coupon.maxProductPrice) {
+      if (coupon.maxProductPrice && relevantPrice > coupon.maxProductPrice) {
         return res
           .status(400)
           .json({ message: `מחיר מקסימלי: ${coupon.maxProductPrice}₪` });
@@ -107,13 +110,13 @@ const CouponController = {
       if (coupon.discountType === "fixed") {
         discount = coupon.discountValue;
       } else {
-        discount = (orderPrice * coupon.discountValue) / 100;
+        discount = (relevantPrice * coupon.discountValue) / 100;
       }
 
       res.json({
         valid: true,
         discount,
-        message: `הנחה של ${discount}₪`,
+        message: `הנחה של ${discount.toFixed(0)}₪`,
         coupon,
       });
     } catch (e) {

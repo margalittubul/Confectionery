@@ -132,16 +132,13 @@ export default function Tashlum() {
       return;
     }
 
-    // מצא קטגוריות מהמוצרים בהזמנה
-    const categoryIds =
-      order.products?.map((p) => p.product?.category).filter(Boolean) || [];
-    const uniqueCategoryId = categoryIds.length > 0 ? categoryIds[0] : null;
+    // הכן מערך מוצרים עם קטגוריה ומחיר
+    const products = order.products?.map((p) => ({
+      categoryId: p.product?.categoryId,
+      price: p.product?.price * p.quantity,
+    })) || [];
 
-    const result = await validateCoupon(
-      couponCode,
-      originalPrice,
-      uniqueCategoryId,
-    );
+    const result = await validateCoupon(couponCode, products);
 
     if (result.valid) {
       setCouponData(result);
