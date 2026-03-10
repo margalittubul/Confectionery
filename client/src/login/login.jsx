@@ -32,7 +32,6 @@ export default function Signin() {
     setError("");
     setSuccess("");
 
-    // ולידציה
     if (!name || name.length < 2) {
       setError("יש להזין שם (לפחות 2 תווים)");
       return;
