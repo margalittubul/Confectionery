@@ -139,8 +139,6 @@ export default function Picthur() {
       <br />
       <br />
       <br />
-      <br />
-      <br />
       <div>
         <h2 className="testimonials_h2">...מה הלקוחות שלנו אומרים</h2>
         <img src={img5} className="img2" alt="testimonial 1" />

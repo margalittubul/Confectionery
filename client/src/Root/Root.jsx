@@ -8,7 +8,7 @@ import Navigate2 from "../navigate/navigate2";
 import "../App.css";
 
 import { Outlet } from "react-router-dom";
-import ScrollToTop from "../home/ScrollToTop";
+import ScrollToTop from "./ScrollToTop";
 
 export default function Root() {
   return (
@@ -42,7 +42,6 @@ export default function Root() {
           </div>
         </div>
       </header>
-      <br />
       <br />
       <main>
         <div className="main">
