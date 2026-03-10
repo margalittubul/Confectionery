@@ -1,59 +1,36 @@
-import { Box, Container } from "@mui/material";
-import Animation from "../header/Animation";
-import Logo from "../header/Logo";
-import CakeRain from "../header/ChocolateDrips";
-import NavLinks from "../navigate/navigate2";
+import Animation from "./Animation";
 import Button from "./Button";
 import Button2 from "./Button2";
+import Logo from "./Logo";
+import ChocolateDrips from "./ChocolateDrips";
 
-export default function MainComponent() {
+export default function Header() {
   return (
-    <Container maxWidth="lg" sx={{ pt: 2 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: { xs: "center", md: "space-between" },
-          alignItems: "center",
-          gap: 2,
-          mb: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: { xs: "none", md: "block" },
-            flex: 1,
-          }}
-        >
-          <Button />
-        </Box>
-
-        <Box>
-          <Logo />
-        </Box>
-
-        <Box
-          sx={{
-            display: { xs: "none", md: "block" },
-            flex: 1,
-          }}
-        >
-          <Button2 />
-        </Box>
-
-        <Box
-          sx={{
-            display: { xs: "block", md: "none" },
-            width: "100%",
-          }}
-        >
-          <Button />
-          <Button2 />
-        </Box>
-      </Box>
-      <NavLinks />
+    <div className="header">
+      <ChocolateDrips />
       <Animation />
-      <CakeRain />
-    </Container>
+      <div className="header-layout">
+        <div className="desktop-buttons left">
+          <Button2 />
+        </div>
+        <Logo />
+        <div className="desktop-buttons right">
+          <Button />
+        </div>
+        <div className="mobile-buttons">
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <Button />
+            <Button2 />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
