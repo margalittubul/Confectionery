@@ -198,7 +198,7 @@ const Profile = () => {
       {message && (
         <Typography
           textAlign="center"
-          color={message.includes("") ? "green" : "error"}
+          color={message.includes("הצלחה") ? "green" : "error"}
           mt={2}
         >
           {message}
