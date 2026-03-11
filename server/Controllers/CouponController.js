@@ -98,17 +98,24 @@ const CouponController = {
         }
       }
 
-      const order =
-        await Order.findById(orderId).populate("products.productId");
+      const order = await Order.findById(orderId).populate({
+        path: "products.productId",
+        populate: { path: "categoryId" }, 
+      });
 
       let relevantPrice = 0;
-      for (const product of order.products) {
+
+      for (const p of order.products) {
+        const product = p.productId;
+        if (!product) continue;
+
+        const productCategoryName = product.categoryId?.name;
+
         if (
-          !coupon.category ||
-          product.productId.categoryId?.toString() ===
-            coupon.category.toString()
+          !coupon.categoryName ||
+          productCategoryName === coupon.categoryName
         ) {
-          relevantPrice += product.productId.price * product.quantity;
+          relevantPrice += product.price * p.quantity;
         }
       }
 
