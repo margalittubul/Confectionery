@@ -132,11 +132,15 @@ export default function Tashlum() {
       return;
     }
 
-    const products = order.products?.map((p) => ({
-      categoryId: p.product?.categoryId,
-      price: p.product?.price * p.quantity,
-    })) || [];
-
+    const products =
+      order.products?.map((p) => {
+        const price = p.product?.price ? p.product.price * p.quantity : 0;
+        return {
+          categoryId: p.product?.categoryId || null,
+          price,
+        };
+      }) || [];
+      
     const result = await validateCoupon(couponCode, products, orderId);
 
     if (result.valid) {
