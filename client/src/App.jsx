@@ -25,7 +25,7 @@ import Serch from "./serch/serch";
 import ClubJoin from "./navigate/ClubJoin";
 import Articles from "./navigate/articles";
 import Snifim from "./navigate/snifim";
-import ActiveCoupons from "./navigate/ActiveCoupons";
+import ActiveCoupons from "./header/ActiveCoupons";
 
 import CakeChallenge from "./navigate/CakeChallenge";
 

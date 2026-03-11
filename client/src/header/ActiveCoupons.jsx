@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllCoupons } from "../API/CouponController";
+import { getActiveCoupons } from "../API/CouponController";
 import "./ActiveCoupons.css";
 
 export default function ActiveCoupons() {
@@ -7,19 +7,8 @@ export default function ActiveCoupons() {
 
   useEffect(() => {
     const fetchCoupons = async () => {
-      const data = await getAllCoupons();
-      if (data) {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-        const active = data.filter((c) => {
-          const from = new Date(c.validFrom);
-          const until = new Date(c.validUntil);
-          from.setHours(0, 0, 0, 0);
-          until.setHours(23, 59, 59, 999);
-          return c.isActive && from <= now && until >= now;
-        });
-        setCoupons(active);
-      }
+      const activeCoupons = await getActiveCoupons();
+      setCoupons(activeCoupons || []);
     };
     fetchCoupons();
   }, []);

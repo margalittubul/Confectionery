@@ -19,6 +19,20 @@ const CouponController = {
     }
   },
 
+  getActive: async (req, res) => {
+    try {
+      const now = new Date();
+      const coupons = await Coupon.find({
+        isActive: true,
+        validFrom: { $lte: now },
+        validUntil: { $gte: now }
+      }).populate("category");
+      res.json(coupons);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+
   getById: async (req, res) => {
     try {
       const coupon = await Coupon.findById(req.params.id).populate("category");

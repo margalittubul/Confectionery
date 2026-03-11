@@ -24,7 +24,7 @@ import img12 from "/img/39.jpg";
 import img13 from "/img/40.jpg";
 import img14 from "/img/41.jpg";
 import { useState, useEffect, useMemo } from "react";
-import { getAllCoupons } from "../API/CouponController";
+import { getActiveCoupons } from "../API/CouponController";
 
 export default function Picthur() {
   const imageSets = useMemo(
@@ -46,25 +46,8 @@ export default function Picthur() {
 
   useEffect(() => {
     const fetchCoupons = async () => {
-      const coupons = await getAllCoupons();
-      if (coupons) {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-        const active = coupons.filter((c) => {
-          const from = new Date(c.validFrom);
-          const until = new Date(c.validUntil);
-          from.setHours(0, 0, 0, 0);
-          until.setHours(23, 59, 59, 999);
-          return (
-            c.isActive &&
-            from <= now &&
-            until >= now &&
-            c.description &&
-            c.description.trim() !== ""
-          );
-        });
-        setActiveCoupons(active);
-      }
+      const coupons = await getActiveCoupons();
+      setActiveCoupons(coupons);
     };
     fetchCoupons();
   }, []);

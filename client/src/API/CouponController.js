@@ -1,4 +1,3 @@
-// const API_URL = "http://localhost:3000/coupons";
 const API_URL = "https://confectionery-server-59ew.onrender.com/coupons";
 
 export const createCoupon = async (couponData) => {
@@ -41,6 +40,27 @@ export const getAllCoupons = async () => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching coupons:", error);
+    return null;
+  }
+};
+
+export const getActiveCoupons = async () => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const headers = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_URL}/active`, { headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch active coupons");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching active coupons:", error);
     return null;
   }
 };

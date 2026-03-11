@@ -11,6 +11,7 @@ couponRouter.post(
   CouponController.create,
 );
 couponRouter.get("/", CouponController.getAll);
+couponRouter.get("/active", CouponController.getActive);
 couponRouter.get(
   "/:id",
   authMiddleware,

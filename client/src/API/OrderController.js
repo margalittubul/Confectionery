@@ -1,4 +1,3 @@
-// const API_URL = 'http://localhost:3000/order';
 const API_URL = "https://confectionery-server-59ew.onrender.com/order";
 
 export const getAllOrders = async () => {

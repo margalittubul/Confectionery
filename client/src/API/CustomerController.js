@@ -1,4 +1,3 @@
-// const API_URL = 'http://localhost:3000/customer';
 const API_URL = "https://confectionery-server-59ew.onrender.com/customer";
 
 export const getAllCustomers = async () => {
