@@ -2,11 +2,13 @@ import "./StyleHeader.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCustomerProfile } from "../API/CustomerController";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from "../Redux/cartSlice";
 
 export default function Button() {
   const [username, setUsername] = useState("אורח");
   const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   const getUserData = async () => {
     const profile = await getCustomerProfile();
@@ -14,6 +16,7 @@ export default function Button() {
       setUsername(profile.name);
     } else {
       setUsername("אורח");
+      dispatch(clearCart());
     }
   };
 

@@ -80,7 +80,7 @@ export default function Signin() {
         localStorage.setItem("userToken", result.token);
 
         setSuccess("נרשמת בהצלחה!");
-        setTimeout(() => navigate("/"), 1500);
+        setTimeout(() => navigate("/Picthur"), 1500);
       } else {
         setError("הרשמה נכשלה");
       }

@@ -66,7 +66,7 @@ export default function ClubJoin() {
     const result = await joinClub({ birth_date: birthDate });
     if (result && result._id) {
       setSuccess("הצטרפת בהצלחה למועדון!");
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/Picthur"), 1500);
     } else if (result && result.message === "כבר רשום למועדון") {
       setError("כבר רשום למועדון");
     } else {
