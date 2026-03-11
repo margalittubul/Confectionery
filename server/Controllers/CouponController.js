@@ -119,6 +119,8 @@ const CouponController = {
       let relevantPrice = 0;
 
       for (const p of order.products) {
+        console.log("product:", p.productId);
+        
         const product = p.productId;
         if (!product) continue;
 
