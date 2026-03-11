@@ -132,6 +132,8 @@ export default function Tashlum() {
       return;
     }
 
+    console.log("order", order)
+
     const products =
       order.products?.map((p) => {
         const product = p.productId; 
@@ -140,6 +142,8 @@ export default function Tashlum() {
           price: product?.price * p.quantity || 0,
         };
       }) || [];
+
+    console.log("Products for coupon validation:", products);
 
     const result = await validateCoupon(couponCode, products, orderId);
 
