@@ -82,6 +82,7 @@ export default function Navigate2() {
                 >
                   <Link to="/order">הזמנות</Link>
                   <Link to="/buying">סל שלי</Link>
+                  <Link to="/ActiveCoupons">הנחות פעילות</Link>
                 </div>
               </div>
               <div className="footer-column">
