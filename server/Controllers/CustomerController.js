@@ -130,15 +130,21 @@ const CustomerController = {
   },
   markFirstPurchaseUsed: async (req, res) => {
     try {
-      const user = await Customer.findByIdAndUpdate(
-        req.user.id,
-        { first_club_purchase_used: true },
-        { new: true },
-      );
+      const user = await Customer.findById(req.user.id);
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
-      res.json(user);
+
+      const isEligible = user.is_club_member && !user.first_club_purchase_used;
+
+      if (!isEligible) {
+        return res.json({ eligible: false, message: "לא זכאי להנחת מועדון" });
+      }
+
+      user.first_club_purchase_used = true;
+      await user.save();
+
+      res.json({ eligible: true, message: "הנחת מועדון סומנה כמשומשת", user });
     } catch (e) {
       console.error("Error marking first purchase:", e);
       res.status(400).json({ message: e.message });
@@ -146,19 +152,48 @@ const CustomerController = {
   },
   markBirthdayDiscountUsed: async (req, res) => {
     try {
-      const currentYear = new Date().getFullYear();
-
-      const user = await Customer.findByIdAndUpdate(
-        req.user.id,
-        { $set: { birthday_discount_used_year: currentYear } },
-        { new: true, runValidators: false },
-      );
-
+      const user = await Customer.findById(req.user.id);
       if (!user) {
         return res.status(404).json({ message: "משתמש לא נמצא" });
       }
 
-      res.json(user);
+      if (!user.birth_date) {
+        return res.json({ eligible: false, message: "אין תאריך לידה" });
+      }
+
+      const today = new Date();
+      const birthDate = new Date(user.birth_date);
+      const currentYear = today.getFullYear();
+
+      const birthdayThisYear = new Date(
+        currentYear,
+        birthDate.getMonth(),
+        birthDate.getDate(),
+      );
+      const weekAfterBirthday = new Date(birthdayThisYear);
+      weekAfterBirthday.setDate(weekAfterBirthday.getDate() + 7);
+
+      const isInBirthdayWeek =
+        today >= birthdayThisYear && today <= weekAfterBirthday;
+      const usedThisYear = user.birthday_discount_used_year === currentYear;
+
+      const isEligible = isInBirthdayWeek && !usedThisYear;
+
+      if (!isEligible) {
+        return res.json({
+          eligible: false,
+          message: "לא זכאי להנחת יום הולדת",
+        });
+      }
+
+      user.birthday_discount_used_year = currentYear;
+      await user.save();
+
+      res.json({
+        eligible: true,
+        message: "הנחת יום הולדת סומנה כמשומשת",
+        user,
+      });
     } catch (e) {
       console.error("Error marking birthday discount:", e);
       res.status(400).json({ message: e.message });
