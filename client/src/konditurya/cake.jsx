@@ -21,7 +21,6 @@ export default function Cake() {
     error,
   } = useSelector((state) => state.products);
 
-  // חיפוש המוצר ב-Redux
   const cake = products.find((p) => p.id === Number(cakeId)) || selectedProduct;
 
   useEffect(() => {

@@ -30,13 +30,7 @@ export default function Category() {
           <p>{categoryItem.name}</p>
           <Link to={`/SubCategory/${categoryItem.id}`}>
             <img
-              src={
-                categoryItem.imageUrl?.startsWith('http')
-                  ? categoryItem.imageUrl
-                  : categoryItem.imageUrl
-                  ? categoryItem.imageUrl
-                  : "/img/default.jpg"
-              }
+              src={categoryItem.imageUrl || "/img/default.jpg"}
               alt={categoryItem.name}
               className="animated-image"
             />

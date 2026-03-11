@@ -21,7 +21,6 @@ export default function OkOrder() {
 
         setOrder(ord || []);
 
-        // שלח מייל רק אם הסטטוס עדיין לא "אושרה הזמנה"
         if (ord.status !== "אושרה הזמנה") {
           await updateOrderStatus(orderId, "אושרה הזמנה");
         }
