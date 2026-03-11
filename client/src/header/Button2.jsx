@@ -16,14 +16,15 @@ export default function Button() {
       setUsername(profile.name);
     } else {
       setUsername("אורח");
-      dispatch(clearCart());
     }
   };
 
   useEffect(() => {
     getUserData();
     const handleLogin = () => getUserData();
-    const handleLogout = () => getUserData();
+    const handleLogout = () => {
+      getUserData() 
+      dispatch(clearCart())}
 
     window.addEventListener("user-logged-in", handleLogin);
     window.addEventListener("user-logged-out", handleLogout);
