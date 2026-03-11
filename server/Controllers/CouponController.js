@@ -111,7 +111,7 @@ const CouponController = {
 
       const order = await Order.findById(orderId).populate({
         path: "products.productId",
-        populate: { path: "categoryId" }, 
+        populate: { path: "categoryId" },
       });
 
       console.log("Found order:", order);
@@ -119,18 +119,14 @@ const CouponController = {
       let relevantPrice = 0;
 
       for (const p of order.products) {
-
-        console.log("Checking product:", p);
-        console.log("Product ID:", p.productId);
-        
         const product = p.productId;
         if (!product) continue;
 
-        const productCategoryName = product.categoryId?.name;
+        const productCategoryId = product.categoryId?._id;
 
         if (
-          !coupon.categoryName ||
-          productCategoryName === coupon.categoryName
+          !coupon.category ||
+          productCategoryId?.toString() === coupon.category.toString()
         ) {
           relevantPrice += product.price * p.quantity;
         }
