@@ -77,32 +77,22 @@ const CouponController = {
       console.log("Received coupon validation request");
 
       const { code, products, orderId } = req.body;
-
       console.log("Code:", code);
       console.log("Products:", products);
       console.log("Order ID:", orderId);
 
       const userId = req.user?.id;
-
       console.log("User ID:", userId);
 
       const coupon = await Coupon.findOne({ code, isActive: true });
-
-      console.log("Found coupon:", coupon);
-
-      if (!coupon) {
-        return res.status(404).json({ message: "קופון לא תקין" });
-      }
+      if (!coupon) return res.status(404).json({ message: "קופון לא תקין" });
 
       console.log("Coupon valid dates:", coupon.validFrom, coupon.validUntil);
-
       const now = new Date();
-      if (now < coupon.validFrom || now > coupon.validUntil) {
+      if (now < coupon.validFrom || now > coupon.validUntil)
         return res.status(400).json({ message: "קופון לא בתוקף" });
-      }
 
       console.log("Coupon club only:", coupon.clubOnly);
-
       if (coupon.clubOnly && userId) {
         const Customer = (await import("../Models/Customer.js")).default;
         const user = await Customer.findById(userId);
@@ -115,22 +105,17 @@ const CouponController = {
 
       console.log("Validating coupon against order...");
 
-      const order = await Order.findById(orderId).populate({
-        path: "products.productId",
-        populate: { path: "categoryId" },
-      });
-
-      console.log("Found order:", order);
+      const order = await Order.findById(orderId); // בלי populate
+      if (!order) return res.status(404).json({ message: "הזמנה לא נמצאה" });
 
       let relevantPrice = 0;
 
       for (const p of order.products) {
-        console.log("product:", p.productId);
-
-        const product = p.productId;
+        // חיפוש ידני של המוצר לפי 'id' שלך
+        const product = await Product.findOne({ id: p.productId });
         if (!product) continue;
 
-        const productCategoryId = product.categoryId?._id;
+        const productCategoryId = product.categoryId;
 
         if (
           !coupon.category ||
@@ -140,30 +125,24 @@ const CouponController = {
         }
       }
 
-      if (relevantPrice === 0) {
+      if (relevantPrice === 0)
         return res
           .status(400)
           .json({ message: "אין מוצרים מתאימים לקופון זה" });
-      }
 
-      if (relevantPrice < coupon.minProductPrice) {
+      if (relevantPrice < coupon.minProductPrice)
         return res
           .status(400)
           .json({ message: `מחיר מינימלי: ${coupon.minProductPrice}₪` });
-      }
 
-      if (coupon.maxProductPrice && relevantPrice > coupon.maxProductPrice) {
+      if (coupon.maxProductPrice && relevantPrice > coupon.maxProductPrice)
         return res
           .status(400)
           .json({ message: `מחיר מקסימלי: ${coupon.maxProductPrice}₪` });
-      }
 
       let discount = 0;
-      if (coupon.discountType === "fixed") {
-        discount = coupon.discountValue;
-      } else {
-        discount = (relevantPrice * coupon.discountValue) / 100;
-      }
+      if (coupon.discountType === "fixed") discount = coupon.discountValue;
+      else discount = (relevantPrice * coupon.discountValue) / 100;
 
       res.json({
         valid: true,
@@ -172,6 +151,7 @@ const CouponController = {
         coupon,
       });
     } catch (e) {
+      console.error(e);
       res.status(400).json({ message: e.message });
     }
   },
