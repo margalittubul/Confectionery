@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./StyleNavigate.css";
 import { useState, useEffect } from "react";
 import { getCustomerProfile } from "../API/CustomerController";
-import ClubJoin from "./navigate/ClubJoin";
+import ClubJoin from "./ClubJoin";
 
 export default function Navigate2() {
   const [openSection, setOpenSection] = useState(null);
