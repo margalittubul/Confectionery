@@ -134,13 +134,13 @@ export default function Tashlum() {
 
     const products =
       order.products?.map((p) => {
-        const price = p.product?.price ? p.product.price * p.quantity : 0;
+        const product = p.productId; 
         return {
-          categoryId: p.product?.categoryId || null,
-          price,
+          categoryId: product?.categoryId?.name || null,
+          price: product?.price * p.quantity || 0,
         };
       }) || [];
-      
+
     const result = await validateCoupon(couponCode, products, orderId);
 
     if (result.valid) {
