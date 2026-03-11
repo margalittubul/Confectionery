@@ -97,18 +97,18 @@
 }
 
 .img {
-  width: clamp(250px, 35vw, 500px);
+  width: clamp(200px, 30vw, 450px);
   height: auto;
   display: block;
-  margin: 10px 0 10px clamp(50px, 8vw, 100px);
+  margin: 10px 0 10px clamp(40px, 6vw, 90px); 
 }
 
 .img2 {
-  width: clamp(250px, 35vw, 500px);
+  width: clamp(200px, 30vw, 450px); 
   height: auto;
   display: block;
   margin: 10px 0 10px auto;
-  margin-right: clamp(50px, 8vw, 100px);
+  margin-right: clamp(40px, 6vw, 90px); 
 }
 
 .testimonials_h2 {
