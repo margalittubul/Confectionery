@@ -114,15 +114,14 @@ const CouponController = {
       for (const p of order.products) {
         console.log("Checking productId from order:", p.productId);
 
-        const product = await Product.findOne({ id: p.productId });
-        if (!product) {
-          console.log(`Product with id ${p.productId} not found in DB`);
-          continue;
-        }
+        const product = await Product.findOne({ id: p.productId }).populate(
+          "categoryId",
+        );
+        if (!product) continue;
 
         console.log("Found product in DB:", product);
+        const productCategoryId = product.categoryId?._id;
 
-        const productCategoryId = product.categoryId;
         console.log(
           "Product categoryId:",
           productCategoryId,
@@ -134,7 +133,10 @@ const CouponController = {
           !coupon.category ||
           productCategoryId?.toString() === coupon.category.toString()
         ) {
-          console.log(`Product ${product.name} matches coupon category`);
+          console.log(
+            "Product matches coupon category, adding price:",
+            product.price * p.quantity,
+          );
           relevantPrice += product.price * p.quantity;
         } else {
           console.log(`Product ${product.name} does NOT match coupon category`);
