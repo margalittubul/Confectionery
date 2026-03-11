@@ -76,17 +76,28 @@ const CouponController = {
 
   validateCoupon: async (req, res) => {
     try {
+      console.log("Received coupon validation request");
+
       const { code, products, orderId } = req.body;
+      console.log("Code:", code);
+      console.log("Products:", products);
+      console.log("Order ID:", orderId);
 
       const userId = req.user?.id;
+      console.log("User ID:", userId);
 
+      // בדיקה אם הקופון קיים ותקין
       const coupon = await Coupon.findOne({ code, isActive: true });
       if (!coupon) return res.status(404).json({ message: "קופון לא תקין" });
 
+      console.log("Coupon valid dates:", coupon.validFrom, coupon.validUntil);
       const now = new Date();
       if (now < coupon.validFrom || now > coupon.validUntil)
         return res.status(400).json({ message: "קופון לא בתוקף" });
 
+      console.log("Coupon club only:", coupon.clubOnly);
+
+      // בדיקה אם המשתמש הוא חבר מועדון
       if (coupon.clubOnly && userId) {
         const Customer = (await import("../Models/Customer.js")).default;
         const user = await Customer.findById(userId);
@@ -97,49 +108,80 @@ const CouponController = {
         }
       }
 
+      console.log("Validating coupon against order...");
+
+      // שליפת ההזמנה מהמסד
       const order = await Order.findById(orderId);
       if (!order) return res.status(404).json({ message: "הזמנה לא נמצאה" });
 
-      let relevantPrice = 0;
+      let discountTotal = 0;
 
       for (const p of order.products) {
+        console.log("Checking productId from order:", p.productId);
+
+        // שליפת המוצר לפי המספר שלנו
         const product = await Product.findOne({ id: p.productId });
         if (!product) continue;
+
+        console.log("Found product in DB:", product);
+
+        // שליפת קטגוריה לפי המספר
         let productCategory = null;
         if (product.categoryId != null) {
           productCategory = await Category.findOne({ id: product.categoryId });
         }
+
+        console.log(
+          "Product categoryId (DB ObjectId):",
+          productCategory?._id,
+          "Coupon category:",
+          coupon.category,
+        );
+
+        // בדיקה אם המוצר מתאים לקופון
         if (
-          !coupon.category || 
+          !coupon.category ||
           (productCategory && productCategory._id.equals(coupon.category))
         ) {
-          relevantPrice += product.price * p.quantity;
-        } 
+          // בדיקות מינימום ומקסימום לכל מוצר
+          if (product.price < coupon.minProductPrice) {
+            console.log(`Product ${product.name} לא עומד במחיר מינימום`);
+            continue;
+          }
+          if (
+            coupon.maxProductPrice &&
+            product.price > coupon.maxProductPrice
+          ) {
+            console.log(`Product ${product.name} לא עומד במחיר מקסימום`);
+            continue;
+          }
+
+          // חישוב ההנחה עבור מוצר זה
+          let productDiscount = 0;
+          if (coupon.discountType === "fixed") {
+            productDiscount = coupon.discountValue;
+          } else {
+            productDiscount = (product.price * coupon.discountValue) / 100;
+          }
+
+          discountTotal += productDiscount * p.quantity;
+          console.log(
+            `Product ${product.name} זכאי להנחה של ${productDiscount * p.quantity}₪`,
+          );
+        } else {
+          console.log(`Product ${product.name} does NOT match coupon category`);
+        }
       }
 
-      if (relevantPrice === 0)
-        return res
-          .status(400)
-          .json({ message: "אין מוצרים מתאימים לקופון זה" });
+      console.log("Total discount for coupon:", discountTotal);
 
-      if (relevantPrice < coupon.minProductPrice)
-        return res
-          .status(400)
-          .json({ message: `מחיר מינימלי: ${coupon.minProductPrice}₪` });
-
-      if (coupon.maxProductPrice && relevantPrice > coupon.maxProductPrice)
-        return res
-          .status(400)
-          .json({ message: `מחיר מקסימלי: ${coupon.maxProductPrice}₪` });
-
-      let discount = 0;
-      if (coupon.discountType === "fixed") discount = coupon.discountValue;
-      else discount = (relevantPrice * coupon.discountValue) / 100;
+      if (discountTotal === 0)
+        return res.status(400).json({ message: "אין מוצרים מתאימים להנחה" });
 
       res.json({
         valid: true,
-        discount,
-        message: `הנחה של ${discount.toFixed(0)}₪`,
+        discount: discountTotal,
+        message: `סה"כ הנחה: ${discountTotal.toFixed(0)}₪`,
         coupon,
       });
     } catch (e) {
