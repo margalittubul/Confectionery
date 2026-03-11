@@ -6,8 +6,8 @@ export default function Button() {
       <Link to="/active-coupons" className="link-button">
         הנחות
       </Link>
-      <Link to="/about" className="link-button">
-        אודותינו
+      <Link to="/ClubJoin" className="link-button">
+        מועדון
       </Link>
       <Link to="/contact" className="link-button">
         צור קשר
