@@ -94,10 +94,14 @@ const CouponController = {
         return res.status(404).json({ message: "קופון לא תקין" });
       }
 
+      console.log("Coupon valid dates:", coupon.validFrom, coupon.validUntil);
+
       const now = new Date();
       if (now < coupon.validFrom || now > coupon.validUntil) {
         return res.status(400).json({ message: "קופון לא בתוקף" });
       }
+
+      console.log("Coupon club only:", coupon.clubOnly);
 
       if (coupon.clubOnly && userId) {
         const Customer = (await import("../Models/Customer.js")).default;
@@ -108,6 +112,8 @@ const CouponController = {
             .json({ message: "קופון זמין רק לחברי מועדון" });
         }
       }
+
+      console.log("Validating coupon against order...");
 
       const order = await Order.findById(orderId).populate({
         path: "products.productId",
@@ -120,7 +126,7 @@ const CouponController = {
 
       for (const p of order.products) {
         console.log("product:", p.productId);
-        
+
         const product = p.productId;
         if (!product) continue;
 
