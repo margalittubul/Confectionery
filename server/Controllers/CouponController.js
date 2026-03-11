@@ -74,10 +74,21 @@ const CouponController = {
 
   validateCoupon: async (req, res) => {
     try {
+      console.log("Received coupon validation request");
+
       const { code, products, orderId } = req.body;
+
+      console.log("Code:", code);
+      console.log("Products:", products);
+      console.log("Order ID:", orderId);
+
       const userId = req.user?.id;
 
+      console.log("User ID:", userId);
+
       const coupon = await Coupon.findOne({ code, isActive: true });
+
+      console.log("Found coupon:", coupon);
 
       if (!coupon) {
         return res.status(404).json({ message: "קופון לא תקין" });
@@ -103,9 +114,15 @@ const CouponController = {
         populate: { path: "categoryId" }, 
       });
 
+      console.log("Found order:", order);
+
       let relevantPrice = 0;
 
       for (const p of order.products) {
+
+        console.log("Checking product:", p);
+        console.log("Product ID:", p.productId);
+        
         const product = p.productId;
         if (!product) continue;
 
