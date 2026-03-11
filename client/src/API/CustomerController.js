@@ -185,16 +185,14 @@ export const markFirstPurchaseUsed = async () => {
       },
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      return { eligible: false, message: data.message };
+      throw new Error("Failed to mark first purchase");
     }
 
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error marking first purchase:", error);
-    return { eligible: false, message: "שגיאה בעדכון הנחת מועדון" };
+    return null;
   }
 };
 
@@ -209,15 +207,13 @@ export const markBirthdayDiscountUsed = async () => {
       },
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      return { eligible: false, message: data.message };
+      throw new Error("Failed to mark birthday discount");
     }
 
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error marking birthday discount:", error);
-    return { eligible: false, message: "שגיאה בעדכון הנחת יום הולדת" };
+    return null;
   }
 };
