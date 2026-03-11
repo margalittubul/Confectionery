@@ -143,8 +143,8 @@ export default function Tashlum() {
         };
       }) || [];
     console.log("Products for coupon validation:", products);
-
-    const result = await validateCoupon(couponCode, products, orderId);
+    console.log(order.products)
+    const result = await validateCoupon(couponCode, order.products , orderId);
 
     if (result.valid) {
       setCouponData(result);
