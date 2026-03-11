@@ -129,7 +129,7 @@ export const deleteCoupon = async (id) => {
   }
 };
 
-export const validateCoupon = async (code, products) => {
+export const validateCoupon = async (code, products, orderId) => {
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/validate`, {
@@ -138,7 +138,7 @@ export const validateCoupon = async (code, products) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ code, products }),
+      body: JSON.stringify({ code, products, orderId }),
     });
 
     const data = await response.json();

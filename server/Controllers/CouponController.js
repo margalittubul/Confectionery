@@ -74,7 +74,7 @@ const CouponController = {
 
   validateCoupon: async (req, res) => {
     try {
-      const { code, products } = req.body;
+      const { code, products, orderId } = req.body;
       const userId = req.user?.id;
 
       const coupon = await Coupon.findOne({ code, isActive: true });
