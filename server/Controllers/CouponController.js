@@ -112,19 +112,36 @@ const CouponController = {
       let relevantPrice = 0;
 
       for (const p of order.products) {
-        // חיפוש ידני של המוצר לפי 'id' שלך
+        console.log("Checking productId from order:", p.productId);
+
         const product = await Product.findOne({ id: p.productId });
-        if (!product) continue;
+        if (!product) {
+          console.log(`Product with id ${p.productId} not found in DB`);
+          continue;
+        }
+
+        console.log("Found product in DB:", product);
 
         const productCategoryId = product.categoryId;
+        console.log(
+          "Product categoryId:",
+          productCategoryId,
+          "Coupon category:",
+          coupon.category,
+        );
 
         if (
           !coupon.category ||
           productCategoryId?.toString() === coupon.category.toString()
         ) {
+          console.log(`Product ${product.name} matches coupon category`);
           relevantPrice += product.price * p.quantity;
+        } else {
+          console.log(`Product ${product.name} does NOT match coupon category`);
         }
       }
+
+      console.log("Total relevant price for coupon:", relevantPrice);
 
       if (relevantPrice === 0)
         return res
