@@ -1,184 +1,265 @@
-import { useState, useEffect } from "react";
+import "./css.css";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "../Redux/cartSlice";
+import { setCart } from "../Redux/cartSlice.js";
 import {
   getOrderById,
-  updateOrderPrice,
   updateOrderStatus,
-} from "../API/OrderController";
-import { clearBuyingCart } from "../API/BuyingController";
+  updateOrderPrice,
+} from "../API/OrderController.js";
+import { clearBuyingCart } from "../API/BuyingController.js";
 import {
+  getCustomerProfile,
   markFirstPurchaseUsed,
   markBirthdayDiscountUsed,
-  getCustomerProfile,
-} from "../API/CustomerController";
-import { validateCoupon } from "../API/CouponController";
-import {
-  Box,
-  Button,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Alert,
-  Typography,
-} from "@mui/material";
+} from "../API/CustomerController.js";
+import { validateCoupon } from "../API/CouponController.js";
+import { Alert } from "@mui/material";
 
 export default function Tashlum() {
   const { orderId } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const delivery = useSelector((s) => s.cart.delivery);
+  const dispatch = useDispatch();
+  const delivery = useSelector((state) => state.cart.delivery);
 
   const [order, setOrder] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [finalPrice, setFinalPrice] = useState(0);
+  const [error, setError] = useState(null);
   const [originalPrice, setOriginalPrice] = useState(0);
-  const [useBirthday, setUseBirthday] = useState(false);
+  const [finalPrice, setFinalPrice] = useState(0);
+
+  /* eslint-disable no-unused-vars */
+  const [profile, setProfile] = useState(null);
+  const [hasDiscount, setHasDiscount] = useState(false);
+  const [hasBirthdayDiscount, setHasBirthdayDiscount] = useState(false);
+  const [useBirthdayDiscount, setUseBirthdayDiscount] = useState(false);
+
   const [couponCode, setCouponCode] = useState("");
-  const [coupon, setCoupon] = useState(null);
+  const [couponData, setCouponData] = useState(null);
+  const [useCoupon, setUseCoupon] = useState(false);
   const [couponError, setCouponError] = useState("");
 
+  // --- Fetch order and profile ---
   useEffect(() => {
-    const fetch = async () => {
-      const ord = await getOrderById(orderId);
-      if (!ord) return;
-      setOrder(ord);
+    const fetchOrder = async () => {
+      try {
+        const ord = await getOrderById(orderId);
+        if (!ord) throw new Error("Order not found");
+        setOrder(ord);
 
-      let price = ord.price + (delivery === "delivery" ? 25 : 0);
-      setOriginalPrice(price);
+        const prof = await getCustomerProfile();
+        setProfile(prof);
 
-      const prof = await getCustomerProfile();
-      setProfile(prof);
+        let price = ord.price + (delivery === "delivery" ? 25 : 0);
 
-      if (prof?.is_club_member && !prof.first_club_purchase_used) price *= 0.9;
-      setFinalPrice(price);
+        // הנחת מועדון ראשונה
+        if (prof?.is_club_member && !prof.first_club_purchase_used) {
+          setHasDiscount(true);
+          price *= 0.9;
+        }
+
+        // הנחת יום הולדת
+        if (prof?.birth_date) {
+          const today = new Date();
+          const birthDate = new Date(prof.birth_date);
+          const currentYear = today.getFullYear();
+
+          const birthdayThisYear = new Date(
+            currentYear,
+            birthDate.getMonth(),
+            birthDate.getDate()
+          );
+          const weekAfterBirthday = new Date(birthdayThisYear);
+          weekAfterBirthday.setDate(weekAfterBirthday.getDate() + 7);
+
+          const isInBirthdayWeek =
+            today >= birthdayThisYear && today <= weekAfterBirthday;
+          const usedThisYear = prof.birthday_discount_used_year === currentYear;
+
+          if (isInBirthdayWeek && !usedThisYear) {
+            setHasBirthdayDiscount(true);
+          }
+        }
+
+        setOriginalPrice(price);
+        setFinalPrice(price);
+      } catch (err) {
+        setError(err.message);
+      }
     };
-    fetch();
+
+    if (orderId) fetchOrder();
   }, [orderId, delivery]);
 
+  // --- Update final price when discounts change ---
   useEffect(() => {
-    if (!originalPrice) return;
     let price = originalPrice;
-    if (profile?.is_club_member && !profile?.first_club_purchase_used)
-      price *= 0.9;
-    if (useBirthday) price -= 25;
-    if (coupon?.discount) price -= coupon.discount;
+    if (hasDiscount) price *= 0.9; // קנייה ראשונה במועדון
+    if (useBirthdayDiscount && hasBirthdayDiscount) price -= 25;
+    if (useCoupon && couponData?.discount) price -= couponData.discount;
     setFinalPrice(Math.max(0, price));
-  }, [originalPrice, useBirthday, coupon, profile]);
+  }, [
+    originalPrice,
+    hasDiscount,
+    useBirthdayDiscount,
+    hasBirthdayDiscount,
+    useCoupon,
+    couponData,
+  ]);
 
-  const checkCoupon = async () => {
-    if (!couponCode.trim()) return setCouponError("יש להזין קוד קופון");
+  // --- Coupon validation ---
+  const handleCheckCoupon = async () => {
+    if (!couponCode.trim()) {
+      setCouponError("יש להזין קוד קופון");
+      return;
+    }
     const products =
       order.products?.map((p) => ({
         categoryId: p.product?.categoryId,
         price: p.product?.price * p.quantity,
       })) || [];
-    const res = await validateCoupon(couponCode, products);
-    if (res.valid) {
-      setCoupon(res);
+
+    const result = await validateCoupon(couponCode, products);
+    if (result.valid) {
+      setCouponData(result);
+      setUseCoupon(true);
       setCouponError("");
     } else {
-      setCoupon(null);
-      setCouponError(res.message);
+      setCouponData(null);
+      setUseCoupon(false);
+      setCouponError(result.message);
     }
   };
 
+  // --- Submit order ---
   const handleSubmit = async () => {
-    await updateOrderPrice(orderId, finalPrice);
-    if (profile?.is_club_member && !profile?.first_club_purchase_used)
-      await markFirstPurchaseUsed();
-    if (useBirthday) await markBirthdayDiscountUsed();
-    await updateOrderStatus(orderId, "שולם");
-    await clearBuyingCart();
-    dispatch(setCart([]));
-    navigate(`/OkOrder/${orderId}`);
+    try {
+      await updateOrderPrice(orderId, finalPrice);
+
+      if (hasDiscount) await markFirstPurchaseUsed();
+      if (useBirthdayDiscount && hasBirthdayDiscount) await markBirthdayDiscountUsed();
+
+      await updateOrderStatus(orderId, "שולם");
+      await clearBuyingCart();
+      dispatch(setCart([]));
+      navigate(`/OkOrder/${orderId}`);
+    } catch (err) {
+      console.error("Error submitting order:", err);
+      alert(`שגיאה במהלך אישור ההזמנה: ${err.message}`);
+    }
   };
 
-  if (!order) return <Typography>טוען...</Typography>;
+  if (error) return <div>שגיאה: {error}</div>;
+  if (!order) return <div>טוען...</div>;
 
   return (
-    <Box
-      sx={{
-        maxWidth: 400,
-        mx: "auto",
-        p: 3,
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
-      {/* משלוח */}
-      <Alert severity="info">
-        משלוח: {delivery === "delivery" ? "₪25" : "ללא עלות"}
-      </Alert>
-
-      {/* יום הולדת */}
-      {profile?.birth_date && (
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={useBirthday}
-              onChange={(e) => setUseBirthday(e.target.checked)}
-            />
-          }
-          label="🎂 השתמש בהנחת יום הולדת (25₪)"
-        />
-      )}
-
-      {/* הנחת מועדון */}
-      {profile?.is_club_member && !profile.first_club_purchase_used && (
-        <Alert severity="success">🎉 קנייה ראשונה במועדון: 10% הנחה</Alert>
-      )}
-
-      {/* קופון */}
-      <Box
-        p={1}
-        bgcolor="#f9f9f9"
-        borderRadius={1}
-        display="flex"
-        flexDirection="column"
-        gap={1}
-      >
-        <Typography>קוד קופון</Typography>
-        <Box display="flex" gap={1}>
-          <TextField
-            fullWidth
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-          <Button variant="contained" color="secondary" onClick={checkCoupon}>
-            בדוק
-          </Button>
-        </Box>
-        {couponError && <Alert severity="error">{couponError}</Alert>}
-        {coupon && <Alert severity="success">{coupon.message}</Alert>}
-      </Box>
-
-      {/* סיכום הנחות */}
-      {coupon?.discount && (
-        <Typography>הנחות קופון הורידו: ₪{coupon.discount}</Typography>
-      )}
+    <div className="payment-container">
+      <h2 className="main-title">טופס רכישה מאובטחת</h2>
 
       {/* פרטי אשראי */}
-      <Box display="flex" flexDirection="column" gap={1}>
-        <TextField fullWidth placeholder="מספר כרטיס" />
-        <TextField fullWidth placeholder="3 ספרות בגב" />
-      </Box>
+      <h3 className="main-title">פרטי אשראי</h3>
+      <div className="credit-form">
+        <input placeholder="מספר כרטיס אשראי *" className="input-style" required />
+        <div className="credit-details">
+          <select className="select-style">
+            <option>חודש</option>
+            {[...Array(12)].map((_, i) => (
+              <option key={i}>{i + 1}</option>
+            ))}
+          </select>
+          <select className="select-style">
+            <option>שנה</option>
+            {[...Array(10)].map((_, i) => (
+              <option key={i}>{2025 + i}</option>
+            ))}
+          </select>
+          <input placeholder="3 ספרות בגב הכרטיס *" className="input-style" />
+        </div>
+        <select className="select-style">
+          <option>מספר תשלומים</option>
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <option key={n}>{n}</option>
+          ))}
+        </select>
+      </div>
+      <br />
 
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        onClick={handleSubmit}
+      {/* קופון */}
+      <div
+        className="coupon-section"
+        style={{ marginBottom: "20px", padding: "15px", backgroundColor: "#f9f9f9", borderRadius: "8px" }}
       >
-        בצע הזמנה
-      </Button>
+        <h3 className="main-title">קוד קופון</h3>
+        <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+          <input
+            placeholder="הזן קוד קופון"
+            className="input-style"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            style={{ flex: 1 }}
+          />
+          <button
+            onClick={handleCheckCoupon}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#f7b5cd",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            בדוק קופון
+          </button>
+        </div>
+        {couponError && <Alert severity="error">{couponError}</Alert>}
+        {couponData && (
+          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+            <input type="checkbox" checked={useCoupon} onChange={(e) => setUseCoupon(e.target.checked)} />
+            <span>השתמש בקופון זה</span>
+          </label>
+        )}
+      </div>
 
-      {/* מחיר סופי */}
-      <Typography color="success.main" mt={1} fontWeight="bold">
-        {`סה"כ לתשלום: ₪ ${finalPrice.toFixed(2)}`}
-      </Typography>
-    </Box>
+      {/* הנחות */}
+      <div className="total-section">
+        {hasBirthdayDiscount && (
+          <label className="birthday-checkbox">
+            <input
+              type="checkbox"
+              checked={useBirthdayDiscount}
+              onChange={(e) => setUseBirthdayDiscount(e.target.checked)}
+            />
+            <span>🎂 השתמש בהנחת יום הולדת (25₪)</span>
+          </label>
+        )}
+
+        {(hasDiscount || (hasBirthdayDiscount && useBirthdayDiscount) || (useCoupon && couponData)) && (
+          <>
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {hasDiscount && "🎉 הנחת מועדון - קנייה ראשונה! 10% הנחה"}
+              {hasDiscount && (useBirthdayDiscount || useCoupon) && <br />}
+              {useBirthdayDiscount && "🎂 יום הולדת שמח! 25₪ הנחה"}
+              {useBirthdayDiscount && useCoupon && <br />}
+              {useCoupon && couponData && `🎫 ${couponData.message}`}
+            </Alert>
+            <p style={{ textDecoration: "line-through", color: "#999" }}>
+              מחיר לפני הנחה: ₪ {originalPrice.toFixed(2)}
+            </p>
+            <p style={{ fontSize: "1.2em", fontWeight: "bold", color: "#4caf50" }}>
+              מחיר לאחר הנחה: ₪ {finalPrice.toFixed(2)}
+            </p>
+          </>
+        )}
+
+        {!hasDiscount && !(hasBirthdayDiscount && useBirthdayDiscount) && !useCoupon && (
+          <p>סה&quot;כ לתשלום: ₪ {finalPrice}</p>
+        )}
+      </div>
+
+      <button className="submit-btn" onClick={handleSubmit}>
+        אישור
+      </button>
+    </div>
   );
 }
