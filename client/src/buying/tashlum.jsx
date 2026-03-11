@@ -142,7 +142,6 @@ export default function Tashlum() {
           price: product?.price * p.quantity || 0,
         };
       }) || [];
-
     console.log("Products for coupon validation:", products);
 
     const result = await validateCoupon(couponCode, products, orderId);
