@@ -1,5 +1,6 @@
 import Coupon from "../Models/Coupon.js";
 import Order from "../Models/Order.js";
+import Product from "../Models/Product.js";
 
 const CouponController = {
   create: async (req, res) => {
