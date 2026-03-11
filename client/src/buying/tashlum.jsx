@@ -132,7 +132,6 @@ export default function Tashlum() {
       return;
     }
 
-    // הכן מערך מוצרים עם קטגוריה ומחיר
     const products = order.products?.map((p) => ({
       categoryId: p.product?.categoryId,
       price: p.product?.price * p.quantity,

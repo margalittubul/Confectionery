@@ -25,7 +25,7 @@ const CouponController = {
       const coupons = await Coupon.find({
         isActive: true,
         validFrom: { $lte: now },
-        validUntil: { $gte: now }
+        validUntil: { $gte: now },
       }).populate("category");
       res.json(coupons);
     } catch (e) {
@@ -97,15 +97,24 @@ const CouponController = {
         }
       }
 
+      const order = await Order.findById(orderId).populate(
+        "products.product.categoryId",
+      );
+
       let relevantPrice = 0;
       for (const product of products) {
-        if (!coupon.category || product.categoryId?.toString() === coupon.category.toString()) {
-          relevantPrice += product.price;
+        if (
+          !coupon.category ||
+          p.product.categoryId.name === coupon.categoryName
+        ) {
+          relevantPrice += p.product.price * p.quantity;
         }
       }
 
       if (relevantPrice === 0) {
-        return res.status(400).json({ message: "אין מוצרים מתאימים לקופון זה" });
+        return res
+          .status(400)
+          .json({ message: "אין מוצרים מתאימים לקופון זה" });
       }
 
       if (relevantPrice < coupon.minProductPrice) {
