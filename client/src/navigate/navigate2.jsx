@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./StyleNavigate.css";
 import { useState, useEffect } from "react";
 import { getCustomerProfile } from "../API/CustomerController";
+import ClubJoin from "./navigate/ClubJoin";
 
 export default function Navigate2() {
   const [openSection, setOpenSection] = useState(null);
@@ -36,9 +37,7 @@ export default function Navigate2() {
         <footer>
           <div className="footer-wrapper">
             <div className="footer-image">
-              <Link to="/CakeChallenge">
-                <img className="li" src="/img/game.jpg" alt="משחק" />
-              </Link>
+               <ClubJoin />
             </div>
             <div className="footer-grid">
               <div className="footer-column">
