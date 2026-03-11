@@ -1,6 +1,7 @@
 import Coupon from "../Models/Coupon.js";
 import Order from "../Models/Order.js";
 import Product from "../Models/Product.js";
+import Category from "../Models/Category.js";
 
 const CouponController = {
   create: async (req, res) => {
@@ -139,10 +140,11 @@ const CouponController = {
 
         // בדיקה אם המוצר מתאים לקופון
         if (
-          !coupon.category ||
+          !coupon.category || // אם אין הגבלה על קטגוריה, כל המוצרים נכנסים
           (productCategory && productCategory._id.equals(coupon.category))
         ) {
           relevantPrice += product.price * p.quantity;
+          console.log(`Product ${product.name} MATCHES coupon category`);
         } else {
           console.log(`Product ${product.name} does NOT match coupon category`);
         }
