@@ -12,8 +12,8 @@ import { setCart } from "../Redux/cartSlice.js";
 import {
   markFirstPurchaseUsed,
   markBirthdayDiscountUsed,
-  validateCoupon,
 } from "../API/CustomerController.js";
+import { validateCoupon } from "../API/CouponController.js";
 import { Alert } from "@mui/material";
 
 export default function Tashlum() {
