@@ -82,7 +82,7 @@ export default function Navigate2() {
                 >
                   <Link to="/order">הזמנות</Link>
                   <Link to="/buying">סל שלי</Link>
-                  <Link to="/active-coupons">הנחות פעילות</Link>
+                  <Link to="/active-coupons">הנחות</Link>
                 </div>
               </div>
               <div className="footer-column">
