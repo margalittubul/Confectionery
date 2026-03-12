@@ -52,7 +52,7 @@ export default function Navigate2() {
                   className={`footer-links ${openSection === "contact" ? "open" : ""}`}
                 >
                   <Link to="/contact">צור קשר</Link>
-                  <Link to="/ClubJoin">מועדון</Link>
+                  <Link to="/clubJoin">מועדון</Link>
                 </div>
               </div>
               <div className="footer-column">
