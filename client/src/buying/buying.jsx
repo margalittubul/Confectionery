@@ -79,15 +79,13 @@ const Buying = () => {
   };
 
   const removeItem = async (productId) => {
-    console.log("🗑️ מנסה להסיר מוצר:", productId);
+    dispatch(removeFromCart(productId));
+
     try {
-      const result = await removeProductFromBuying(productId);
-      console.log("✅ הוסר מהשרת:", result);
-      dispatch(removeFromCart(productId));
-      console.log("✅ הוסר מ-Redux");
+      await removeProductFromBuying(productId);
     } catch (err) {
-      console.error("שגיאה בהסרת מוצר:", err);
-      alert("שגיאה בהסרת מוצר");
+      alert("המחיקה נכשלה", err);
+      fetchCartAndProducts(); 
     }
   };
 
