@@ -55,8 +55,11 @@ const Profile = () => {
       setSaving(false);
       return;
     }
-    if (!user.address) {
-      setMessage("יש להזין כתובת");
+    if (
+      !user.address ||
+      !/^\s*\S+\s+\d+\s*,\s*\S+\s*$/.test(user.address.trim())
+    ) {
+      setMessage("יש להזין כתובת מלאה בפורמט: רחוב מספר, עיר");
       setSaving(false);
       return;
     }

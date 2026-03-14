@@ -41,8 +41,8 @@ export default function Signin() {
       setError("יש להזין אימייל תקין");
       return;
     }
-    if (!city || city.trim().split(/\s+/).length < 2) {
-      setError("יש להזין כתובת מלאה (רחוב + עיר)");
+    if (!city || !/^\s*\S+\s+\d+\s*,\s*\S+\s*$/.test(city.trim())) {
+      setError("יש להזין כתובת מלאה בפורמט: רחוב מספר, עיר");
       return;
     }
     if (!password || password.length < 8) {
