@@ -43,7 +43,7 @@ import Manager from "./maneger/maneger";
 import AddProductForm from "./maneger/products/addProduct";
 import EditProductForm from "./maneger/products/updateProduct";
 import AllUsersPage from "./maneger/users/AllUsersPage";
-import AddAdmin from "./maneger/user/AddAdmin";
+import AddAdmin from "./maneger/users/AddAdmin";
 import ManageCategories from "./maneger/categories/ManageCategories";
 import EditCategory from "./maneger/categories/updateCategory";
 import ManageCoupons from "./maneger/coupons/ManageCoupons";
