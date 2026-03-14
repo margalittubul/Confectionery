@@ -1,9 +1,10 @@
 import "./css.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setDelivery } from "../Redux/cartSlice";
 import { updateOrderShippingAsync } from "../Redux/ordersSlice";
+import { getCustomerProfile } from "../API/CustomerController";
 
 const branches = [
   { id: 1, name: "סניף תל אביב", address: "רחוב הרצל 123, תל אביב" },
@@ -26,6 +27,23 @@ export default function DeliveryChoice() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const loadProfile = async () => {
+      const profile = await getCustomerProfile();
+      if (profile) {
+        setDeliveryDetails((prev) => ({
+          ...prev,
+          fullName: profile.name || "",
+          email: profile.email || "",
+          phone: profile.phone || "",
+          address: profile.address || "",
+        }));
+      }
+    };
+
+    loadProfile();
+  }, []);
+
   const handleContinue = async () => {
     if (!deliveryType) {
       alert("יש לבחור שיטת משלוח");
@@ -39,8 +57,7 @@ export default function DeliveryChoice() {
       if (
         !deliveryDetails.fullName ||
         !deliveryDetails.phone ||
-        !deliveryDetails.address ||
-        !deliveryDetails.city
+        !deliveryDetails.address
       ) {
         alert("יש למלא את כל השדות הנדרשים");
         return;
@@ -50,7 +67,9 @@ export default function DeliveryChoice() {
     const hasShipping = deliveryType === "delivery";
     const shippingLocation =
       deliveryType === "delivery"
-        ? `${deliveryDetails.address}, ${deliveryDetails.city}`
+        ? [deliveryDetails.address, deliveryDetails.city]
+            .filter(Boolean)
+            .join(", ")
         : branches.find((b) => b.id.toString() === selectedBranch)?.name;
     try {
       await dispatch(

@@ -41,8 +41,8 @@ export default function Signin() {
       setError("יש להזין אימייל תקין");
       return;
     }
-    if (!city) {
-      setError("יש להזין עיר מגורים");
+    if (!city || city.trim().split(/\s+/).length < 2) {
+      setError("יש להזין כתובת מלאה (רחוב + עיר)");
       return;
     }
     if (!password || password.length < 8) {
@@ -61,7 +61,7 @@ export default function Signin() {
       setError("הסיסמה חייבת להכיל לפחות מספר אחד");
       return;
     }
-    if(phone && !/^\d{9,}$/.test(phone)) {
+    if (phone && !/^\d{9,}$/.test(phone)) {
       setError("מספר טלפון חייב להכיל לפחות 9 ספרות");
       return;
     }
@@ -124,7 +124,7 @@ export default function Signin() {
           variant="outlined"
         />
         <TextField
-          label="עיר מגורים"
+          label="כתובת מלאה (רחוב + עיר)"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           sx={{ width: 250, mb: 2 }}
