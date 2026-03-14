@@ -21,8 +21,6 @@ export default function DeliveryChoice() {
     email: "",
     phone: "",
     address: "",
-    city: "",
-    zipCode: "",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,9 +65,7 @@ export default function DeliveryChoice() {
     const hasShipping = deliveryType === "delivery";
     const shippingLocation =
       deliveryType === "delivery"
-        ? [deliveryDetails.address, deliveryDetails.city]
-            .filter(Boolean)
-            .join(", ")
+        ? deliveryDetails.address
         : branches.find((b) => b.id.toString() === selectedBranch)?.name;
     try {
       await dispatch(
@@ -188,7 +184,7 @@ export default function DeliveryChoice() {
               required
             />
             <input
-              placeholder="כתובת *"
+              placeholder="כתובת מלאה *"
               className="input-style"
               value={deliveryDetails.address}
               onChange={(e) =>
@@ -198,26 +194,6 @@ export default function DeliveryChoice() {
                 })
               }
               required
-            />
-            <input
-              placeholder="עיר *"
-              className="input-style"
-              value={deliveryDetails.city}
-              onChange={(e) =>
-                setDeliveryDetails({ ...deliveryDetails, city: e.target.value })
-              }
-              required
-            />
-            <input
-              placeholder="מיקוד"
-              className="input-style"
-              value={deliveryDetails.zipCode}
-              onChange={(e) =>
-                setDeliveryDetails({
-                  ...deliveryDetails,
-                  zipCode: e.target.value,
-                })
-              }
             />
           </form>
         </div>
