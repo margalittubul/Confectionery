@@ -59,6 +59,9 @@ export default function OrderDetails() {
       </p>
       <p className="order-price">סכום: {order.price} ש&quot;ח</p>
       <p className="order-price">סטטוס: {order.status}</p>
+      <p className="order-shipping">
+        {order.hasShipping === null ? "משלוח לכתובת" : `איסוף מסניף: ${order.hasShipping}`}
+      </p>
       {order.status === "נשלח" && userRole !== "admin" && (
         <button onClick={handleConfirm} className="confirm-btn">
           אשר קבלת הזמנה

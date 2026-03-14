@@ -179,7 +179,11 @@ const OrderController = {
     const { id } = req.params;
     const { hasShipping } = req.body;
     try {
-      const order = await Order.findByIdAndUpdate(id, { hasShipping }, { new: true });
+      const order = await Order.findByIdAndUpdate(
+        id,
+        { hasShipping },
+        { new: true },
+      );
       if (!order) return res.status(404).json({ message: "Order not found" });
       res.json(order);
     } catch (err) {

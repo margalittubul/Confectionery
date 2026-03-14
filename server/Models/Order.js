@@ -32,10 +32,9 @@ const OrderSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  hasShipping:{
-    type: Boolean,
-    required: true,
-    default: false
-  }
+  hasShipping: {
+    type: String,
+    default: null,
+  },
 });
 export default mongoose.model("Order", OrderSchema, "Orders");

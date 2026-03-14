@@ -47,7 +47,7 @@ export default function DeliveryChoice() {
       }
     }
 
-    const hasShipping = deliveryType === "delivery";
+    const hasShipping = deliveryType === "delivery" ? null : branches.find((b) => b.id.toString() === selectedBranch)?.name;
     try {
       await dispatch(
         updateOrderShippingAsync({ orderId, hasShipping }),
