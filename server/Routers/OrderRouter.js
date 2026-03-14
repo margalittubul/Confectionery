@@ -19,6 +19,11 @@ orderRouter.put(
   OrderController.updateOrderStatus,
 );
 orderRouter.put("/:id/price", authMiddleware, OrderController.updatePrice);
+orderRouter.put(
+  "/:id/shipping",
+  authMiddleware,
+  OrderController.updateShipping,
+);
 orderRouter.patch(
   "/:id/advance",
   authMiddleware,

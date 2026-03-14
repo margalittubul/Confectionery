@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setDelivery } from "../Redux/cartSlice";
+import { updateOrderShippingAsync } from "../Redux/ordersSlice";
 
 const branches = [
   { id: 1, name: "סניף תל אביב", address: "רחוב הרצל 123, תל אביב" },
@@ -25,7 +26,7 @@ export default function DeliveryChoice() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!deliveryType) {
       alert("יש לבחור שיטת משלוח");
       return;
@@ -44,6 +45,16 @@ export default function DeliveryChoice() {
         alert("יש למלא את כל השדות הנדרשים");
         return;
       }
+    }
+
+    const hasShipping = deliveryType === "delivery";
+    try {
+      await dispatch(
+        updateOrderShippingAsync({ orderId, hasShipping }),
+      ).unwrap();
+    } catch (error) {
+      alert("שגיאה בעדכון ההזמנה: " + error);
+      return;
     }
 
     dispatch(setDelivery(deliveryType));

@@ -175,5 +175,16 @@ const OrderController = {
       res.status(500).json({ message: "Server error" });
     }
   },
+  updateShipping: async (req, res) => {
+    const { id } = req.params;
+    const { hasShipping } = req.body;
+    try {
+      const order = await Order.findByIdAndUpdate(id, { hasShipping }, { new: true });
+      if (!order) return res.status(404).json({ message: "Order not found" });
+      res.json(order);
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  },
 };
 export default OrderController;

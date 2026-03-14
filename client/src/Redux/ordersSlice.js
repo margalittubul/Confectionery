@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllOrders, getOrderById } from "../API/OrderController";
+import {
+  getAllOrders,
+  getOrderById,
+  updateOrderShipping,
+} from "../API/OrderController";
 
 export const fetchOrders = createAsyncThunk("orders/fetch", async () => {
   const data = await getAllOrders();
@@ -10,6 +14,14 @@ export const fetchOrderById = createAsyncThunk(
   "orders/fetchById",
   async (orderId) => {
     const data = await getOrderById(orderId);
+    return data;
+  },
+);
+
+export const updateOrderShippingAsync = createAsyncThunk(
+  "orders/updateShipping",
+  async ({ orderId, hasShipping }) => {
+    const data = await updateOrderShipping(orderId, hasShipping);
     return data;
   },
 );
@@ -55,6 +67,29 @@ const ordersSlice = createSlice({
         state.selectedOrder = action.payload;
       })
       .addCase(fetchOrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(updateOrderShippingAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateOrderShippingAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        const index = state.list.findIndex(
+          (order) => order._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
+        if (
+          state.selectedOrder &&
+          state.selectedOrder._id === action.payload._id
+        ) {
+          state.selectedOrder = action.payload;
+        }
+      })
+      .addCase(updateOrderShippingAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

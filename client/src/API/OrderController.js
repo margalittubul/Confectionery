@@ -113,3 +113,26 @@ export const updateOrderPrice = async (orderId, price) => {
     return null;
   }
 };
+
+export const updateOrderShipping = async (orderId, hasShipping) => {
+  const token = localStorage.getItem("userToken");
+  try {
+    const response = await fetch(`${API_URL}/${orderId}/shipping`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ hasShipping }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update order shipping");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating order shipping:", error);
+    return null;
+  }
+};
