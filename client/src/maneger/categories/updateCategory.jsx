@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategoryById, editCategory } from "../Redux/categoriesSlice";
-import BackButton from "./BackButton";
+import { fetchCategoryById, editCategory } from "../../Redux/categoriesSlice";
+import BackButton from "../BackButton";
 
 export default function EditCategory() {
   const { id } = useParams();

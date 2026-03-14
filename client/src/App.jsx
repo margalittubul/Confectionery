@@ -31,27 +31,27 @@ import CakeChallenge from "./navigate/CakeChallenge";
 
 import Root from "./Root/Root";
 
-import UpdateCake from "./maneger/updateProduct";
-import AddCake from "./maneger/addProduct";
-import ProductsList from "./maneger/ProductsList";
-import ProductsManagement from "./maneger/ProductsManagement";
-import ProductsCodes from "./maneger/ProductsCodes";
-import OrdersManagement from "./maneger/OrdersManagement";
-import UsersManagement from "./maneger/UsersManagement";
+import UpdateCake from "./maneger/products/updateProduct";
+import AddCake from "./maneger/products/addProduct";
+import ProductsList from "./maneger/products/ProductsList";
+import ProductsManagement from "./maneger/products/ProductsManagement";
+import ProductsCodes from "./maneger/products/ProductsCodes";
+import OrdersManagement from "./maneger/orders/OrdersManagement";
+import UsersManagement from "./maneger/users/UsersManagement";
 
 import Manager from "./maneger/maneger";
-import AddProductForm from "./maneger/addProduct";
-import EditProductForm from "./maneger/updateProduct";
-import AllUsersPage from "./maneger/AllUsersPage";
-import AddAdmin from "./maneger/AddAdmin";
-import ManageCategories from "./maneger/ManageCategories";
-import EditCategory from "./maneger/updateCategory";
-import ManageCoupons from "./maneger/ManageCoupons";
-import AllOrders from "./maneger/AllOrders";
+import AddProductForm from "./maneger/products/addProduct";
+import EditProductForm from "./maneger/products/updateProduct";
+import AllUsersPage from "./maneger/users/AllUsersPage";
+import AddAdmin from "./maneger/user/AddAdmin";
+import ManageCategories from "./maneger/categories/ManageCategories";
+import EditCategory from "./maneger/categories/updateCategory";
+import ManageCoupons from "./maneger/coupons/ManageCoupons";
+import AllOrders from "./maneger/orders/AllOrders";
 
 import Profile from "./header/Profile";
 
-import RequireAdmin from "./maneger/RequireAdmin";
+import RequireAdmin from "./utils/RequireAdmin";
 
 function App() {
   const dispatch = useDispatch();

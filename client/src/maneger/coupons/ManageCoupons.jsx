@@ -15,10 +15,10 @@ import {
   createCoupon,
   updateCoupon,
   deleteCoupon,
-} from "../API/CouponController";
-import { getAllCategories } from "../API/CategoryController";
+} from "../../API/CouponController";
+import { getAllCategories } from "../../API/CategoryController";
 import { ConfirmationNumber, List } from "@mui/icons-material";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
 export default function ManageCoupons() {
   const [coupons, setCoupons] = useState([]);

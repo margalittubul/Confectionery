@@ -26,9 +26,9 @@ import {
 import { Edit, Delete, Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, deleteProductAsync } from "../Redux/productsSlice";
-import { fetchCategories } from "../Redux/categoriesSlice";
-import BackButton from "./BackButton";
+import { fetchProducts, deleteProductAsync } from "../../Redux/productsSlice";
+import { fetchCategories } from "../../Redux/categoriesSlice";
+import BackButton from "../BackButton";
 
 export default function ProductsList() {
   const navigate = useNavigate();

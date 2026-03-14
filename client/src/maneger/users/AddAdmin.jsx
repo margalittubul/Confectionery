@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TextField, Box, Stack, Button, Typography } from "@mui/material";
-import { addCustomer } from "../API/CustomerController";
+import { addCustomer } from "../../API/CustomerController";
 import { useNavigate } from "react-router-dom";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
 export default function AddAdmin() {
   const [form, setForm] = useState({

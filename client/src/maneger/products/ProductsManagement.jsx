@@ -14,8 +14,8 @@ import { Add, Edit, List } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchProducts } from "../Redux/productsSlice";
-import BackButton from "./BackButton";
+import { fetchProducts } from "../../Redux/productsSlice";
+import BackButton from "../BackButton";
 
 export default function ProductsManagement() {
   const navigate = useNavigate();

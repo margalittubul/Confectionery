@@ -13,8 +13,8 @@ import {
   Chip,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../Redux/productsSlice";
-import BackButton from "./BackButton";
+import { fetchProducts } from "../../Redux/productsSlice";
+import BackButton from "../BackButton";
 
 export default function ProductsCodes() {
   const dispatch = useDispatch();

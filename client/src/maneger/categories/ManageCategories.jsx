@@ -13,8 +13,8 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, createCategory } from "../Redux/categoriesSlice";
-import BackButton from "./BackButton";
+import { fetchCategories, createCategory } from "../../Redux/categoriesSlice";
+import BackButton from "../BackButton";
 
 export default function ManageCategories() {
   const navigate = useNavigate();

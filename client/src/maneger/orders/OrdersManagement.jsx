@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import { ShoppingCart, PersonSearch } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { getCustomerByEmail } from "../API/CustomerController";
-import BackButton from "./BackButton";
+import { getCustomerByEmail } from "../../API/CustomerController";
+import BackButton from "../BackButton";
 
 export default function OrdersManagement() {
   const navigate = useNavigate();

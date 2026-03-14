@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../Redux/categoriesSlice";
-import { addProductAsync } from "../Redux/productsSlice";
-import BackButton from "./BackButton";
+import { fetchCategories } from "../../Redux/categoriesSlice";
+import { addProductAsync } from "../../Redux/productsSlice";
+import BackButton from "../BackButton";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();

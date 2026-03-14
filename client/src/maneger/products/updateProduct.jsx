@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../Redux/categoriesSlice";
-import { fetchProductById, updateProductAsync } from "../Redux/productsSlice";
-import BackButton from "./BackButton";
+import { fetchCategories } from "../../Redux/categoriesSlice";
+import { fetchProductById, updateProductAsync } from "../../Redux/productsSlice";
+import BackButton from "../BackButton";
 
 export default function EditProduct() {
   const { id } = useParams();

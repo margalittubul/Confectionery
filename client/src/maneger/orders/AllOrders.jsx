@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchOrders, updateOrderInList } from "../Redux/ordersSlice";
-import { advanceOrderStatus } from "../API/OrderController";
+import { fetchOrders, updateOrderInList } from "../../Redux/ordersSlice";
+import { advanceOrderStatus } from "../../API/OrderController";
 import "../order/order.css";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
 export default function AllOrders() {
   const dispatch = useDispatch();

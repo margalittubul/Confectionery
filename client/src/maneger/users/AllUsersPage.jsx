@@ -11,8 +11,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { getAllCustomers } from "../API/CustomerController";
-import BackButton from "./BackButton";
+import { getAllCustomers } from "../../API/CustomerController";
+import BackButton from "../BackButton";
 
 export default function AllUsersPage() {
   const [users, setUsers] = useState([]);
