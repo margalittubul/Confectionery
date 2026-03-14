@@ -114,7 +114,11 @@ export const updateOrderPrice = async (orderId, price) => {
   }
 };
 
-export const updateOrderShipping = async (orderId, hasShipping) => {
+export const updateOrderShipping = async (
+  orderId,
+  hasShipping,
+  shippingLocation,
+) => {
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(`${API_URL}/${orderId}/shipping`, {
@@ -123,7 +127,7 @@ export const updateOrderShipping = async (orderId, hasShipping) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ hasShipping }),
+      body: JSON.stringify({ hasShipping, shippingLocation }),
     });
 
     if (!response.ok) {

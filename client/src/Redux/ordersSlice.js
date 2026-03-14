@@ -20,8 +20,12 @@ export const fetchOrderById = createAsyncThunk(
 
 export const updateOrderShippingAsync = createAsyncThunk(
   "orders/updateShipping",
-  async ({ orderId, hasShipping }) => {
-    const data = await updateOrderShipping(orderId, hasShipping);
+  async ({ orderId, hasShipping, shippingLocation }) => {
+    const data = await updateOrderShipping(
+      orderId,
+      hasShipping,
+      shippingLocation,
+    );
     return data;
   },
 );

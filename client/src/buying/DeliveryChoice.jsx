@@ -47,10 +47,14 @@ export default function DeliveryChoice() {
       }
     }
 
-    const hasShipping = deliveryType === "delivery" ? null : branches.find((b) => b.id.toString() === selectedBranch)?.name;
+    const hasShipping = deliveryType === "delivery";
+    const shippingLocation =
+      deliveryType === "delivery"
+        ? `${deliveryDetails.address}, ${deliveryDetails.city}`
+        : branches.find((b) => b.id.toString() === selectedBranch)?.name;
     try {
       await dispatch(
-        updateOrderShippingAsync({ orderId, hasShipping }),
+        updateOrderShippingAsync({ orderId, hasShipping, shippingLocation }),
       ).unwrap();
     } catch (error) {
       alert("שגיאה בעדכון ההזמנה: " + error);

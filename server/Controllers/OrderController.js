@@ -177,11 +177,11 @@ const OrderController = {
   },
   updateShipping: async (req, res) => {
     const { id } = req.params;
-    const { hasShipping } = req.body;
+    const { hasShipping, shippingLocation } = req.body;
     try {
       const order = await Order.findByIdAndUpdate(
         id,
-        { hasShipping },
+        { hasShipping, shippingLocation },
         { new: true },
       );
       if (!order) return res.status(404).json({ message: "Order not found" });

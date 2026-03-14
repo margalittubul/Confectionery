@@ -55,9 +55,11 @@ export default function AllOrders() {
               <p>סטטוס הזמנה: {order.status}</p>
               <p>
                 משלוח:{" "}
-                {order.hasShipping === null
-                  ? "משלוח לכתובת"
-                  : `איסוף מסניף: ${order.hasShipping}`}
+                {order.hasShipping
+                  ? `לכתובת: ${order.shippingLocation}`
+                  : order.shippingLocation
+                    ? `מסניף: ${order.shippingLocation}`
+                    : "איסוף עצמי"}
               </p>
               <Link to={`/order-details/${order._id}`} className="order-link">
                 <button className="details-btn">פרטי הזמנה</button>
