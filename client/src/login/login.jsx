@@ -21,6 +21,7 @@ export default function Signin() {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -60,6 +61,10 @@ export default function Signin() {
       setError("הסיסמה חייבת להכיל לפחות מספר אחד");
       return;
     }
+    if(phone && !/^\d{9,}$/.test(phone)) {
+      setError("מספר טלפון חייב להכיל לפחות 9 ספרות");
+      return;
+    }
 
     try {
       const result = await addCustomer({
@@ -67,6 +72,7 @@ export default function Signin() {
         email,
         address: city,
         password,
+        phone,
       });
       if (result && result._id) {
         dispatch(
@@ -140,6 +146,13 @@ export default function Signin() {
               </InputAdornment>
             ),
           }}
+        />
+        <TextField
+          label="מספר טלפון"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          sx={{ width: 250, mb: 2 }}
+          variant="outlined"
         />
 
         <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>

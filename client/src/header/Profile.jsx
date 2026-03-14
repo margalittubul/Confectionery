@@ -27,6 +27,7 @@ const Profile = () => {
           email: data.email || "",
           address: data.address || "",
           password: "",
+          phone: data.phone || "",
         });
       } else {
         setUser(null);
@@ -64,12 +65,18 @@ const Profile = () => {
       setSaving(false);
       return;
     }
+    if (!user.phone) {
+      setMessage("יש להזין טלפון");
+      setSaving(false);
+      return;
+    }
 
     try {
       const updatedUser = {
         name: user.name,
         email: user.email,
         address: user.address,
+        phone: user.phone,
       };
       if (user.password) {
         updatedUser.password = user.password;
@@ -131,6 +138,9 @@ const Profile = () => {
           <Typography>
             <strong>כתובת:</strong> {user.address}
           </Typography>
+          <Typography>
+            <strong>טלפון:</strong> {user.phone}
+          </Typography>
 
           <Stack direction="row" spacing={2} mt={2}>
             <Button variant="outlined" onClick={() => setEditMode(true)}>
@@ -181,6 +191,14 @@ const Profile = () => {
               type="password"
               value={user.password}
               onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              label="טלפון"
+              name="phone"
+              value={user.phone}
+              onChange={handleChange}
+              required
               fullWidth
             />
             <Stack direction="row" spacing={2} justifyContent="center">

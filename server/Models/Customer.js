@@ -38,5 +38,10 @@ const CustomerSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  phone: {
+    type: String,
+    minlength: 9,
+    default: "",
+  },
 });
 export default mongoose.model("Customer", CustomerSchema, "Users");

@@ -37,7 +37,7 @@ const CustomerController = {
   },
   add: async (req, res) => {
     try {
-      const { name, email, address, role, password } = req.body;
+      const { name, email, address, role, password, phone } = req.body;
       const existingUser = await Customer.findOne({
         $or: [{ name }, { email }],
       });
@@ -52,6 +52,7 @@ const CustomerController = {
         address,
         role,
         password,
+        phone,
       });
       res.status(201).json(newCustomer);
     } catch (e) {
