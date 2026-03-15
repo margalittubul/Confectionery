@@ -40,7 +40,6 @@ export default function ManageCategories() {
 
     try {
       const token = localStorage.getItem("userToken");
-      console.log("Token:", token ? "exists" : "missing");
       const uploadRes = await fetch(
         `https://confectionery-server-59ew.onrender.com/categories/upload?categoryFolder=${categoryFolder}`,
         {
@@ -49,9 +48,7 @@ export default function ManageCategories() {
           body: formData,
         },
       );
-      console.log("Status:", uploadRes.status);
       const uploadData = await uploadRes.json();
-      console.log("Response:", uploadData);
       if (!uploadRes.ok) {
         alert(
           "שגיאה בהעלאת תמונה: " + (uploadData.message || uploadRes.status),
