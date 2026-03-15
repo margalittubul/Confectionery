@@ -33,7 +33,6 @@ import Root from "./Root/Root";
 
 import UpdateCake from "./maneger/products/updateProduct";
 import AddCake from "./maneger/products/addProduct";
-import ProductsList from "./maneger/products/ProductsList";
 import ProductsManagement from "./maneger/products/ProductsManagement";
 import ProductsCodes from "./maneger/products/ProductsCodes";
 import OrdersManagement from "./maneger/orders/OrdersManagement";
@@ -106,7 +105,6 @@ function App() {
           ),
         },
         { path: "/AddProductForm", element: <AddProductForm /> },
-        { path: "/ProductsList", element: <ProductsList /> },
         { path: "/ProductsManagement", element: <ProductsManagement /> },
         { path: "/ProductsCodes", element: <ProductsCodes /> },
         { path: "/OrdersManagement", element: <OrdersManagement /> },
