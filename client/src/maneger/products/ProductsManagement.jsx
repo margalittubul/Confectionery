@@ -102,7 +102,6 @@ export default function ProductsManagement() {
         </Box>
       </Paper>
 
-      {/* דיאלוג עדכון מוצר */}
       <Dialog
         open={editDialog}
         onClose={() => setEditDialog(false)}

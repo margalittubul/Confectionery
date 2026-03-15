@@ -10,6 +10,7 @@ export default function AddAdmin() {
     email: "",
     city: "",
     password: "",
+    phone: "",
   });
 
   const [message, setMessage] = useState("");
@@ -39,6 +40,10 @@ export default function AddAdmin() {
       setMessage("יש להזין סיסמה (לפחות 4 תווים)");
       return;
     }
+    if(!form.phone || !/^\d{9,}$/.test(form.phone)) {
+      setMessage("יש להזין טלפון (לפחות 9 ספרות)");
+      return;
+    }
 
     try {
       const result = await addCustomer({
@@ -47,6 +52,7 @@ export default function AddAdmin() {
         address: form.city,
         password: form.password,
         role: "admin",
+        phone: form.phone,
       });
 
       if (result && result._id) {
@@ -105,6 +111,15 @@ export default function AddAdmin() {
           label="סיסמה"
           type="password"
           value={form.password}
+          onChange={handleChange}
+          sx={{ mb: 3 }}
+          focused
+          color="secondary"
+        />
+        <TextField
+          name="phone"
+          label="טלפון"
+          value={form.phone}
           onChange={handleChange}
           sx={{ mb: 3 }}
           focused

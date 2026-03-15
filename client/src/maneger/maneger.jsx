@@ -1,15 +1,4 @@
-import { useState } from "react";
-import {
-  Box,
-  Typography,
-  Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import {
   ShoppingCart,
   PersonSearch,
@@ -18,28 +7,9 @@ import {
   LocalOffer,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { getCustomerByEmail } from "../API/CustomerController";
 
 export default function Manager() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
-  const [input, setInput] = useState("");
-
-  const handle = async () => {
-    const val = input.trim();
-    if (!val) return;
-    if (open === "orders") {
-      try {
-        const c = await getCustomerByEmail(val);
-        if (!c) return alert("הלקוח לא נמצא");
-        navigate(`/Order?customerId=${c._id}`);
-      } catch {
-        alert("שגיאה");
-      }
-    }
-    setOpen(null);
-    setInput("");
-  };
 
   const actions = [
     {
@@ -86,6 +56,7 @@ export default function Manager() {
         <Typography variant="h5" color="#b94f75">
           ניהול האתר
         </Typography>
+
         <Box display="grid" gridTemplateColumns="repeat(2,1fr)" gap={2} mt={3}>
           {actions.map((a) => (
             <Paper
@@ -112,31 +83,6 @@ export default function Manager() {
           ))}
         </Box>
       </Paper>
-
-      <Dialog open={!!open} onClose={() => setOpen(null)}>
-        <DialogTitle>אימייל לקוח</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            color="secondary"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(null)} sx={{ color: "#f48fb1" }}>
-            ביטול
-          </Button>
-          <Button
-            onClick={handle}
-            variant="contained"
-            sx={{ bgcolor: "#f7b5cd", "&:hover": { bgcolor: "#f48fb1" } }}
-          >
-            אישור
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 }
